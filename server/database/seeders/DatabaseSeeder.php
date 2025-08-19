@@ -39,10 +39,35 @@ class DatabaseSeeder extends Seeder
             'role_id' => 2,
         ]);
 
-        Project::factory()->create([
+        $proj = Project::factory()->create([
             'user_id' => 1,
             'group_id' => 1,
             'name' => fake()->text(12),
+        ]);
+
+        $proj->tasks()->create([
+            'title' => fake()->text(10),
+            'description' => fake()->text(30),
+            'completed' => true,
+        ]);
+
+        $task = $proj->tasks()->create([
+            'title' => fake()->text(10),
+            'description' => fake()->text(30),
+        ]);
+
+        $task->subtasks()->create([
+            'text' => fake()->text(16),
+            'completed' => true,
+        ]);
+
+        $task->subtasks()->create([
+            'text' => fake()->text(16),
+        ]);
+
+        $task->subtasks()->create([
+            'text' => fake()->text(16),
+            'completed' => true,
         ]);
 
         Project::factory()->create([
