@@ -15,7 +15,7 @@ return new class () extends Migration {
             $table->id();
             $table->foreignIdFor(Task::class);
             $table->string('text');
-            $table->boolean('completed');
+            $table->boolean('completed')->default(false);
             $table->timestamps();
         });
     }
