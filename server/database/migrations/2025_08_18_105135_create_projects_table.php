@@ -18,6 +18,9 @@ return new class () extends Migration {
             $table->foreignIdFor(Group::class)->nullable()->constrained();
             $table->string('name');
             $table->timestamps();
+            $table->softDeletes();
+
+            $table->unique(['user_id', 'name']);
         });
     }
 
