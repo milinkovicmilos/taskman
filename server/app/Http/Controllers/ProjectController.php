@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Project;
+use App\Models\Task;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\Rule;
@@ -47,6 +48,29 @@ class ProjectController extends Controller
                 'id' => $project->id,
             ],
         ]);
+    }
+
+    public function show(Project $project, Request $request)
+    {
+        if ($request->user()->cannot('show', $project)) {
+            return response()->json(['message' => 'You are not allowed to see this project.'], 403);
+        }
+
+        $user = Auth::user();
+
+        $tasks = $project
+            ->tasks()
+            ->select('id', 'title', 'description', 'priority', 'due_date', 'completed')
+            ->with('subtasks:id,task_id,text,completed')
+            ->paginate(4);
+
+        $result = [
+            'id' => $project->id,
+            'name' => $project->name,
+            'tasks' => $tasks
+        ];
+
+        return response()->json($result);
     }
 
     public function update(Project $project, Request $request)
