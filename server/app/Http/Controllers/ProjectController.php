@@ -50,7 +50,7 @@ class ProjectController extends Controller
         ]);
     }
 
-    public function show(Project $project)
+    public function show(Request $request, Project $project)
     {
         if ($request->user()->cannot('show', $project)) {
             return response()->json(['message' => 'You are not allowed to see this project.'], 403);
@@ -95,7 +95,7 @@ class ProjectController extends Controller
         return response()->json(['message' => 'Successfully updated the post.']);
     }
 
-    public function destroy(Project $project)
+    public function destroy(Request $request, Project $project)
     {
         if ($request->user()->cannot('delete', $project)) {
             return response()->json(['message' => 'You are not allowed to delete this project.'], 403);
