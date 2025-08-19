@@ -10,7 +10,7 @@ use Illuminate\Validation\Rule;
 
 class ProjectController extends Controller
 {
-    public function index(Request $request)
+    public function index()
     {
         $user = Auth::user();
         $userProjects = Project::select('id', 'name')
@@ -50,7 +50,7 @@ class ProjectController extends Controller
         ]);
     }
 
-    public function show(Project $project, Request $request)
+    public function show(Project $project)
     {
         if ($request->user()->cannot('show', $project)) {
             return response()->json(['message' => 'You are not allowed to see this project.'], 403);
@@ -73,7 +73,7 @@ class ProjectController extends Controller
         return response()->json($result);
     }
 
-    public function update(Project $project, Request $request)
+    public function update(Request $request, Project $project)
     {
         if ($request->user()->cannot('update', $project)) {
             return response()->json(['message' => 'You are not allowed to update this project.'], 403);
@@ -95,7 +95,7 @@ class ProjectController extends Controller
         return response()->json(['message' => 'Successfully updated the post.']);
     }
 
-    public function destroy(Project $project, Request $request)
+    public function destroy(Project $project)
     {
         if ($request->user()->cannot('delete', $project)) {
             return response()->json(['message' => 'You are not allowed to delete this project.'], 403);
