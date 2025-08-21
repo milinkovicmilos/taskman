@@ -7,6 +7,7 @@ use App\Models\Membership;
 use App\Models\Project;
 use App\Models\User;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use App\RoleEnum;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -30,13 +31,13 @@ class DatabaseSeeder extends Seeder
         Membership::factory()->create([
             'user_id' => 1,
             'group_id' => 1,
-            'role_id' => 1,
+            'role_id' => RoleEnum::Owner->value,
         ]);
 
         Membership::factory()->create([
             'user_id' => 2,
             'group_id' => 1,
-            'role_id' => 2,
+            'role_id' => RoleEnum::Moderator->value,
         ]);
 
         $proj = Project::factory()->create([
@@ -46,12 +47,14 @@ class DatabaseSeeder extends Seeder
         ]);
 
         $proj->tasks()->create([
+            'user_id' => 1,
             'title' => fake()->text(10),
             'description' => fake()->text(30),
             'completed' => true,
         ]);
 
         $task = $proj->tasks()->create([
+            'user_id' => 2,
             'title' => fake()->text(10),
             'description' => fake()->text(30),
         ]);
