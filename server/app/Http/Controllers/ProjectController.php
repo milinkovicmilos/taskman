@@ -58,19 +58,10 @@ class ProjectController extends Controller
 
         $user = Auth::user();
 
-        $tasks = $project
-            ->tasks()
-            ->select('id', 'title', 'description', 'priority', 'due_date', 'completed')
-            ->with('subtasks:id,task_id,text,completed')
-            ->paginate(4);
-
-        $result = [
+        return response()->json([
             'id' => $project->id,
             'name' => $project->name,
-            'tasks' => $tasks
-        ];
-
-        return response()->json($result);
+        ]);
     }
 
     public function update(Request $request, Project $project)
