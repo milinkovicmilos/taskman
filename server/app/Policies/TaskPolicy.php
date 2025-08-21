@@ -9,8 +9,8 @@ use Illuminate\Auth\Access\Response;
 
 class TaskPolicy
 {
-    public function index(User $user, Project $project)
+    public function update(User $user, Task $task)
     {
-        return $user->id === $project->user_id;
+        return $user->id === $task->user_id || $user->id === $task->project->user_id;
     }
 }

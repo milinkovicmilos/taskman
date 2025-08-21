@@ -5,15 +5,12 @@ namespace App\Http\Controllers;
 use App\Models\Project;
 use App\Models\Task;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\Rule;
 
 class TaskController extends Controller
 {
     public function index(Request $request, Project $project)
     {
-        $user = Auth::user();
-
         if ($request->user()->cannot('show', $project)) {
             return response()->json(
                 [
@@ -34,8 +31,6 @@ class TaskController extends Controller
 
     public function store(Request $request, Project $project)
     {
-        $user = Auth::user();
-
         if ($request->user()->cannot('createTask', $project)) {
             return response()->json(
                 [
@@ -62,8 +57,6 @@ class TaskController extends Controller
 
     public function show(Request $request, Project $project, Task $task)
     {
-        $user = Auth::user();
-
         if ($request->user()->cannot('show', $project)) {
             return response()->json(
                 [
@@ -86,5 +79,32 @@ class TaskController extends Controller
             'completed' => $task->completed,
             'subtasks' => $subtasks,
         ]);
+    }
+
+    public function update(Request $request, Project $project, Task $task)
+    {
+        if ($request->user()->cannot('update', $task)) {
+            return response()->json(
+                [
+                    'message' => 'You are not allowed to update this task.'
+                ],
+                403
+            );
+        }
+
+        $data = $request->validate([
+            'title' => [
+                'sometimes',
+                'required',
+                Rule::unique('tasks')->where('project_id', $project->id)->ignore($task),
+            ],
+            'description' => ['sometimes', 'required'],
+            'priority' => ['integer', 'between:1,10'],
+            'due_date' => ['date', 'after_or_equal:today'],
+        ]);
+
+        $task->update($data);
+
+        return response()->json(['message' => 'Successfully updated the task.']);
     }
 }
