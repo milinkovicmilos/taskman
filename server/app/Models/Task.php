@@ -17,6 +17,8 @@ class Task extends Model
         'description',
         'priority',
         'due_date',
+        'completed',
+        'completed_at',
     ];
 
     protected static function booted()

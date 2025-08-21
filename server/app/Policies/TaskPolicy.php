@@ -18,4 +18,16 @@ class TaskPolicy
     {
         return $user->id === $task->user_id || $user->id === $task->project->user_id;
     }
+
+    public function complete(User $user, Task $task)
+    {
+        if ($user->id === $task->project->user_id) {
+            return true;
+        }
+
+        return $task->project->group
+            ->memberships()
+            ->where('user_id', $user->id)
+            ->exists();
+    }
 }
