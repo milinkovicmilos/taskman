@@ -17,4 +17,4 @@ Route::get('/user', function (Request $request) {
 })->middleware('auth:sanctum');
 
 Route::apiResource('projects', ProjectController::class)->middleware('auth:sanctum');
-Route::apiResource('projects.tasks', TaskController::class)->middleware('auth:sanctum');
+Route::apiResource('projects.tasks', TaskController::class)->middleware('auth:sanctum')->scoped();
