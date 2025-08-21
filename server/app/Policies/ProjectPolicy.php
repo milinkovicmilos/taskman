@@ -4,6 +4,7 @@ namespace App\Policies;
 
 use App\Models\Project;
 use App\Models\User;
+use App\RoleEnum;
 use Illuminate\Auth\Access\Response;
 
 class ProjectPolicy
@@ -19,6 +20,26 @@ class ProjectPolicy
 
         return $user->memberships()
             ->where('group_id', $project->group_id)
+            ->exists();
+    }
+
+    public function createTask(User $user, Project $project)
+    {
+        if ($user->id === $project->user_id) {
+            return true;
+        }
+
+        if (is_null($project->group_id)) {
+            return false;
+        }
+
+        return $project->group
+            ->memberships()
+            ->where('user_id', $user->id)
+            ->whereIn('role_id', [
+                RoleEnum::Owner->value,
+                RoleEnum::Moderator->value,
+            ])
             ->exists();
     }
 

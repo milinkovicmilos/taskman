@@ -6,6 +6,7 @@ use App\Models\Project;
 use App\Models\Task;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Validation\Rule;
 
 class TaskController extends Controller
 {
@@ -31,6 +32,34 @@ class TaskController extends Controller
         return response()->json($tasks);
     }
 
+    public function store(Request $request, Project $project)
+    {
+        $user = Auth::user();
+
+        if ($request->user()->cannot('createTask', $project)) {
+            return response()->json(
+                [
+                    'message' => 'You are not allowed to create this task.'
+                ],
+                403
+            );
+        }
+
+        $data = $request->validate([
+            'title' => [
+                'required',
+                Rule::unique('tasks')->where('project_id', $project->id),
+            ],
+            'description' => ['required'],
+            'priority' => ['integer', 'between:1,10'],
+            'due_date' => ['date', 'after_or_equal:today'],
+        ]);
+
+        $project->tasks()->create($data);
+
+        return response()->json(['message' => 'Successfully created a task.']);
+    }
+
     public function show(Request $request, Project $project, Task $task)
     {
         $user = Auth::user();
@@ -38,7 +67,7 @@ class TaskController extends Controller
         if ($request->user()->cannot('show', $project)) {
             return response()->json(
                 [
-                    'message' => 'You are not allowed to view this projects tasks.'
+                    'message' => 'You are not allowed to view this task.'
                 ],
                 403
             );
