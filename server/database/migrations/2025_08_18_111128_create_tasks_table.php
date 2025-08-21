@@ -20,6 +20,9 @@ return new class () extends Migration {
             $table->tinyInteger('priority')->nullable();
             $table->boolean('completed')->default(false);
             $table->timestamps();
+            $table->softDeletes();
+
+            $table->unique(['project_id', 'title']);
         });
     }
 
