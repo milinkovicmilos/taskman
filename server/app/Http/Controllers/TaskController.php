@@ -107,4 +107,20 @@ class TaskController extends Controller
 
         return response()->json(['message' => 'Successfully updated the task.']);
     }
+
+    public function destroy(Request $request, Project $project, Task $task)
+    {
+        if ($request->user()->cannot('destroy', $task)) {
+            return response()->json(
+                [
+                    'message' => 'You are not allowed to delete this task.'
+                ],
+                403
+            );
+        }
+
+        $task->delete();
+
+        return response()->json(['message' => 'Successfully deleted the task.']);
+    }
 }

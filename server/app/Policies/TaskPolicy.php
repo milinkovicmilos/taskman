@@ -13,4 +13,9 @@ class TaskPolicy
     {
         return $user->id === $task->user_id || $user->id === $task->project->user_id;
     }
+
+    public function destroy(User $user, Task $task)
+    {
+        return $user->id === $task->user_id || $user->id === $task->project->user_id;
+    }
 }
