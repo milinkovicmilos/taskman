@@ -5,6 +5,7 @@ use App\Http\Controllers\LoginController;
 use App\Http\Controllers\ProjectController;
 use App\Http\Controllers\TaskController;
 use App\Http\Controllers\TaskCompletionController;
+use App\Http\Controllers\SubtaskController;
 use App\Http\Middleware\EnsureIsGuest;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -24,3 +25,5 @@ Route::post('/projects/{project}/tasks/{task}/completed', [TaskCompletionControl
     ->middleware('auth:sanctum');
 Route::delete('/projects/{project}/tasks/{task}/completed', [TaskCompletionController::class, 'destroy'])
     ->middleware('auth:sanctum');
+
+Route::apiResource('projects.tasks.subtasks', SubtaskController::class)->middleware('auth:sanctum')->scoped();
