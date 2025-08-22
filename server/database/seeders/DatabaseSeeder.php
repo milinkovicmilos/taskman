@@ -60,15 +60,18 @@ class DatabaseSeeder extends Seeder
         ]);
 
         $task->subtasks()->create([
+            'user_id' => 2,
             'text' => fake()->text(16),
             'completed' => true,
         ]);
 
         $task->subtasks()->create([
+            'user_id' => 2,
             'text' => fake()->text(16),
         ]);
 
         $task->subtasks()->create([
+            'user_id' => 2,
             'text' => fake()->text(16),
             'completed' => true,
         ]);
