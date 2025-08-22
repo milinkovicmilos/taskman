@@ -18,4 +18,20 @@ class SubtaskPolicy
     {
         return $user->id === $subtask->user_id || $user->id === $subtask->task->project->user_id;
     }
+
+    public function complete(User $user, Subtask $subtask)
+    {
+        if ($user->id === $subtask->task->project->user_id) {
+            return true;
+        }
+
+        if (is_null($subtask->task->project->group_id)) {
+            return false;
+        }
+
+        return $subtask->task->project->group
+            ->memberships()
+            ->where('user_id', $user->id)
+            ->exists();
+    }
 }
