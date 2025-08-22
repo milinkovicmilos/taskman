@@ -58,6 +58,10 @@ class TaskPolicy
             return true;
         }
 
+        if (is_null($task->project->group_id)) {
+            return false;
+        }
+
         return $task->project->group
             ->memberships()
             ->where('user_id', $user->id)
