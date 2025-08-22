@@ -20,10 +20,8 @@ class TaskController extends Controller
             );
         }
 
-        $tasks = $project
-            ->tasks()
-            ->select('id', 'title', 'description', 'priority', 'due_date', 'completed')
-            ->with('subtasks:id,task_id,text,completed')
+        $tasks = $project->tasks()
+            ->select('id', 'title', 'description', 'priority', 'due_date', 'completed', 'completed_at')
             ->paginate(4);
 
         return response()->json($tasks);
@@ -66,10 +64,6 @@ class TaskController extends Controller
             );
         }
 
-        $subtasks = $task->subtasks()
-            ->select('id', 'text', 'completed')
-            ->get();
-
         return response()->json([
             'id' => $task->id,
             'title' => $task->title,
@@ -77,7 +71,7 @@ class TaskController extends Controller
             'priority' => $task->priority,
             'due_date' => $task->due_date,
             'completed' => $task->completed,
-            'subtasks' => $subtasks,
+            'completed_at' => $task->completed_at,
         ]);
     }
 
