@@ -18,7 +18,7 @@ return new class () extends Migration {
             $table->foreignIdFor(User::class);
             $table->string('text');
             $table->boolean('completed')->default(false);
-            $table->date('completed_at')->nullable();
+            $table->dateTime('completed_at')->nullable();
             $table->timestamps();
             $table->softDeletes();
         });
