@@ -13,4 +13,9 @@ class SubtaskPolicy
     {
         return $user->id === $subtask->user_id || $user->id === $subtask->task->project->user_id;
     }
+
+    public function destroy(User $user, Subtask $subtask)
+    {
+        return $user->id === $subtask->user_id || $user->id === $subtask->task->project->user_id;
+    }
 }

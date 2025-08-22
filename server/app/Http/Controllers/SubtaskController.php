@@ -84,4 +84,20 @@ class SubtaskController extends Controller
 
         return response()->json(['message' => 'Successfully updated the task.']);
     }
+
+    public function destroy(Request $request, Project $project, Task $task, Subtask $subtask)
+    {
+        if ($request->user()->cannot('destroy', $subtask)) {
+            return response()->json(
+                [
+                    'message' => 'You are not allowed to view this subtask.'
+                ],
+                403
+            );
+        }
+
+        $subtask->delete();
+
+        return response()->json(['message' => 'Successfully deleted a subtask.']);
+    }
 }
