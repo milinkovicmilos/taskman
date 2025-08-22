@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Project;
+use App\Models\Subtask;
 use App\Models\Task;
 use Illuminate\Http\Request;
 
@@ -44,5 +45,23 @@ class SubtaskController extends Controller
         $task->subtasks()->create($data);
 
         return response()->json(['message' => 'Successfully created a subtask.']);
+    }
+
+    public function show(Request $request, Project $project, Task $task, Subtask $subtask)
+    {
+        if ($request->user()->cannot('show', $task)) {
+            return response()->json(
+                [
+                    'message' => 'You are not allowed to view this subtask.'
+                ],
+                403
+            );
+        }
+
+        return response()->json([
+            'text' => $subtask->text,
+            'completed' => $subtask->completed,
+            'completed_at' => $subtask->completed_at,
+        ]);
     }
 }
