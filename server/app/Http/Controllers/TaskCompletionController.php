@@ -21,7 +21,7 @@ class TaskCompletionController extends Controller
 
         $task->update([
             'completed' => true,
-            'completed_at' => now()->format('Y-m-d'),
+            'completed_at' => now(),
         ]);
         dd($task);
 
