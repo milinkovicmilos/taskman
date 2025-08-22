@@ -67,7 +67,7 @@ class SubtaskController extends Controller
 
     public function update(Request $request, Project $project, Task $task, Subtask $subtask)
     {
-        if ($request->user()->cannot('show', $task)) {
+        if ($request->user()->cannot('update', $subtask)) {
             return response()->json(
                 [
                     'message' => 'You are not allowed to view this subtask.'
