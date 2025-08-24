@@ -39,3 +39,6 @@ Route::delete('/projects/{project}/tasks/{task}/subtasks/{subtask}/completed', [
     ->scopeBindings();
 
 Route::apiResource('groups', GroupController::class)->middleware('auth:sanctum');
+Route::get('/groups/{group}/projects', [ProjectController::class, 'groupProjects'])
+    ->middleware('auth:sanctum')
+    ->scopeBindings();

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Group;
 use App\Models\Project;
 use App\Models\Task;
 use Illuminate\Http\Request;
@@ -25,6 +26,22 @@ class ProjectController extends Controller
         $allProjectsQuery = $userProjects->union($groupProjects);
 
         return response()->json($allProjectsQuery->paginate(4));
+    }
+
+    public function groupProjects(Request $request, Group $group)
+    {
+        if ($request->user()->cannot('show', $group)) {
+            return response()->json(
+                [
+                    'message' => 'You are not allowed to view this groups projects.'
+                ],
+                403
+            );
+        }
+
+        return $group->projects()
+            ->select('id', 'name')
+            ->get();
     }
 
     public function store(Request $request)
