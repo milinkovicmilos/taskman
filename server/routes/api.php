@@ -7,6 +7,7 @@ use App\Http\Controllers\TaskController;
 use App\Http\Controllers\TaskCompletionController;
 use App\Http\Controllers\SubtaskController;
 use App\Http\Controllers\SubtaskCompletionController;
+use App\Http\Controllers\GroupController;
 use App\Http\Middleware\EnsureIsGuest;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -36,3 +37,5 @@ Route::post('/projects/{project}/tasks/{task}/subtasks/{subtask}/completed', [Su
 Route::delete('/projects/{project}/tasks/{task}/subtasks/{subtask}/completed', [SubtaskCompletionController::class, 'destroy'])
     ->middleware('auth:sanctum')
     ->scopeBindings();
+
+Route::apiResource('groups', GroupController::class)->middleware('auth:sanctum');

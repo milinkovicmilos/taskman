@@ -10,6 +10,11 @@ class Membership extends Model
     /** @use HasFactory<\Database\Factories\MembershipFactory> */
     use HasFactory;
 
+    protected $fillable = [
+        'user_id',
+        'role_id',
+    ];
+
     public function user()
     {
         return $this->belongsTo(User::class);
