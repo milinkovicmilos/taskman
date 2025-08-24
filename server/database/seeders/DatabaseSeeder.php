@@ -28,6 +28,10 @@ class DatabaseSeeder extends Seeder
             'name' => fake()->company(),
         ]);
 
+        Group::factory()->create([
+            'name' => fake()->company(),
+        ]);
+
         Membership::factory()->create([
             'user_id' => 1,
             'group_id' => 1,
@@ -38,6 +42,30 @@ class DatabaseSeeder extends Seeder
             'user_id' => 2,
             'group_id' => 1,
             'role_id' => RoleEnum::Moderator->value,
+        ]);
+
+        Membership::factory()->create([
+            'user_id' => 3,
+            'group_id' => 1,
+            'role_id' => RoleEnum::Member->value,
+        ]);
+
+        Membership::factory()->create([
+            'user_id' => 4,
+            'group_id' => 2,
+            'role_id' => RoleEnum::Owner->value,
+        ]);
+
+        Membership::factory()->create([
+            'user_id' => 5,
+            'group_id' => 2,
+            'role_id' => RoleEnum::Moderator->value,
+        ]);
+
+        Membership::factory()->create([
+            'user_id' => 3,
+            'group_id' => 2,
+            'role_id' => RoleEnum::Member->value,
         ]);
 
         $proj = Project::factory()->create([
@@ -95,5 +123,50 @@ class DatabaseSeeder extends Seeder
                 'name' => fake()->text(12),
             ]);
         }
+
+        $proj = Project::factory()->create([
+            'user_id' => 4,
+            'group_id' => 2,
+            'name' => fake()->text(12),
+        ]);
+
+        $proj->tasks()->create([
+            'user_id' => 4,
+            'title' => fake()->text(10),
+            'description' => fake()->text(12),
+        ]);
+
+        $task = $proj->tasks()->create([
+            'user_id' => 5,
+            'title' => fake()->text(10),
+            'description' => fake()->text(12),
+        ]);
+
+        $task->subtasks()->create([
+            'user_id' => 5,
+            'text' => fake()->text(6),
+        ]);
+
+        $task->subtasks()->create([
+            'user_id' => 5,
+            'text' => fake()->text(6),
+        ]);
+
+        $proj = Project::factory()->create([
+            'user_id' => 5,
+            'group_id' => 2,
+            'name' => fake()->text(12),
+        ]);
+
+        $task = $proj->tasks()->create([
+            'user_id' => 5,
+            'title' => fake()->text(12),
+            'description' => fake()->text(12),
+        ]);
+
+        $task->subtasks()->create([
+            'user_id' => 5,
+            'text' => fake()->text(6),
+        ]);
     }
 }
