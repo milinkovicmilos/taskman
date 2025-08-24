@@ -19,6 +19,7 @@ return new class () extends Migration {
             $table->foreignIdFor(Role::class);
             $table->foreignIdFor(Group::class);
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 
