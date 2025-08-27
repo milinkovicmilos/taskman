@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Group;
 use App\Models\Project;
 use App\Models\Task;
+use App\RoleEnum;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\Rule;
@@ -21,7 +22,7 @@ class ProjectController extends Controller
             ->join('groups', 'groups.id', '=', 'projects.group_id')
             ->join('memberships', 'memberships.group_id', '=', 'groups.id')
             ->where('memberships.user_id', $user->id)
-            ->where('memberships.role_id', 2);
+            ->where('memberships.role_id', '!=', RoleEnum::Owner->value);
 
         $allProjectsQuery = $userProjects->union($groupProjects);
 
