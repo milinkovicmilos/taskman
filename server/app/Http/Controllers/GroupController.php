@@ -86,6 +86,8 @@ class GroupController extends Controller
             );
         }
 
+        $group->projects()->delete();
+
         $group->delete();
 
         return response()->json(['message' => 'Successfully deleted the group.']);
