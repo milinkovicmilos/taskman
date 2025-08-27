@@ -9,6 +9,17 @@ use Illuminate\Auth\Access\Response;
 
 class GroupPolicy
 {
+    public function inviteToGroup(User $user, Group $group)
+    {
+        return $group->memberships()
+            ->where('user_id', $user->id)
+            ->whereIn('role_id', [
+                RoleEnum::Owner->value,
+                RoleEnum::Moderator->value,
+            ])
+            ->exists();
+    }
+
     public function show(User $user, Group $group)
     {
         return $group->memberships()
@@ -24,7 +35,23 @@ class GroupPolicy
             ->exists();
     }
 
+    public function updateMembership(User $user, Group $group)
+    {
+        return $group->memberships()
+            ->where('user_id', $user->id)
+            ->where('role_id', RoleEnum::Owner->value)
+            ->exists();
+    }
+
     public function destroy(User $user, Group $group)
+    {
+        return $group->memberships()
+            ->where('user_id', $user->id)
+            ->where('role_id', RoleEnum::Owner->value)
+            ->exists();
+    }
+
+    public function removeFromGroup(User $user, Group $group)
     {
         return $group->memberships()
             ->where('user_id', $user->id)

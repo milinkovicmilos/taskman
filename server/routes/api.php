@@ -8,6 +8,7 @@ use App\Http\Controllers\TaskCompletionController;
 use App\Http\Controllers\SubtaskController;
 use App\Http\Controllers\SubtaskCompletionController;
 use App\Http\Controllers\GroupController;
+use App\Http\Controllers\MembershipController;
 use App\Http\Middleware\EnsureIsGuest;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -42,3 +43,7 @@ Route::apiResource('groups', GroupController::class)->middleware('auth:sanctum')
 Route::get('/groups/{group}/projects', [ProjectController::class, 'groupProjects'])
     ->middleware('auth:sanctum')
     ->scopeBindings();
+
+Route::apiResource('groups.memberships', MembershipController::class)
+    ->middleware('auth:sanctum')
+    ->scoped();
