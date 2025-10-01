@@ -11,10 +11,10 @@ export class Button {
   @Input() text: string = '';
   @Input() classList: string[] = [];
 
-  @Output() event = new EventEmitter();
+  @Output() clicked: EventEmitter<void> = new EventEmitter<void>();
 
   onClick(event: Event): void {
     event.stopPropagation();
-    this.event.emit();
+    this.clicked.emit();
   }
 }
