@@ -16,3 +16,11 @@ button {
 .next-project {
   width: 70px;
 }
+
+@media screen and (min-width: 768px) {
+
+  .prev-project,
+  .next-project {
+    width: 150px;
+  }
+}
