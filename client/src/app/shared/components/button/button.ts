@@ -13,7 +13,8 @@ export class Button {
 
   @Output() event = new EventEmitter();
 
-  onClick(): void {
+  onClick(event: Event): void {
+    event.stopPropagation();
     this.event.emit();
   }
 }
