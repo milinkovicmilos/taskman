@@ -1,0 +1,15 @@
+<form [formGroup]="createProjectForm">
+  <app-input
+    id="title"
+    label="Title"
+    formControlName="title"
+  ></app-input>
+
+  <app-input
+    id="description"
+    label="Description"
+    formControlName="description"
+  ></app-input>
+
+  <app-button text="Create" [classList]="['width-100']"></app-button>
+</form>
