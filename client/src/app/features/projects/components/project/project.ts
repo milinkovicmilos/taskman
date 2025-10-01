@@ -1,15 +1,18 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { ProjectCard } from '../project-card/project-card';
 import { ProjectData } from '../../interfaces/project-data';
+import { CreateProjectForm } from '../create-project-form/create-project-form';
 import { FormState } from '../../../../shared/services/form-state';
 
 @Component({
   selector: 'app-project',
-  imports: [ProjectCard],
+  imports: [ProjectCard, CreateProjectForm],
   templateUrl: './project.html',
   styleUrl: './project.css'
 })
 export class Project {
+  createFormVisible = inject(FormState).visible;
+
   projects: ProjectData[] = [
     { id: 1, title: 'Home', description: 'Tasks regarding home' },
     { id: 2, title: 'Guitar', description: 'Learning guitar' },

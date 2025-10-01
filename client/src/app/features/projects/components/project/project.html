@@ -1,4 +1,8 @@
 <div id="grid-wrapper">
+  @if (createFormVisible()) {
+    <app-create-project-form></app-create-project-form>
+  }
+
   @for (project of projects; track project.id) {
     <app-project-card [project]="project" (deleted)="deleteCard($event)"></app-project-card>
   }
