@@ -5,3 +5,14 @@ button {
   border: 1px solid var(--border-second);
   border-radius: 5px;
 }
+
+.new-project,
+.new-task {
+  box-shadow: 0px 0px 3px 1px var(--accent);
+  color: var(--accent);
+}
+
+.prev-project,
+.next-project {
+  width: 70px;
+}
