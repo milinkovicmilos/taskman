@@ -1,11 +1,11 @@
 import { Component } from '@angular/core';
 import { ProjectCard } from '../project-card/project-card';
 import { ProjectData } from '../../interfaces/project-data';
-import { CommonModule } from '@angular/common';
+import { FormState } from '../../../../shared/services/form-state';
 
 @Component({
   selector: 'app-project',
-  imports: [CommonModule, ProjectCard],
+  imports: [ProjectCard],
   templateUrl: './project.html',
   styleUrl: './project.css'
 })
