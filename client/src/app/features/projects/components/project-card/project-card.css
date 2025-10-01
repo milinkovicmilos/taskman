@@ -1,17 +1,16 @@
 .project-card {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 100%;
+  box-sizing: border-box;
   border: 1px solid var(--border);
   border-radius: 5px;
   padding: 15px;
   background-color: var(--card-background);
 }
 
-.project-card::after {
-  content: '';
-  display: table;
-  clear: both;
-}
-
-.project-card>p {
+.project-info>p {
   margin-bottom: var(--default-margin);
 }
 
