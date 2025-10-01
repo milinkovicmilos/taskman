@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Group;
 use App\RoleEnum;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 
 class GroupController extends Controller
@@ -14,11 +15,15 @@ class GroupController extends Controller
         $user = Auth::user();
 
         $groups = $user->memberships()
-            ->with('group:id,name')
-            ->get()
-            ->pluck('group');
+            ->select('groups.id', 'groups.name')
+            ->join('groups', 'groups.id', '=', 'memberships.group_id');
 
-        return response()->json($groups);
+        $keyword = $request->input('keyword');
+        if (!is_null($keyword)) {
+            $groups->where(DB::raw('LOWER(name)'), 'LIKE', '%' . strtolower($keyword) . '%');
+        }
+
+        return response()->json($groups->paginate(4));
     }
 
     public function store(Request $request)
@@ -87,6 +92,8 @@ class GroupController extends Controller
         }
 
         $group->projects()->delete();
+
+        $group->memberships()->delete();
 
         $group->delete();
 

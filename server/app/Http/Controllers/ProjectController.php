@@ -5,15 +5,22 @@ namespace App\Http\Controllers;
 use App\Models\Group;
 use App\Models\Project;
 use App\Models\Task;
+use App\ProjectSortEnum;
 use App\RoleEnum;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Validation\Rule;
 
 class ProjectController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
+        $request->validate([
+            'keyword' => ['sometimes'],
+            'order' => ['sometimes',  Rule::enum(ProjectSortEnum::class)],
+        ]);
+
         $user = Auth::user();
         $userProjects = Project::select('id', 'name')
             ->where('user_id', $user->id);
@@ -24,7 +31,34 @@ class ProjectController extends Controller
             ->where('memberships.user_id', $user->id)
             ->where('memberships.role_id', '!=', RoleEnum::Owner->value);
 
-        $allProjectsQuery = $userProjects->union($groupProjects);
+        $keyword = $request->input('keyword');
+        if (!is_null($keyword)) {
+            $userProjects->where(DB::raw('LOWER(projects.name)'), 'LIKE', '%' . strtolower($keyword) . '%');
+            $groupProjects->where(DB::raw('LOWER(projects.name)'), 'LIKE', '%' . strtolower($keyword) . '%');
+        }
+
+        $order = ProjectSortEnum::tryFrom($request->input('order'));
+        if (is_null($order) || $order === ProjectSortEnum::AtoZ || $order === ProjectSortEnum::ZtoA) {
+            $allProjectsQuery = $userProjects->union($groupProjects);
+        }
+
+        switch ($order) {
+            case ProjectSortEnum::AtoZ:
+                $allProjectsQuery->orderBy('name', 'asc');
+                break;
+
+            case ProjectSortEnum::ZtoA:
+                $allProjectsQuery->orderBy('name', 'desc');
+                break;
+
+            case ProjectSortEnum::OwnProjectFirst:
+                $allProjectsQuery = $userProjects->union($groupProjects);
+                break;
+
+            case ProjectSortEnum::GroupProjectsFrist:
+                $allProjectsQuery = $groupProjects->union($userProjects);
+                break;
+        }
 
         return response()->json($allProjectsQuery->paginate(4));
     }

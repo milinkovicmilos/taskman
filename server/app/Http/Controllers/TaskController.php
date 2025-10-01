@@ -4,7 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Models\Project;
 use App\Models\Task;
+use App\TaskSortEnum;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Validation\Rule;
 
 class TaskController extends Controller
@@ -20,11 +22,42 @@ class TaskController extends Controller
             );
         }
 
-        $tasks = $project->tasks()
-            ->select('id', 'title', 'description', 'priority', 'due_date', 'completed', 'completed_at')
-            ->paginate(4);
+        $request->validate([
+            'keyword' => ['sometimes'],
+            'order' => ['sometimes', Rule::enum(TaskSortEnum::class)],
+        ]);
 
-        return response()->json($tasks);
+        $tasks = $project->tasks()
+            ->select('id', 'title', 'description', 'priority', 'due_date', 'completed', 'completed_at');
+
+        $keyword = $request->input('keyword');
+        if (!is_null($keyword)) {
+            $tasks->where(DB::raw('LOWER(title)'), 'LIKE', '%' . strtolower($keyword) . '%');
+        }
+
+        $order = TaskSortEnum::tryFrom($request->input('order'));
+        if (!is_null($order)) {
+            switch ($order) {
+                case TaskSortEnum::Newest:
+                    $tasks->orderBy('created_at', 'desc');
+                    break;
+
+                case TaskSortEnum::Oldest:
+                    $tasks->orderBy('created_at', 'asc');
+                    break;
+
+                case TaskSortEnum::HighestPriority:
+                    $tasks->orderBy('priority', 'desc');
+                    break;
+
+                case TaskSortEnum::LowestPriority:
+                    $tasks->orderBy('priority', 'asc');
+                    break;
+            }
+            $tasks->where(DB::raw('LOWER(title)'), 'LIKE', '%' . strtolower($keyword) . '%');
+        }
+
+        return response()->json($tasks->paginate(4));
     }
 
     public function store(Request $request, Project $project)
