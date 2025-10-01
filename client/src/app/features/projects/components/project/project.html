@@ -1,9 +1,12 @@
-<div id="grid-wrapper">
+<div id="content-wrapper">
   @if (createFormVisible()) {
-    <app-create-project-form></app-create-project-form>
+    <div id="form-wrapper">
+      <app-create-project-form></app-create-project-form>
+    </div>
   }
-
-  @for (project of projects; track project.id) {
-    <app-project-card [project]="project" (deleted)="deleteCard($event)"></app-project-card>
-  }
+  <div id="grid-wrapper">
+    @for (project of projects; track project.id) {
+      <app-project-card [project]="project" (deleted)="deleteCard($event)"></app-project-card>
+    }
+  </div>
 </div>
