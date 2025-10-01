@@ -1,0 +1,28 @@
+header {
+  width: 80%;
+  margin: 20px auto;
+
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+header h1 {
+  font-size: 1.3rem;
+}
+
+#top-header-wrapper {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+}
+
+#bottom-header-wrapper {
+  margin-top: var(--default-margin);
+  margin-left: auto;
+}
+
+#bottom-header-wrapper>:first-child {
+  margin-right: var(--default-margin);
+}
