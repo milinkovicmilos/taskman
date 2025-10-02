@@ -10,6 +10,10 @@ export class LocalProjectStorage implements ProjectStorage {
     return localStorage.getItem("projects");
   }
 
+  localStorageSet(value: object | []): void {
+    localStorage.setItem("projects", JSON.stringify(value));
+  }
+
   constructor() {
     const projectsData = this.localStorageGet();
     if (projectsData == null) {
@@ -35,7 +39,8 @@ export class LocalProjectStorage implements ProjectStorage {
 
     const projects = JSON.parse(projectsData);
     projects.push(project);
-    localStorage.setItem("projects", JSON.stringify(projects));
+
+    this.localStorageSet(projects);
   }
 
   updateProject(projectId: number | string, project: ProjectData): void {
