@@ -19,10 +19,13 @@ header h1 {
 }
 
 #bottom-header-wrapper {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
   margin-top: var(--default-margin);
   margin-left: auto;
 }
 
-#bottom-header-wrapper>:first-child {
+#bottom-header-wrapper>div>:first-child {
   margin-right: var(--default-margin);
 }
