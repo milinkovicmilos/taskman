@@ -1,25 +1,43 @@
-import { Component, inject } from '@angular/core';
+import { Component, Inject, inject } from '@angular/core';
 import { ProjectCard } from '../project-card/project-card';
 import { ProjectData } from '../../interfaces/project-data';
 import { CreateProjectForm } from '../create-project-form/create-project-form';
 import { FormState } from '../../../../shared/services/form-state';
+import { PROJECT_STORAGE, ProjectStorage } from '../../interfaces/project-storage';
+import { LocalProjectStorage } from '../../services/local-project-storage';
+import { ServerProjectStorage } from '../../services/server-project-storage';
+import { AuthService } from '../../../../shared/services/auth-service';
 
 @Component({
   selector: 'app-project',
   imports: [ProjectCard, CreateProjectForm],
   templateUrl: './project.html',
-  styleUrl: './project.css'
+  styleUrl: './project.css',
+  providers: [
+    {
+      provide: PROJECT_STORAGE,
+      useFactory: (() => {
+        const authService = inject(AuthService);
+        return authService.isLoggedIn ? new ServerProjectStorage() : new LocalProjectStorage();
+      }),
+    },
+  ],
 })
 export class Project {
-  createFormVisible = inject(FormState).visible;
+  private storage = inject(PROJECT_STORAGE);
 
-  projects: ProjectData[] = [
-    { id: 1, title: 'Home', description: 'Tasks regarding home' },
-    { id: 2, title: 'Guitar', description: 'Learning guitar' },
-    { id: 3, title: 'Gardening', description: 'Taking care of garden' },
-  ];
+  protected projects: ProjectData[] = [];
+  protected createFormVisible = inject(FormState).visible;
 
-  deleteCard(id: number | string) {
-    this.projects = this.projects.filter(x => x.id != id);
+  constructor() {
+    this.projects = this.storage.getProjects();
   }
+
+  onProjectCreated(project: ProjectData) {
+    this.projects.push(project);
+  }
+
+  // deleteCard(id: number | string) {
+  //   this.projects = this.projects.filter(x => x.id != id);
+  // }
 }
