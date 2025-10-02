@@ -32,14 +32,14 @@ export class CreateProjectForm {
 
   private storage = inject(PROJECT_STORAGE);
 
-  protected submitted: boolean = false;
+  protected isSubmitted: boolean = false;
   protected title = this.createProjectForm.get('title');
   protected description = this.createProjectForm.get('description');
 
-  @Output() created = new EventEmitter<ProjectData>();
+  @Output() submitted = new EventEmitter<ProjectData>();
 
   handleSubmit(): void {
-    this.submitted = true;
+    this.isSubmitted = true;
     if (this.createProjectForm.valid) {
       const { title, description } = this.createProjectForm.value as {
         title: string,
@@ -56,9 +56,9 @@ export class CreateProjectForm {
 
       this.createProjectForm.reset();
       this.createProjectForm.markAsUntouched();
-      this.submitted = false;
+      this.isSubmitted = false;
 
-      this.created.emit(project);
+      this.submitted.emit(project);
     }
   }
 }

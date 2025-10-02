@@ -1,7 +1,7 @@
 <div id="content-wrapper">
   @if (createFormVisible()) {
     <div id="form-wrapper">
-      <app-create-project-form (created)="onProjectCreated($event)"></app-create-project-form>
+      <app-create-project-form (submitted)="onProjectCreated($event)"></app-create-project-form>
     </div>
   }
   <div id="grid-wrapper">

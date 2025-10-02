@@ -4,7 +4,7 @@
     label="Title"
     formControlName="title"
   ></app-input>
-  @if (this.submitted || this.title?.touched) {
+  @if (this.isSubmitted || this.title?.touched) {
     @if (title?.errors?.['required']) {
       <p class="error-text">Title is required.</p>
     }
@@ -15,7 +15,7 @@
     label="Description"
     formControlName="description"
   ></app-input>
-  @if (this.submitted || this.description?.touched) {
+  @if (this.isSubmitted || this.description?.touched) {
     @if (description?.errors?.['required']) {
       <p class="error-text">Description is required.</p>
     }
