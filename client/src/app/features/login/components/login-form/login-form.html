@@ -1,0 +1,25 @@
+<form [formGroup]="loginForm" (ngSubmit)="handleSubmit()">
+  <app-input
+    id="username"
+    label="Username"
+    formControlName="username"
+  ></app-input>
+  @if (this.submitted || this.username?.touched) {
+    @if (username?.errors?.['required']) {
+      <p class="error-text">Username is required.</p>
+    }
+  }
+
+  <app-input
+    id="password"
+    label="Password"
+    formControlName="password"
+  ></app-input>
+  @if (this.submitted || this.password?.touched) {
+    @if (password?.errors?.['required']) {
+      <p class="error-text">Password is required.</p>
+    }
+  }
+
+  <app-button text="Login" [classList]="['width-100']"></app-button>
+</form>
