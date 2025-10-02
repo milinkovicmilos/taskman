@@ -17,14 +17,14 @@ export class LoginForm {
     password: ['', Validators.required],
   });
 
-  protected submitted: boolean = false;
+  protected isSubmitted: boolean = false;
   protected username = this.loginForm.get('title');
   protected password = this.loginForm.get('description');
 
-  @Output() created = new EventEmitter<LoginData>();
+  @Output() submitted = new EventEmitter<LoginData>();
 
   handleSubmit(): void {
-    this.submitted = true;
+    this.isSubmitted = true;
     if (this.loginForm.valid) {
       const { username, password } = this.loginForm.value as {
         username: string,
@@ -36,8 +36,8 @@ export class LoginForm {
         password
       };
 
-      this.submitted = false;
-      this.created.emit(login);
+      this.isSubmitted = false;
+      this.submitted.emit(login);
     }
   }
 }
