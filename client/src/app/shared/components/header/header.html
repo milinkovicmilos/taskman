@@ -1,11 +1,11 @@
 <header>
   <div id="top-header-wrapper">
-    <h1>TaskMan</h1>
+    <h1 routerLink="/">TaskMan</h1>
     <app-button text="New Project" [classList]="['new-project']" (clicked)="toggleNewProjectForm()"></app-button>
   </div>
   <div id="bottom-header-wrapper">
     <div>
-      <app-button text="Login"></app-button>
+      <app-button text="Login" (clicked)="goToLogin()"></app-button>
       <app-button text="Register"></app-button>
     </div>
     <div>
