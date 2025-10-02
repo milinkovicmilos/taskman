@@ -1,15 +1,25 @@
-<form [formGroup]="createProjectForm">
+<form [formGroup]="createProjectForm" (ngSubmit)="handleSubmit()">
   <app-input
     id="title"
     label="Title"
     formControlName="title"
   ></app-input>
+  @if (this.submitted || this.title?.touched) {
+    @if (title?.errors?.['required']) {
+      <p class="error-text">Title is required.</p>
+    }
+  }
 
   <app-input
     id="description"
     label="Description"
     formControlName="description"
   ></app-input>
+  @if (this.submitted || this.description?.touched) {
+    @if (description?.errors?.['required']) {
+      <p class="error-text">Description is required.</p>
+    }
+  }
 
   <app-button text="Create" [classList]="['width-100']"></app-button>
 </form>

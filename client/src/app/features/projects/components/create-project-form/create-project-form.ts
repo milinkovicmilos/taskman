@@ -1,5 +1,5 @@
 import { Component, inject } from '@angular/core';
-import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
+import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Input } from '../../../../shared/components/input/input';
 import { Button } from '../../../../shared/components/button/button';
 
@@ -12,7 +12,15 @@ import { Button } from '../../../../shared/components/button/button';
 export class CreateProjectForm {
   private formBuilder = inject(FormBuilder);
   createProjectForm = this.formBuilder.group({
-    title: [''],
-    description: [''],
+    title: ['', Validators.required],
+    description: ['', Validators.required],
   });
+
+  protected submitted: boolean = false;
+  protected title = this.createProjectForm.get('title');
+  protected description = this.createProjectForm.get('description');
+
+  handleSubmit(): void {
+    this.submitted = true;
+  }
 }
