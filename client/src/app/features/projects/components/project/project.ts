@@ -37,7 +37,8 @@ export class Project {
     this.projects.push(project);
   }
 
-  // deleteCard(id: number | string) {
-  //   this.projects = this.projects.filter(x => x.id != id);
-  // }
+  onProjectDeleted(id: number | string) {
+    this.storage.removeProject(id);
+    this.projects = this.projects.filter(x => x.id != id);
+  }
 }

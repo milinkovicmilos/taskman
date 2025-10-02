@@ -27,7 +27,6 @@ export class LocalProjectStorage implements ProjectStorage {
       return [];
     }
 
-    console.log(JSON.parse(projectsData))
     return JSON.parse(projectsData);
   }
 
@@ -48,6 +47,14 @@ export class LocalProjectStorage implements ProjectStorage {
   }
 
   removeProject(projectId: number | string): void {
+    const projectsData = this.localStorageGet();
+    if (projectsData == null) {
+      return;
+    }
 
+    const tmpProjects: ProjectData[] = JSON.parse(projectsData);
+    const projects = tmpProjects.filter(x => x.id != projectId);
+
+    this.localStorageSet(projects);
   }
 }
