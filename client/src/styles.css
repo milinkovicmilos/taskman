@@ -27,6 +27,10 @@ body {
   color: var(--primary-text);
 }
 
+.text-center {
+  text-align: center;
+}
+
 .error-text {
   margin-bottom: var(--default-margin);
   font-size: 0.8rem;
