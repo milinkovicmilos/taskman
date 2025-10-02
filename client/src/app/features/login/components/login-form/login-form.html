@@ -1,12 +1,12 @@
 <form [formGroup]="loginForm" (ngSubmit)="handleSubmit()">
   <app-input
-    id="username"
-    label="Username"
-    formControlName="username"
+    id="email"
+    label="Email"
+    formControlName="email"
   ></app-input>
-  @if (this.submitted || this.username?.touched) {
-    @if (username?.errors?.['required']) {
-      <p class="error-text">Username is required.</p>
+  @if (this.submitted || this.email?.touched) {
+    @if (email?.errors?.['required']) {
+      <p class="error-text">Email is required.</p>
     }
   }
 

@@ -13,12 +13,12 @@ import { Input } from '../../../../shared/components/input/input';
 export class LoginForm {
   private formBuilder = inject(FormBuilder);
   loginForm = this.formBuilder.group({
-    username: ['', Validators.required],
+    email: ['', Validators.required],
     password: ['', Validators.required],
   });
 
   protected isSubmitted: boolean = false;
-  protected username = this.loginForm.get('title');
+  protected email = this.loginForm.get('title');
   protected password = this.loginForm.get('description');
 
   @Output() submitted = new EventEmitter<LoginData>();
@@ -26,13 +26,13 @@ export class LoginForm {
   handleSubmit(): void {
     this.isSubmitted = true;
     if (this.loginForm.valid) {
-      const { username, password } = this.loginForm.value as {
-        username: string,
+      const { email, password } = this.loginForm.value as {
+        email: string,
         password: string,
       };
 
       const login: LoginData = {
-        username,
+        email,
         password
       };
 
