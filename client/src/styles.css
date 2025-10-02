@@ -27,6 +27,12 @@ body {
   color: var(--primary-text);
 }
 
+.error-text {
+  margin-bottom: var(--default-margin);
+  font-size: 0.8rem;
+  color: var(--accent);
+}
+
 @media screen and (min-width: 768px) {
   html {
     font-size: 18px;
