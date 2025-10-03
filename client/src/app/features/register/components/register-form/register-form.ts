@@ -32,7 +32,6 @@ export class RegisterForm {
 
   handleSubmit(): void {
     this.isSubmitted = true;
-    console.log(this.firstName?.errors)
     if (this.registerForm.valid) {
       const { first_name, last_name, email, password, password_confirmation } = this.registerForm.value as {
         first_name: string;
