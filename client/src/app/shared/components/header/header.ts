@@ -15,7 +15,13 @@ export class Header {
 
   authService = inject(AuthService);
   isLoggedIn = this.authService.isLoggedIn;
+
+  userData = this.authService.data;
   state = inject(FormState);
+
+  getFullName(): string {
+    return `${this.userData().firstName} ${this.userData().lastName}`;
+  }
 
   toggleNewProjectForm(): void {
     this.state.changeState();

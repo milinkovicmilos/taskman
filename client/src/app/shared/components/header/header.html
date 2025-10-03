@@ -10,6 +10,7 @@
         <app-button text="Register" (clicked)="goToRegister()"></app-button>
       }
       @else {
+        <span>{{ getFullName() }}</span>
         <app-button text="Logout" (clicked)="goToLogout()"></app-button>
       }
     </div>
