@@ -40,6 +40,11 @@
       <p class="error-text">Email is not in correct format.</p>
     }
   }
+  @if (!this.email?.touched) {
+    @for (error of getServerErrors('email'); track error) {
+      <p class="error-text">{{ error }}</p>
+    }
+  }
 
   <app-input
     id="password"
