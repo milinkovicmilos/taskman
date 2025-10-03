@@ -1,6 +1,6 @@
 import { Component, inject } from '@angular/core';
 import { LoginForm } from '../login-form/login-form';
-import { RouterModule } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 import { LoginData } from '../../interfaces/login-data';
 import { AuthService } from '../../../../shared/services/auth-service';
 
@@ -12,11 +12,12 @@ import { AuthService } from '../../../../shared/services/auth-service';
 })
 export class Login {
   authService = inject(AuthService);
+  private router = inject(Router);
 
   onLoginSubmit(data: LoginData) {
     this.authService.login(data).subscribe(
       response => {
-        console.log(response);
+        this.router.navigate(['/']);
       },
       error => {
         console.log(error);
