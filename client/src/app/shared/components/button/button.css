@@ -4,6 +4,7 @@ button {
   color: var(--primary-text);
   border: 1px solid var(--border-second);
   border-radius: 5px;
+  cursor: pointer;
 }
 
 .new-project,
