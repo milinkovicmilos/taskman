@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable, WritableSignal, inject, signal } from '@angular/core';
 import { LoginData } from '../../features/login/interfaces/login-data';
-import { Observable, switchMap, tap } from 'rxjs';
+import { firstValueFrom, Observable, pipe, switchMap, tap } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -11,11 +11,10 @@ export class AuthService {
 
   isLoggedIn: WritableSignal<boolean> = signal(false);
 
-  checkIfLoggedIn() {
-    this.http.get('api/user').subscribe({
-      next: () => this.isLoggedIn.set(true),
-      error: () => this.isLoggedIn.set(false)
-    });
+  async checkIfLoggedIn(): Promise<void> {
+    return firstValueFrom(this.http.get('api/user'))
+      .then(() => this.isLoggedIn.set(true))
+      .catch(() => this.isLoggedIn.set(false));
   }
 
   login(data: LoginData): Observable<any> {
@@ -28,13 +27,9 @@ export class AuthService {
     );
   }
 
-  logout(): void {
-    if (!this.isLoggedIn()) {
-      return;
-    }
-
-    this.http.post('api/logout', {}).subscribe({
-      next: () => this.isLoggedIn.set(false),
-    });
+  logout(): Observable<any> {
+    return this.http.post('api/logout', {}).pipe(
+      tap(() => this.isLoggedIn.set(false))
+    )
   }
 }
