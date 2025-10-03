@@ -7,7 +7,7 @@
     <div>
       @if (!isLoggedIn()) {
         <app-button text="Login" (clicked)="goToLogin()"></app-button>
-        <app-button text="Register"></app-button>
+        <app-button text="Register" (clicked)="goToRegister()"></app-button>
       }
       @else {
         <app-button text="Logout" (clicked)="goToLogout()"></app-button>

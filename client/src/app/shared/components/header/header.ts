@@ -17,15 +17,19 @@ export class Header {
   isLoggedIn = this.authService.isLoggedIn;
   state = inject(FormState);
 
-  toggleNewProjectForm() {
+  toggleNewProjectForm(): void {
     this.state.changeState();
   }
 
-  goToLogin() {
+  goToRegister(): void {
+    this.router.navigate(['/register']);
+  }
+
+  goToLogin(): void {
     this.router.navigate(['/login']);
   }
 
-  goToLogout() {
+  goToLogout(): void {
     this.router.navigate(['/logout']);
   }
 }
