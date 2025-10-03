@@ -18,7 +18,7 @@ import { ProjectData } from '../../interfaces/project-data';
       provide: PROJECT_STORAGE,
       useFactory: (() => {
         const authService = inject(AuthService);
-        return authService.isLoggedIn ? new ServerProjectStorage() : new LocalProjectStorage();
+        return authService.isLoggedIn() ? new ServerProjectStorage() : new LocalProjectStorage();
       }),
     },
   ],

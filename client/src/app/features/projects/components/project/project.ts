@@ -18,7 +18,7 @@ import { AuthService } from '../../../../shared/services/auth-service';
       provide: PROJECT_STORAGE,
       useFactory: (() => {
         const authService = inject(AuthService);
-        return authService.isLoggedIn ? new ServerProjectStorage() : new LocalProjectStorage();
+        return authService.isLoggedIn() ? new ServerProjectStorage() : new LocalProjectStorage();
       }),
     },
   ],
