@@ -36,6 +36,9 @@
     @if (email?.errors?.['required']) {
       <p class="error-text">Email is required.</p>
     }
+    @if (email?.errors?.['email']) {
+      <p class="error-text">Email is not in correct format.</p>
+    }
   }
 
   <app-input
