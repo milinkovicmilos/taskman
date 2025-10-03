@@ -18,7 +18,15 @@ Route::post('/login', [LoginController::class, 'authenticate'])->middleware(Ensu
 Route::post('/logout', [LoginController::class, 'logout']);
 
 Route::get('/user', function (Request $request) {
-    return $request->user();
+    $user = $request->user();
+    return [
+        'message' => 'Logged in.',
+        'data' => [
+            'first_name' => $user->first_name,
+            'last_name' => $user->last_name,
+            'email' => $user->email,
+        ],
+    ];
 })->middleware('auth:sanctum');
 
 Route::apiResource('projects', ProjectController::class)->middleware('auth:sanctum');

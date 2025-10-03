@@ -25,6 +25,13 @@ class RegisterController extends Controller
         $user = User::create($credentials);
         Auth::login($user);
 
-        return response()->json(['message' => 'Successfully registered.']);
+        return response()->json([
+            'message' => 'Successfully registered.',
+            'data' => [
+                'first_name' => $user->first_name,
+                'last_name' => $user->last_name,
+                'email' => $user->email,
+            ],
+        ]);
     }
 }

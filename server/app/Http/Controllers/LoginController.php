@@ -16,7 +16,15 @@ class LoginController extends Controller
 
         if (Auth::attempt($credentials)) {
             $request->session()->regenerate();
-            return response()->json(['message' => 'Successfully authenticated.']);
+            $user = Auth::user();
+            return response()->json([
+                'message' => 'Successfully authenticated.',
+                'data' => [
+                    'first_name' => $user->first_name,
+                    'last_name' => $user->last_name,
+                    'email' => $user->email,
+                ],
+            ]);
         }
 
         return response()->json(['message' => 'Failed to authenticate with provided credentials.'], 401);
