@@ -1,0 +1,4 @@
+p.text-center {
+  color: var(--secondary-text);
+  margin-top: var(--default-margin);
+}
