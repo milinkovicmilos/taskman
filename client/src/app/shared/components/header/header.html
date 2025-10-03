@@ -5,8 +5,13 @@
   </div>
   <div id="bottom-header-wrapper">
     <div>
-      <app-button text="Login" (clicked)="goToLogin()"></app-button>
-      <app-button text="Register"></app-button>
+      @if (!isLoggedIn()) {
+        <app-button text="Login" (clicked)="goToLogin()"></app-button>
+        <app-button text="Register"></app-button>
+      }
+      @else {
+        <app-button text="Logout" (clicked)="logout()"></app-button>
+      }
     </div>
     <div>
       <app-button text="Import"></app-button>

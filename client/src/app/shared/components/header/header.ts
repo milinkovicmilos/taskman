@@ -2,6 +2,7 @@ import { Component, inject } from '@angular/core';
 import { Button } from '../button/button';
 import { FormState } from '../../services/form-state';
 import { RouterModule, Router } from '@angular/router';
+import { AuthService } from '../../services/auth-service';
 
 @Component({
   selector: 'app-header',
@@ -12,6 +13,8 @@ import { RouterModule, Router } from '@angular/router';
 export class Header {
   private router = inject(Router);
 
+  authService = inject(AuthService);
+  isLoggedIn = this.authService.isLoggedIn;
   state = inject(FormState);
 
   toggleNewProjectForm() {
@@ -20,5 +23,9 @@ export class Header {
 
   goToLogin() {
     this.router.navigate(['/login']);
+  }
+
+  logout() {
+    this.authService.logout();
   }
 }
