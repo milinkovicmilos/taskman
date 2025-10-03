@@ -4,6 +4,10 @@ import { RegisterData } from '../../interfaces/register-data';
 import { passwordConfirmValidator } from '../../../../shared/validators/password-confirm-validator';
 import { Input } from '../../../../shared/components/input/input';
 import { Button } from '../../../../shared/components/button/button';
+import { symbolValidator } from '../../../../shared/validators/symbol-validator';
+import { lowerCaseValidator } from '../../../../shared/validators/lower-case-validator';
+import { upperCaseValidator } from '../../../../shared/validators/upper-case-validator';
+import { numberCaseValidator } from '../../../../shared/validators/number-validator';
 
 @Component({
   selector: 'app-register-form',
@@ -17,7 +21,7 @@ export class RegisterForm {
     firstName: ['', [Validators.required, Validators.maxLength(255)]],
     lastName: ['', [Validators.required, Validators.maxLength(255)]],
     email: ['', [Validators.required, Validators.email]],
-    password: ['', Validators.required],
+    password: ['', [Validators.required, Validators.minLength(8), lowerCaseValidator(), upperCaseValidator(), symbolValidator(), numberCaseValidator()]],
     confirmPassword: ['', Validators.required],
   }, { validators: passwordConfirmValidator('password', 'confirmPassword') });
 

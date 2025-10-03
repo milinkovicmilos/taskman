@@ -51,6 +51,22 @@
     @if (password?.errors?.['required']) {
       <p class="error-text">Password is required.</p>
     }
+    @if (password?.errors?.['minlength']) {
+      <p class="error-text">Password has to have at least 8 characters.</p>
+    }
+    @if (password?.errors?.['noLowerCase'] && password?.errors?.['noUpperCase']) {
+      <p class="error-text">Password must contain letters.</p>
+    } @else if (password?.errors?.['noLowerCase']) {
+      <p class="error-text">At least one lower case letter is required.</p>
+    } @else if (password?.errors?.['noUpperCase']) {
+      <p class="error-text">At least one upper case letter is required.</p>
+    }
+    @if (password?.errors?.['noSymbol']) {
+      <p class="error-text">At least one symbol is required.</p>
+    }
+    @if (password?.errors?.['noNumber']) {
+      <p class="error-text">At least one number is required.</p>
+    }
   }
 
   <app-input
