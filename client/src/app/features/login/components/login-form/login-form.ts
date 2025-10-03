@@ -18,8 +18,8 @@ export class LoginForm {
   });
 
   protected isSubmitted: boolean = false;
-  protected email = this.loginForm.get('title');
-  protected password = this.loginForm.get('description');
+  protected email = this.loginForm.get('email');
+  protected password = this.loginForm.get('password');
 
   @Output() submitted = new EventEmitter<LoginData>();
 

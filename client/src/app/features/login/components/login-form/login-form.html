@@ -4,7 +4,7 @@
     label="Email"
     formControlName="email"
   ></app-input>
-  @if (this.submitted || this.email?.touched) {
+  @if (this.isSubmitted || this.email?.touched) {
     @if (email?.errors?.['required']) {
       <p class="error-text">Email is required.</p>
     }
@@ -15,7 +15,7 @@
     label="Password"
     formControlName="password"
   ></app-input>
-  @if (this.submitted || this.password?.touched) {
+  @if (this.isSubmitted || this.password?.touched) {
     @if (password?.errors?.['required']) {
       <p class="error-text">Password is required.</p>
     }
