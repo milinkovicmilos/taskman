@@ -1,0 +1,69 @@
+<form [formGroup]="registerForm" (ngSubmit)="handleSubmit()">
+  <app-input
+    id="first-name"
+    label="First Name"
+    formControlName="firstName"
+  ></app-input>
+  @if (this.isSubmitted || this.firstName?.touched) {
+    @if (firstName?.errors?.['required']) {
+      <p class="error-text">First name is required.</p>
+    }
+    @if (firstName?.errors?.['maxlength']) {
+      <p class="error-text">First name can't be longer than 255 characters.</p>
+    }
+  }
+
+  <app-input
+    id="last-name"
+    label="Last Name"
+    formControlName="lastName"
+  ></app-input>
+  @if (this.isSubmitted || this.lastName?.touched) {
+    @if (lastName?.errors?.['required']) {
+      <p class="error-text">Last name is required.</p>
+    }
+    @if (lastName?.errors?.['maxlength']) {
+      <p class="error-text">Last name can't be longer than 255 characters.</p>
+    }
+  }
+
+  <app-input
+    id="email"
+    label="Email"
+    formControlName="email"
+  ></app-input>
+  @if (this.isSubmitted || this.email?.touched) {
+    @if (email?.errors?.['required']) {
+      <p class="error-text">Email is required.</p>
+    }
+  }
+
+  <app-input
+    id="password"
+    label="Password"
+    formControlName="password"
+    type="password"
+  ></app-input>
+  @if (this.isSubmitted || this.password?.touched) {
+    @if (password?.errors?.['required']) {
+      <p class="error-text">Password is required.</p>
+    }
+  }
+
+  <app-input
+    id="password-confirmation"
+    label="Password Confimation"
+    formControlName="confirmPassword"
+    type="password"
+  ></app-input>
+  @if (this.isSubmitted || this.confirmPassword?.touched) {
+    @if (confirmPassword?.errors?.['required']) {
+      <p class="error-text">Password confirmation is required.</p>
+    }
+    @if (registerForm.errors?.['passwordConfirmationMismatch']) {
+      <p class="error-text">Passwords do not match.</p>
+    }
+  }
+
+  <app-button text="Register" [classList]="['width-100']"></app-button>
+</form>
