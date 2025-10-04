@@ -113,11 +113,19 @@ class ProjectController extends Controller
         }
 
         $user = Auth::user();
+        $role = $project->group?->memberships()
+            ->where('user_id', $user->id)
+            ->value('role_id');
+
+        if (is_null($role)) {
+            $role = RoleEnum::Owner;
+        }
 
         return response()->json([
             'id' => $project->id,
             'name' => $project->name,
             'description' => $project->description,
+            'role' => $role,
         ]);
     }
 
