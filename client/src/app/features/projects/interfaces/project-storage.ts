@@ -1,13 +1,13 @@
 import { InjectionToken } from "@angular/core";
-import { ProjectData } from "./project-data";
 import { Observable } from "rxjs";
 import { CreateProjectData } from "./create-project-data";
+import { UpdateProjectData } from "./update-project-data";
 
 export interface ProjectStorage {
   getProjects(page?: number): Observable<any | null>;
   getProject(projectId: number | string): Observable<any | null>;
   storeProject(project: CreateProjectData): Observable<any | null>;
-  updateProject(projectId: number | string, project: ProjectData): void;
+  updateProject(projectId: number | string, project: UpdateProjectData): Observable<any>;
   removeProject(projectId: number | string): void;
 }
 
