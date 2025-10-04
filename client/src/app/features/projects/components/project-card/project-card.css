@@ -13,7 +13,3 @@
 .project-info>p {
   margin-bottom: var(--default-margin);
 }
-
-.project-card>app-button {
-  float: right;
-}
