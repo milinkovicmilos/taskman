@@ -4,6 +4,8 @@ import { ProjectData } from '../interfaces/project-data';
 import { Observable, of } from 'rxjs';
 import { PaginatedResponse } from '../../../shared/interfaces/paginated-response';
 import { ProjectResponse } from '../interfaces/project-response';
+import { CreatedProjectResponse } from '../interfaces/created-project-response';
+import { CreateProjectData } from '../interfaces/create-project-data';
 
 @Injectable({
   providedIn: 'root',
@@ -41,16 +43,28 @@ export class LocalProjectStorage implements ProjectStorage {
     return of(response);
   }
 
-  storeProject(project: ProjectData): void {
+  storeProject(project: CreateProjectData): Observable<any> {
     const projectsData = this.localStorageGet();
     if (projectsData == null) {
-      return;
+      return of(null);
     }
 
     const projects = JSON.parse(projectsData);
-    projects.push(project);
+    const projectToStore: ProjectData = {
+      id: crypto.randomUUID(),
+      name: project.name,
+      description: project.description,
+    }
+    projects.push(projectToStore);
 
     this.localStorageSet(projects);
+    const data: CreatedProjectResponse = {
+      message: 'Successfully created a project.',
+      data: {
+        id: projectToStore.id,
+      }
+    }
+    return of(data);
   }
 
   updateProject(projectId: number | string, project: ProjectData): void {
