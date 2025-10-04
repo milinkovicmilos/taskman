@@ -1,6 +1,9 @@
 import { Injectable } from '@angular/core';
 import { ProjectStorage } from '../interfaces/project-storage';
 import { ProjectData } from '../interfaces/project-data';
+import { Observable, of } from 'rxjs';
+import { PaginatedResponse } from '../../../shared/interfaces/paginated-response';
+import { ProjectResponse } from '../interfaces/project-response';
 
 @Injectable({
   providedIn: 'root',
@@ -21,13 +24,21 @@ export class LocalProjectStorage implements ProjectStorage {
     }
   }
 
-  getProjects(): ProjectData[] {
+  getProjects(page: number = 1): Observable<PaginatedResponse<ProjectResponse> | null> {
     const projectsData = this.localStorageGet();
     if (projectsData == null) {
-      return [];
+      return of(null);
     }
 
-    return JSON.parse(projectsData);
+    const data = JSON.parse(projectsData);
+    const response: PaginatedResponse<ProjectResponse> = {
+      current_page: page,
+      per_page: 4,
+      total: data.length,
+      last_page: Math.ceil(data.length / 4),
+      data: data,
+    }
+    return of(response);
   }
 
   storeProject(project: ProjectData): void {
