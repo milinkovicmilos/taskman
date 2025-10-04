@@ -11,10 +11,13 @@ import { ServerTaskStorage } from '../../../tasks/services/server-task-storage';
 import { LocalTaskStorage } from '../../../tasks/services/local-task-storage';
 import { TaskData } from '../../../tasks/interfaces/task-data';
 import { TaskCard } from '../../../tasks/components/task-card/task-card';
+import { FormState } from '../../../../shared/services/form-state';
+import { FormType } from '../../../../shared/enums/form-type';
+import { UpdateProjectForm } from '../update-project-form/update-project-form';
 
 @Component({
   selector: 'app-project-detail',
-  imports: [Button, TaskCard],
+  imports: [Button, TaskCard, UpdateProjectForm],
   templateUrl: './project-detail.html',
   styleUrl: './project-detail.css',
   providers: [
@@ -43,6 +46,9 @@ export class ProjectDetail implements OnInit {
 
   protected tasks: TaskData[] = [];
 
+  protected formStateService = inject(FormState);
+  protected formTypes = FormType;
+
   @Input() protected id!: number | string;
 
   ngOnInit(): void {
@@ -56,5 +62,9 @@ export class ProjectDetail implements OnInit {
         this.tasks = response.data;
       }
     });
+  }
+
+  protected toggleUpdateForm(): void {
+    this.formStateService.changeState(FormType.Update);
   }
 }

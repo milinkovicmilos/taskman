@@ -1,13 +1,22 @@
 <div id="content-wrapper">
-  @if (this.project != null) {
+  @if (project != null) {
     <div id="project-info">
-      <p id="project-name">{{ this.project.name }}</p>
-      <p id="project-description">{{ this.project.description }}</p>
-      @if (this.project.role === projectRoles.Owner) {
-        <div id="project-control">
-          <app-button text="Delete"></app-button>
-          <app-button text="Edit"></app-button>
-        </div>
+      @switch (formStateService.visible()) {
+        @case (formTypes.Update) {
+          <app-update-project-form [project]="project"></app-update-project-form>
+        }
+        @default {
+          <p id="project-name">{{ project.name }}</p>
+          <p id="project-description">{{ project.description }}</p>
+        }
+      }
+      @if (project.role === projectRoles.Owner) {
+        @if (formStateService.visible() === null) {
+          <div id="project-control">
+            <app-button text="Delete"></app-button>
+            <app-button text="Edit" (clicked)="toggleUpdateForm()"></app-button>
+          </div>
+        }
       }
     </div>
     <div id="grid-wrapper">
