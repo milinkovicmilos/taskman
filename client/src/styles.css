@@ -14,6 +14,7 @@
   --border-second: #333333;
   --completed-item: #666666;
   --default-margin: 10px;
+  --notification-width: 80vw;
 }
 
 html {
@@ -39,6 +40,12 @@ a {
   margin-bottom: var(--default-margin);
   font-size: 0.8rem;
   color: var(--accent);
+}
+
+@media screen and (min-width: 480px) {
+  :root {
+    --notification-width: 300px;
+  }
 }
 
 @media screen and (min-width: 768px) {
