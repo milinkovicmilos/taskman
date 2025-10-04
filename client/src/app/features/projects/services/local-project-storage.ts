@@ -1,11 +1,12 @@
 import { Injectable } from '@angular/core';
 import { ProjectStorage } from '../interfaces/project-storage';
-import { ProjectData } from '../interfaces/project-data';
+import { ProjectData, ProjectDetailData } from '../interfaces/project-data';
 import { Observable, of } from 'rxjs';
 import { PaginatedResponse } from '../../../shared/interfaces/paginated-response';
 import { ProjectResponse } from '../interfaces/project-response';
 import { CreatedProjectResponse } from '../interfaces/created-project-response';
 import { CreateProjectData } from '../interfaces/create-project-data';
+import { ProjectRole } from '../enums/project-role';
 
 @Injectable({
   providedIn: 'root',
@@ -43,6 +44,22 @@ export class LocalProjectStorage implements ProjectStorage {
       data: data.splice(offset, perPage),
     }
     return of(response);
+  }
+
+  getProject(id: number | string): Observable<any> {
+    const projectsData = this.localStorageGet();
+    if (projectsData == null) {
+      return of(null);
+    }
+
+    const projects: ProjectDetailData[] = JSON.parse(projectsData);
+    let project = projects.find(x => x.id === id);
+    if (project == null) {
+      return of(null);
+    }
+
+    project.role = ProjectRole.Owner;
+    return of(project);
   }
 
   storeProject(project: CreateProjectData): Observable<any> {

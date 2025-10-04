@@ -1,6 +1,6 @@
 import { inject, Injectable } from '@angular/core';
 import { ProjectStorage } from '../interfaces/project-storage';
-import { ProjectData } from '../interfaces/project-data';
+import { ProjectData, ProjectDetailData } from '../interfaces/project-data';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { PaginatedResponse } from '../../../shared/interfaces/paginated-response';
 import { ProjectResponse } from '../interfaces/project-response';
@@ -19,6 +19,10 @@ export class ServerProjectStorage implements ProjectStorage {
     return this.http.get<PaginatedResponse<ProjectResponse>>('api/projects', {
       params: params,
     });
+  }
+
+  getProject(id: number): Observable<any> {
+    return this.http.get<ProjectDetailData>(`api/projects/${id}`);
   }
 
   storeProject(project: ProjectData): Observable<CreatedProjectResponse> {
