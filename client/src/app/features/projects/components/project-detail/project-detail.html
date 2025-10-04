@@ -1,1 +1,17 @@
-<p>project-detail works!</p>
+<div id="content-wrapper">
+  @if (this.project != null) {
+    <div id="project-info">
+      <p id="project-name">{{ this.project.name }}</p>
+      <p id="project-description">{{ this.project.description }}</p>
+      @if (this.project.role === projectRoles.Owner) {
+        <div id="project-control">
+          <app-button text="Delete"></app-button>
+          <app-button text="Edit"></app-button>
+        </div>
+      }
+    </div>
+    <div>
+
+    </div>
+  }
+</div>

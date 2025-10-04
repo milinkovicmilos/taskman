@@ -1,0 +1,37 @@
+#project-info {
+  padding: 20px;
+  margin-bottom: calc(2 * var(--default-margin));
+  margin-right: var(--default-margin);
+  border: 1px solid var(--border);
+  border-radius: 5px;
+  background-color: var(--card-background);
+  color: var(--primary-text);
+  display: flex;
+  flex-direction: column;
+}
+
+#project-name {
+  text-align: center;
+}
+
+#project-description {
+  font-size: 0.8rem;
+  margin-top: calc(2 * var(--default-margin));
+}
+
+#project-control {
+  width: 100%;
+  margin-top: var(--default-margin);
+  display: flex;
+  justify-content: space-between;
+}
+
+@media screen and (min-width: 768px) {
+  #content-wrapper {
+    display: flex;
+  }
+
+  #project-info {
+    width: 30%;
+  }
+}
