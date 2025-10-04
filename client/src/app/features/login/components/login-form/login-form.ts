@@ -13,7 +13,7 @@ import { Input } from '../../../../shared/components/input/input';
 export class LoginForm {
   private formBuilder = inject(FormBuilder);
   loginForm = this.formBuilder.group({
-    email: ['', Validators.required],
+    email: ['', [Validators.required, Validators.email]],
     password: ['', Validators.required],
   });
 
