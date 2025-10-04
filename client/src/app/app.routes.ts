@@ -6,6 +6,7 @@ import { Logout } from './features/logout/components/logout/logout';
 import { Project } from './features/projects/components/project/project';
 import { authGuard } from './shared/guards/auth-guard';
 import { unAuthGuard } from './shared/guards/un-auth-guard';
+import { ProjectDetail } from './features/projects/components/project-detail/project-detail';
 
 export const routes: Routes = [
   { path: '', component: Home },
@@ -13,4 +14,5 @@ export const routes: Routes = [
   { path: 'login', component: Login, canActivate: [authGuard] },
   { path: 'logout', component: Logout, canActivate: [unAuthGuard] },
   { path: 'projects', component: Project },
+  { path: 'projects/:id', component: ProjectDetail },
 ];

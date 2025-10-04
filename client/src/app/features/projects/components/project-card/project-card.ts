@@ -1,5 +1,6 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, EventEmitter, Input, inject } from '@angular/core';
 import { ProjectData } from '../../interfaces/project-data';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-project-card',
@@ -8,9 +9,10 @@ import { ProjectData } from '../../interfaces/project-data';
   styleUrl: './project-card.css'
 })
 export class ProjectCard {
+  private router = inject(Router);
   @Input() project!: ProjectData;
 
   onClick() {
-    // Project clicked
+    this.router.navigate(['projects', this.project.id]);
   }
 }
