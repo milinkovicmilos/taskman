@@ -1,4 +1,4 @@
-import { Component, Inject, inject } from '@angular/core';
+import { Component, Inject, inject, OnInit } from '@angular/core';
 import { ProjectCard } from '../project-card/project-card';
 import { ProjectData } from '../../interfaces/project-data';
 import { CreateProjectForm } from '../create-project-form/create-project-form';
@@ -23,14 +23,18 @@ import { AuthService } from '../../../../shared/services/auth-service';
     },
   ],
 })
-export class Project {
+export class Project implements OnInit {
   private storage = inject(PROJECT_STORAGE);
 
   protected projects: ProjectData[] = [];
   protected createFormVisible = inject(FormState).visible;
 
-  constructor() {
-    this.projects = this.storage.getProjects();
+  ngOnInit() {
+    this.storage.getProjects().subscribe({
+      next: (response) => {
+        this.projects = response.data;
+      }
+    })
   }
 
   onProjectCreated(project: ProjectData) {

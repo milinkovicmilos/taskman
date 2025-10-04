@@ -48,7 +48,7 @@ export class CreateProjectForm {
 
       const project: ProjectData = {
         id: crypto.randomUUID(),
-        title,
+        name: title,
         description
       };
 
