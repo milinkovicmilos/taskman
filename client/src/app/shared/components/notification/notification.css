@@ -1,0 +1,36 @@
+#notification {
+  box-sizing: border-box;
+  width: var(--notification-width);
+  position: fixed;
+  top: 100px;
+  left: calc(100vw / 2 - var(--notification-width) / 2);
+  z-index: 2;
+  background-color: var(--card-background);
+  border: 1px solid var(--border);
+  border-radius: 5px;
+  overflow-x: hidden;
+}
+
+#notification::before {
+  content: '';
+  background-color: var(--accent);
+  display: block;
+  height: 5px;
+  width: 0;
+  animation: timer linear 5s;
+  z-index: 1;
+}
+
+@keyframes timer {
+  from {
+    width: 100%;
+  }
+
+  to {
+    width: 0;
+  }
+}
+
+#notification>p {
+  padding: 20px;
+}
