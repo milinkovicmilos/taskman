@@ -10,9 +10,15 @@ export class Notifier {
   private timeoutId!: number;
   notification: WritableSignal<NotificationData> = signal({ type: NotificationType.Info, message: '' });
 
+  private clearNotification(): void {
+    this.notification.set({ type: NotificationType.Info, message: '' });
+  }
+
   notify(data: NotificationData): void {
-    this.notification.set(data);
+    this.clearNotification();
     clearTimeout(this.timeoutId);
-    this.timeoutId = setTimeout(() => this.notification.set({ type: NotificationType.Info, message: '' }), this.timeout)
+
+    this.notification.set(data);
+    this.timeoutId = setTimeout(() => this.clearNotification(), this.timeout);
   }
 }
