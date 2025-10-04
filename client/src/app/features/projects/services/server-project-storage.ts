@@ -6,6 +6,8 @@ import { PaginatedResponse } from '../../../shared/interfaces/paginated-response
 import { ProjectResponse } from '../interfaces/project-response';
 import { Observable, tap } from 'rxjs';
 import { CreatedProjectResponse } from '../interfaces/created-project-response';
+import { CreateProjectData } from '../interfaces/create-project-data';
+import { UpdateProjectData } from '../interfaces/update-project-data';
 
 @Injectable({
   providedIn: 'root',
@@ -25,12 +27,12 @@ export class ServerProjectStorage implements ProjectStorage {
     return this.http.get<ProjectDetailData>(`api/projects/${id}`);
   }
 
-  storeProject(project: ProjectData): Observable<CreatedProjectResponse> {
+  storeProject(project: CreateProjectData): Observable<CreatedProjectResponse> {
     return this.http.post<CreatedProjectResponse>('api/projects', project);
   }
 
-  updateProject(projectId: number | string, project: ProjectData): void {
-    // ...
+  updateProject(projectId: number | string, project: UpdateProjectData): Observable<any> {
+    return this.http.patch(`api/projects/${projectId}`, project);
   }
 
   removeProject(projectId: number | string): void {
