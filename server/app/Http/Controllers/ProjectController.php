@@ -22,10 +22,10 @@ class ProjectController extends Controller
         ]);
 
         $user = Auth::user();
-        $userProjects = Project::select('id', 'name')
+        $userProjects = Project::select('id', 'name', 'description')
             ->where('user_id', $user->id);
 
-        $groupProjects = Project::select('projects.id', 'projects.name')
+        $groupProjects = Project::select('projects.id', 'projects.name', 'projects.description')
             ->join('groups', 'groups.id', '=', 'projects.group_id')
             ->join('memberships', 'memberships.group_id', '=', 'groups.id')
             ->where('memberships.user_id', $user->id)
@@ -87,11 +87,15 @@ class ProjectController extends Controller
             'name' => [
                 'required',
                 Rule::unique('projects')->where('user_id', $user->id),
+            ],
+            'description' => [
+                'required',
             ]
         ]);
 
         $project = $user->projects()->create([
-            'name' => $data['name']
+            'name' => $data['name'],
+            'description' => $data['description'],
         ]);
 
         return response()->json([

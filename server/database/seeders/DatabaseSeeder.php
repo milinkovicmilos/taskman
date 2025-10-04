@@ -72,6 +72,7 @@ class DatabaseSeeder extends Seeder
             'user_id' => 1,
             'group_id' => 1,
             'name' => fake()->text(12),
+            'description' => fake()->text(16),
         ]);
 
         $proj->tasks()->create([
@@ -108,12 +109,14 @@ class DatabaseSeeder extends Seeder
             'user_id' => 1,
             'group_id' => 1,
             'name' => fake()->text(12),
+            'description' => fake()->text(16),
         ]);
 
         for ($i = 0; $i < 5; $i++) {
             Project::factory()->create([
                 'user_id' => 1,
                 'name' => fake()->text(12),
+                'description' => fake()->text(16),
             ]);
         }
 
@@ -121,6 +124,7 @@ class DatabaseSeeder extends Seeder
             Project::factory()->create([
                 'user_id' => 2,
                 'name' => fake()->text(12),
+                'description' => fake()->text(16),
             ]);
         }
 
@@ -128,6 +132,7 @@ class DatabaseSeeder extends Seeder
             'user_id' => 4,
             'group_id' => 2,
             'name' => fake()->text(12),
+            'description' => fake()->text(16),
         ]);
 
         $proj->tasks()->create([
@@ -156,6 +161,7 @@ class DatabaseSeeder extends Seeder
             'user_id' => 5,
             'group_id' => 2,
             'name' => fake()->text(12),
+            'description' => fake()->text(16),
         ]);
 
         $task = $proj->tasks()->create([
