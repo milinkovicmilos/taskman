@@ -33,12 +33,14 @@ export class LocalProjectStorage implements ProjectStorage {
     }
 
     const data = JSON.parse(projectsData);
+    const perPage = 4;
+    const offset = perPage * (page - 1);
     const response: PaginatedResponse<ProjectResponse> = {
       current_page: page,
       per_page: 4,
       total: data.length,
-      last_page: Math.ceil(data.length / 4),
-      data: data,
+      last_page: Math.ceil(data.length / perPage),
+      data: data.splice(offset, perPage),
     }
     return of(response);
   }

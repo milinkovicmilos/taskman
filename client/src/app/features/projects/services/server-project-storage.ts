@@ -1,7 +1,7 @@
 import { inject, Injectable } from '@angular/core';
 import { ProjectStorage } from '../interfaces/project-storage';
 import { ProjectData } from '../interfaces/project-data';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { PaginatedResponse } from '../../../shared/interfaces/paginated-response';
 import { ProjectResponse } from '../interfaces/project-response';
 import { Observable, tap } from 'rxjs';
@@ -14,7 +14,11 @@ export class ServerProjectStorage implements ProjectStorage {
   private http = inject(HttpClient);
 
   getProjects(page: number = 1): Observable<PaginatedResponse<ProjectResponse>> {
-    return this.http.get<PaginatedResponse<ProjectResponse>>('api/projects');
+    let params = new HttpParams();
+    params = params.append('page', page);
+    return this.http.get<PaginatedResponse<ProjectResponse>>('api/projects', {
+      params: params,
+    });
   }
 
   storeProject(project: ProjectData): Observable<CreatedProjectResponse> {
