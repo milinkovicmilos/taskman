@@ -1,5 +1,5 @@
 <div id="content-wrapper">
-  @if (createFormVisible()) {
+  @if (formStateSerice.visible() === formTypes.Create) {
     <div id="form-wrapper">
       <app-create-project-form (submitted)="onProjectCreated($event)"></app-create-project-form>
     </div>

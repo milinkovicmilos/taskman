@@ -10,6 +10,7 @@ import { AuthService } from '../../../../shared/services/auth-service';
 import { PageNavigation } from '../../../../shared/components/page-navigation/page-navigation';
 import { Notifier } from '../../../../shared/services/notifier';
 import { NotificationType } from '../../../../shared/enums/notification-type';
+import { FormType } from '../../../../shared/enums/form-type';
 
 @Component({
   selector: 'app-project',
@@ -33,7 +34,8 @@ export class Project implements OnInit {
   @Output() protected lastPage: WritableSignal<number> = signal(1);
 
   protected projects: ProjectData[] = [];
-  protected createFormVisible = inject(FormState).visible;
+  protected formStateSerice = inject(FormState);
+  protected formTypes = FormType;
 
   ngOnInit() {
     this.storage.getProjects().subscribe({

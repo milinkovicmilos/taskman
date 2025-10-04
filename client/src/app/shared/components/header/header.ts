@@ -3,6 +3,7 @@ import { Button } from '../button/button';
 import { FormState } from '../../services/form-state';
 import { RouterModule, Router } from '@angular/router';
 import { AuthService } from '../../services/auth-service';
+import { FormType } from '../../enums/form-type';
 
 @Component({
   selector: 'app-header',
@@ -24,7 +25,7 @@ export class Header {
   }
 
   toggleNewProjectForm(): void {
-    this.state.changeState();
+    this.state.changeState(FormType.Create);
   }
 
   goToRegister(): void {
