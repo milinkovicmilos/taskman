@@ -8,6 +8,7 @@
   background-color: var(--card-background);
   border: 1px solid var(--border);
   border-radius: 5px;
+  box-shadow: 0 0 5px 3px var(--background);
   overflow-x: hidden;
 }
 
@@ -33,4 +34,5 @@
 
 #notification>p {
   padding: 20px;
+  text-align: center;
 }
