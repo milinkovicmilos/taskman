@@ -6,6 +6,10 @@ import { ServerProjectStorage } from '../../services/server-project-storage';
 import { LocalProjectStorage } from '../../services/local-project-storage';
 import { ProjectRole } from '../../enums/project-role';
 import { Button } from '../../../../shared/components/button/button';
+import { TASK_STORAGE } from '../../../tasks/interfaces/task-storage';
+import { ServerTaskStorage } from '../../../tasks/services/server-task-storage';
+import { LocalTaskStorage } from '../../../tasks/services/local-task-storage';
+import { TaskData } from '../../../tasks/interfaces/task-data';
 
 @Component({
   selector: 'app-project-detail',
@@ -20,19 +24,35 @@ import { Button } from '../../../../shared/components/button/button';
         return authService.isLoggedIn() ? new ServerProjectStorage() : new LocalProjectStorage();
       }),
     },
+    {
+      provide: TASK_STORAGE,
+      useFactory: (() => {
+        const authService = inject(AuthService);
+        return authService.isLoggedIn() ? new ServerTaskStorage() : new LocalTaskStorage();
+      }),
+    },
   ],
 })
 export class ProjectDetail implements OnInit {
-  private storage = inject(PROJECT_STORAGE);
+  private projectStorage = inject(PROJECT_STORAGE);
+  private taskStorage = inject(TASK_STORAGE);
+
   protected project!: ProjectDetailData;
   protected projectRoles = ProjectRole;
+
+  protected tasks: TaskData[] = [];
 
   @Input() protected id!: number | string;
 
   ngOnInit(): void {
-    this.storage.getProject(this.id).subscribe({
+    this.projectStorage.getProject(this.id).subscribe({
       next: (response) => {
         this.project = response;
+      }
+    });
+    this.taskStorage.getTasks(this.id).subscribe({
+      next: (response) => {
+        this.tasks = response.data;
       }
     });
   }
