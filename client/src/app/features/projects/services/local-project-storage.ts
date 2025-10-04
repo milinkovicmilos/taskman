@@ -39,7 +39,7 @@ export class LocalProjectStorage implements ProjectStorage {
       current_page: page,
       per_page: 4,
       total: data.length,
-      last_page: Math.ceil(data.length / perPage),
+      last_page: data.length != 0 ? Math.ceil(data.length / perPage) : 1,
       data: data.splice(offset, perPage),
     }
     return of(response);
