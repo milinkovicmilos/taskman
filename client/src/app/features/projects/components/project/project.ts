@@ -1,4 +1,4 @@
-import { Component, Inject, inject, OnInit } from '@angular/core';
+import { Component, Inject, inject, OnInit, Output, signal, WritableSignal } from '@angular/core';
 import { ProjectCard } from '../project-card/project-card';
 import { ProjectData } from '../../interfaces/project-data';
 import { CreateProjectForm } from '../create-project-form/create-project-form';
@@ -7,10 +7,11 @@ import { PROJECT_STORAGE, ProjectStorage } from '../../interfaces/project-storag
 import { LocalProjectStorage } from '../../services/local-project-storage';
 import { ServerProjectStorage } from '../../services/server-project-storage';
 import { AuthService } from '../../../../shared/services/auth-service';
+import { PageNavigation } from '../../../../shared/components/page-navigation/page-navigation';
 
 @Component({
   selector: 'app-project',
-  imports: [ProjectCard, CreateProjectForm],
+  imports: [ProjectCard, CreateProjectForm, PageNavigation],
   templateUrl: './project.html',
   styleUrl: './project.css',
   providers: [
@@ -26,23 +27,41 @@ import { AuthService } from '../../../../shared/services/auth-service';
 export class Project implements OnInit {
   private storage = inject(PROJECT_STORAGE);
 
+  private projectsPerPage: number = 4;
+  @Output() protected lastPage: WritableSignal<number> = signal(1);
+
   protected projects: ProjectData[] = [];
   protected createFormVisible = inject(FormState).visible;
 
   ngOnInit() {
     this.storage.getProjects().subscribe({
       next: (response) => {
+        this.lastPage.set(response.last_page);
         this.projects = response.data;
       }
     })
   }
 
   onProjectCreated(project: ProjectData) {
-    this.projects.push(project);
+    this.storage.getProjects().subscribe({
+      next: (response) => {
+        this.lastPage.set(response.last_page);
+        this.projects = response.data;
+      }
+    })
   }
 
   onProjectDeleted(id: number | string) {
     this.storage.removeProject(id);
     this.projects = this.projects.filter(x => x.id != id);
+  }
+
+  onPageChange(number: number) {
+    this.storage.getProjects(number).subscribe({
+      next: (response) => {
+        this.lastPage.set(response.last_page);
+        this.projects = response.data;
+      }
+    })
   }
 }
