@@ -1,4 +1,7 @@
 <div class="task-card">
   <p>{{ this.task.title }}</p>
   <p>{{ this.task.description }}</p>
+  @if (this.task.due_date != null) {
+    <p class="due-date" [ngClass]="getDueDateClass(this.task.due_date)">{{ this.task.due_date | dueDate:this.task.due_date }}</p>
+  }
 </div>
