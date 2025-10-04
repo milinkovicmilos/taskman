@@ -4,9 +4,13 @@ import { Injectable, signal, WritableSignal } from '@angular/core';
   providedIn: 'root'
 })
 export class FormState {
-  visible: WritableSignal<boolean> = signal(false);
+  visible: WritableSignal<number | null> = signal(null);
 
-  changeState(): void {
-    this.visible.set(!this.visible());
+  changeState(state: number | null): void {
+    if (this.visible() === state) {
+      this.visible.set(null);
+      return;
+    }
+    this.visible.set(state);
   }
 }
