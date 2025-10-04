@@ -19,11 +19,11 @@ export class Login {
   private notificationService = inject(Notifier);
 
   onLoginSubmit(data: LoginData) {
-    this.authService.login(data).subscribe(
-      response => {
+    this.authService.login(data).subscribe({
+      next: () => {
         this.router.navigate(['/']);
       },
-      error => {
+      error: (error) => {
         if (error.status === 401) {
           this.notificationService.notify({
             type: NotificationType.Error,
@@ -31,6 +31,6 @@ export class Login {
           });
         }
       }
-    );
+    });
   }
 }
