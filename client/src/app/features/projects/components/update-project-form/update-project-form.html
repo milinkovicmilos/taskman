@@ -1,0 +1,25 @@
+<form [formGroup]="createProjectForm">
+  <app-input
+    id="project-name"
+    label="Project Name"
+    formControlName="name"
+  ></app-input>
+  @if (isSubmitted || name?.touched) {
+    @if (name?.errors?.['required']) {
+      <p class="error-text">Title is required.</p>
+    }
+  }
+
+  <app-input
+    id="project-description"
+    label="Project Description"
+    formControlName="description"
+  ></app-input>
+  @if (isSubmitted || description?.touched) {
+    @if (description?.errors?.['required']) {
+      <p class="error-text">Description is required.</p>
+    }
+  }
+
+  <app-button text="Save" [classList]="['width-100']"></app-button>
+</form>
