@@ -10,10 +10,11 @@ import { TASK_STORAGE } from '../../../tasks/interfaces/task-storage';
 import { ServerTaskStorage } from '../../../tasks/services/server-task-storage';
 import { LocalTaskStorage } from '../../../tasks/services/local-task-storage';
 import { TaskData } from '../../../tasks/interfaces/task-data';
+import { TaskCard } from '../../../tasks/components/task-card/task-card';
 
 @Component({
   selector: 'app-project-detail',
-  imports: [Button],
+  imports: [Button, TaskCard],
   templateUrl: './project-detail.html',
   styleUrl: './project-detail.css',
   providers: [

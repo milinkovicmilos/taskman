@@ -10,8 +10,10 @@
         </div>
       }
     </div>
-    <div>
-
+    <div id="grid-wrapper">
+      @for (task of tasks; track task.id) {
+        <app-task-card [task]="task"></app-task-card>
+      }
     </div>
   }
 </div>
