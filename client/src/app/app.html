@@ -1,4 +1,7 @@
 <app-header></app-header>
 <main>
+  @if (this.notification().message != '') {
+    <app-notification [data]="this.notification()"></app-notification>
+  }
   <router-outlet />
 </main>
