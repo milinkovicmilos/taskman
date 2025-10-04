@@ -1,6 +1,7 @@
 <div class="project-card" (click)="onClick()">
   <div class="project-info">
     <p>{{ project.name }}</p>
+    <p>{{ project.id }}</p>
     <p>{{ project.description }}</p>
   </div>
   <app-button text="Delete" (clicked)="onDeleteClick()" [classList]="['float-right']"></app-button>

@@ -7,6 +7,9 @@ import { AuthService } from '../../../../shared/services/auth-service';
 import { ServerProjectStorage } from '../../services/server-project-storage';
 import { LocalProjectStorage } from '../../services/local-project-storage';
 import { ProjectData } from '../../interfaces/project-data';
+import { Notifier } from '../../../../shared/services/notifier';
+import { NotificationType } from '../../../../shared/enums/notification-type';
+import { CreateProjectData } from '../../interfaces/create-project-data';
 
 @Component({
   selector: 'app-create-project-form',
@@ -36,6 +39,8 @@ export class CreateProjectForm {
   protected title = this.createProjectForm.get('title');
   protected description = this.createProjectForm.get('description');
 
+  private notificationService = inject(Notifier);
+
   @Output() submitted = new EventEmitter<ProjectData>();
 
   handleSubmit(): void {
@@ -46,19 +51,35 @@ export class CreateProjectForm {
         description: string,
       };
 
-      const project: ProjectData = {
-        id: crypto.randomUUID(),
+      const project: CreateProjectData = {
         name: title,
         description
       };
 
-      this.storage.storeProject(project);
+      this.storage.storeProject(project).subscribe({
+        next: (response) => {
+          this.createProjectForm.reset();
+          this.createProjectForm.markAsUntouched();
+          this.isSubmitted = false;
 
-      this.createProjectForm.reset();
-      this.createProjectForm.markAsUntouched();
-      this.isSubmitted = false;
-
-      this.submitted.emit(project);
+          const project: ProjectData = {
+            id: response.data.id,
+            name: title,
+            description,
+          };
+          this.submitted.emit(project);
+        },
+        error: (error) => {
+          if (error.status === 422) {
+            if (error.error.errors.hasOwnProperty('name')) {
+              this.notificationService.notify({
+                message: 'You already have a project with that name.',
+                type: NotificationType.Error,
+              });
+            }
+          }
+        }
+      });
     }
   }
 }
