@@ -22,6 +22,7 @@
 .due-date {
   text-align: right;
   font-size: 0.7rem;
+  color: var(--due-date-text);
 }
 
 .late {
