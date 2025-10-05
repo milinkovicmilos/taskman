@@ -1,0 +1,32 @@
+#modal {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: fixed;
+  width: 100vw;
+  height: 100vh;
+  top: 0;
+  left: 0;
+  background-color: var(--background);
+  opacity: 0.9;
+}
+
+#modal-content {
+  padding: calc(2 * var(--default-margin));
+  background-color: var(--card-background);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  box-shadow: 0 0 5px 3px var(--accent);
+}
+
+#modal-content>p {
+  margin-bottom: calc(2 * var(--default-margin));
+}
+
+#modal-buttons {
+  float: right;
+}
+
+#modal-buttons>app-button:first-of-type {
+  margin-right: var(--default-margin);
+}
