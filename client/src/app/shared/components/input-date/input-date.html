@@ -1,0 +1,12 @@
+<label [for]="id">{{ label }}</label>
+<input
+  [id]="id"
+  [value]="value"
+  [min]="min"
+  [max]="max"
+  [placeholder]="placeholder"
+  [disabled]="disabled"
+  (input)="onInput($event)"
+  (blur)="onBlur()"
+  type="date"
+>
