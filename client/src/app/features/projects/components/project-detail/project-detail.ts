@@ -16,6 +16,8 @@ import { FormType } from '../../../../shared/enums/form-type';
 import { UpdateProjectForm } from '../update-project-form/update-project-form';
 import { Modal } from '../../../../shared/services/modal';
 import { Router } from '@angular/router';
+import { Notifier } from '../../../../shared/services/notifier';
+import { NotificationType } from '../../../../shared/enums/notification-type';
 
 @Component({
   selector: 'app-project-detail',
@@ -53,6 +55,7 @@ export class ProjectDetail implements OnInit {
   protected formTypes = FormType;
 
   private router = inject(Router);
+  private notificationService = inject(Notifier);
 
   @Input() protected id!: number | string;
 
@@ -84,6 +87,10 @@ export class ProjectDetail implements OnInit {
             this.projectStorage.removeProject(this.id).subscribe({
               next: () => {
                 this.formStateService.changeState(FormType.Delete);
+                this.notificationService.notify({
+                  type: NotificationType.Info,
+                  message: `Successfully deleted ${this.project().name}`
+                });
                 this.router.navigate(['projects']);
               }
             });
