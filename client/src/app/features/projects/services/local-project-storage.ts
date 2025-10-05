@@ -7,6 +7,8 @@ import { ProjectResponse } from '../interfaces/project-response';
 import { CreatedProjectResponse } from '../interfaces/created-project-response';
 import { CreateProjectData } from '../interfaces/create-project-data';
 import { ProjectRole } from '../enums/project-role';
+import { UpdateProjectData } from '../interfaces/update-project-data';
+import { UpdatedProjectResponse } from '../interfaces/updated-project-response';
 
 @Injectable({
   providedIn: 'root',
@@ -86,8 +88,30 @@ export class LocalProjectStorage implements ProjectStorage {
     return of(data);
   }
 
-  updateProject(projectId: number | string, project: ProjectData): void {
+  updateProject(projectId: number | string, project: UpdateProjectData): Observable<any> {
+    const projectsData = this.localStorageGet();
+    if (projectsData == null) {
+      return of(null);
+    }
 
+    const projects: ProjectData[] = JSON.parse(projectsData);
+    const projectToUpdate = projects.find(x => x.id === projectId);
+    if (projectToUpdate == null) {
+      return of(null);
+    }
+
+    projects.map(x => {
+      if (x.id === projectId) {
+        x.name = project.name;
+        x.description = project.description;
+      }
+    })
+
+    this.localStorageSet(projects);
+    const response: UpdatedProjectResponse = {
+      message: 'Successfully updated the projects name.'
+    };
+    return of(response);
   }
 
   removeProject(projectId: number | string): void {
