@@ -2,6 +2,9 @@
   @if (project != null) {
     <div id="project-info">
       @switch (formStateService.visible()) {
+        @case (formTypes.Create) {
+          <app-create-task-form [projectId]="project().id" (submitted)="onTaskCreate($event)"></app-create-task-form>
+        }
         @case (formTypes.Update) {
           <app-update-project-form [project]="project" (submitted)="onProjectUpdate($event)"></app-update-project-form>
         }

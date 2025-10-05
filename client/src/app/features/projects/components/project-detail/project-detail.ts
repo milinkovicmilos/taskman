@@ -18,10 +18,11 @@ import { Modal } from '../../../../shared/services/modal';
 import { Router } from '@angular/router';
 import { Notifier } from '../../../../shared/services/notifier';
 import { NotificationType } from '../../../../shared/enums/notification-type';
+import { CreateTaskForm } from '../../../tasks/components/create-task-form/create-task-form';
 
 @Component({
   selector: 'app-project-detail',
-  imports: [Button, TaskCard, UpdateProjectForm],
+  imports: [Button, TaskCard, UpdateProjectForm, CreateTaskForm],
   templateUrl: './project-detail.html',
   styleUrl: './project-detail.css',
   providers: [
@@ -93,6 +94,10 @@ export class ProjectDetail implements OnInit {
     this.formStateService.changeState(FormType.Update);
   }
 
+  protected toggleCreateForm(): void {
+    this.formStateService.changeState(FormType.Create);
+  }
+
   protected showDeleteModal(): void {
     this.formStateService.changeState(FormType.Delete);
 
@@ -106,5 +111,20 @@ export class ProjectDetail implements OnInit {
     p.name = project.name;
     p.description = project.description;
     this.project.set(p);
+  }
+
+  protected onTaskCreate(task: TaskData) {
+    this.toggleCreateForm();
+
+    this.notificationService.notify({
+      type: NotificationType.Info,
+      message: `Successfully created task ${task.title}`,
+    });
+
+    this.taskStorage.getTasks(this.id).subscribe({
+      next: (response) => {
+        this.tasks = response.data;
+      }
+    });
   }
 }
