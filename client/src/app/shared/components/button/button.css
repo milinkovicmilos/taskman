@@ -30,6 +30,22 @@ button {
   color: var(--accent)
 }
 
+.button-cancel {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background-color: var(--border);
+  border: 1px solid var(--border-second);
+  color: var(--cancel);
+  cursor: pointer;
+  transition: all 0.15s ease-in-out;
+}
+
+.button-cancel:hover {
+  background: var(--border-second);
+  color: var(--cancel-hover)
+}
+
 @media screen and (min-width: 768px) {
 
   .prev-project,
