@@ -74,9 +74,15 @@ export class CreateTaskForm {
       const task: CreateTaskData = {
         title,
         description,
-        priority: priority ?? null,
-        due_date: dueDate ?? null,
       };
+
+      if (priority != null) {
+        task.priority = priority
+      }
+
+      if (dueDate != null) {
+        task.due_date = dueDate;
+      }
 
       this.storage.storeTask(this.projectId, task).subscribe({
         next: (response) => {
@@ -95,10 +101,13 @@ export class CreateTaskForm {
           };
           this.submitted.emit(taskData);
         },
-        error: (error) => {
-          if (error.status === 422) {
-            if (error.error.errors.hasOwnProperty('name')) {
-              console.log(error.error.errors)
+        error: (response) => {
+          if (response.status === 422) {
+            if (response.error.hasOwnProperty('message')) {
+              this.notificationService.notify({
+                type: NotificationType.Error,
+                message: response.error.message
+              })
             }
           }
         }
