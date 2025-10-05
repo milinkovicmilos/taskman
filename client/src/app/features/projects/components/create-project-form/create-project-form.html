@@ -1,4 +1,6 @@
 <form [formGroup]="createProjectForm" (ngSubmit)="handleSubmit()">
+  <app-button id="button-cancel" text="X" (clicked)="cancelForm()" [classList]="['button-cancel']"></app-button>
+
   <app-input
     id="title"
     label="Title"
@@ -21,5 +23,5 @@
     }
   }
 
-  <app-button text="Create" [classList]="['width-100']"></app-button>
+  <app-button type="submit" text="Create" [classList]="['width-100']"></app-button>
 </form>

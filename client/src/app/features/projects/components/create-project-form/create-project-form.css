@@ -1,4 +1,5 @@
 form {
+  position: relative;
   padding: 20px;
   margin-bottom: var(20px);
   border: 1px solid var(--border);
@@ -11,6 +12,13 @@ form {
 
 app-button {
   width: 100%;
+}
+
+#button-cancel {
+  width: auto;
+  position: absolute;
+  right: -16px;
+  top: -16px;
 }
 
 @media screen and (min-width: 992px) {}

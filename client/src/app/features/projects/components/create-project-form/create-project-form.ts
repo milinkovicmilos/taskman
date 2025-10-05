@@ -10,6 +10,8 @@ import { ProjectData } from '../../interfaces/project-data';
 import { Notifier } from '../../../../shared/services/notifier';
 import { NotificationType } from '../../../../shared/enums/notification-type';
 import { CreateProjectData } from '../../interfaces/create-project-data';
+import { FormState } from '../../../../shared/services/form-state';
+import { FormType } from '../../../../shared/enums/form-type';
 
 @Component({
   selector: 'app-create-project-form',
@@ -40,8 +42,13 @@ export class CreateProjectForm {
   protected description = this.createProjectForm.get('description');
 
   private notificationService = inject(Notifier);
+  private formState = inject(FormState);
 
   @Output() submitted = new EventEmitter<ProjectData>();
+
+  protected cancelForm(): void {
+    this.formState.changeState(FormType.Create);
+  }
 
   handleSubmit(): void {
     this.isSubmitted = true;
