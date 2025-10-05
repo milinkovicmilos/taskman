@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnChanges, Output, SimpleChanges, inject } from '@angular/core';
+import { Component, EventEmitter, Input, OnChanges, Output, SimpleChanges, WritableSignal, inject } from '@angular/core';
 import { Input as InputElement } from '../../../../shared/components/input/input';
 import { Button } from '../../../../shared/components/button/button';
 import { PROJECT_STORAGE } from '../../interfaces/project-storage';
@@ -28,10 +28,10 @@ import { UpdateProjectData } from '../../interfaces/update-project-data';
   ],
 })
 export class UpdateProjectForm implements OnChanges {
-  @Input() project!: ProjectData;
+  @Input() project!: WritableSignal<ProjectData>;
 
   private formBuilder = inject(FormBuilder);
-  createProjectForm!: FormGroup;
+  updateProjectForm!: FormGroup;
 
   private storage = inject(PROJECT_STORAGE);
 
@@ -45,19 +45,19 @@ export class UpdateProjectForm implements OnChanges {
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['project'] && this.project != null) {
-      this.createProjectForm = this.formBuilder.group({
-        name: [this.project.name, Validators.required],
-        description: [this.project.description, Validators.required],
+      this.updateProjectForm = this.formBuilder.group({
+        name: [this.project().name, Validators.required],
+        description: [this.project().description, Validators.required],
       });
-      this.name = this.createProjectForm.get('name');
-      this.description = this.createProjectForm.get('description');
+      this.name = this.updateProjectForm.get('name');
+      this.description = this.updateProjectForm.get('description');
     }
   }
 
   handleSubmit(): void {
     this.isSubmitted = true;
-    if (this.createProjectForm.valid) {
-      const { name, description } = this.createProjectForm.value as {
+    if (this.updateProjectForm.valid) {
+      const { name, description } = this.updateProjectForm.value as {
         name: string,
         description: string,
       };
@@ -67,14 +67,14 @@ export class UpdateProjectForm implements OnChanges {
         description
       };
 
-      this.storage.updateProject(this.project.id, project).subscribe({
-        next: (response) => {
-          this.createProjectForm.reset();
-          this.createProjectForm.markAsUntouched();
+      this.storage.updateProject(this.project().id, project).subscribe({
+        next: () => {
+          this.updateProjectForm.reset();
+          this.updateProjectForm.markAsUntouched();
           this.isSubmitted = false;
 
           const project: ProjectData = {
-            id: response.data.id,
+            id: this.project().id,
             name,
             description,
           };
