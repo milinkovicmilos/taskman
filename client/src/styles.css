@@ -12,8 +12,11 @@
   --accent: #A970FF;
   --border: #2A2A2A;
   --border-second: #333333;
-  --completed-item: #666666;
+  --cancel: #666666;
+  --cancel-hover: #808080;
   --default-margin: 10px;
+  --delete: #FF4D4D;
+  --delete-hover: #E63946;
   --notification-width: 80vw;
 }
 
