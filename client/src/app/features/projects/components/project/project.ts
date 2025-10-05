@@ -49,6 +49,7 @@ export class Project implements OnInit {
   onProjectCreated(project: ProjectData) {
     this.storage.getProjects().subscribe({
       next: (response) => {
+        this.toggleCreateForm();
         this.lastPage.set(response.last_page);
         this.projects = response.data;
         this.notificationService.notify({
@@ -76,5 +77,9 @@ export class Project implements OnInit {
         this.projects = response.data;
       }
     })
+  }
+
+  private toggleCreateForm(): void {
+    this.formStateSerice.changeState(FormType.Create);
   }
 }
