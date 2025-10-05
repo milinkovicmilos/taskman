@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { ProjectStorage } from '../interfaces/project-storage';
 import { ProjectData, ProjectDetailData } from '../interfaces/project-data';
 import { Observable, of } from 'rxjs';
@@ -9,6 +9,8 @@ import { CreateProjectData } from '../interfaces/create-project-data';
 import { ProjectRole } from '../enums/project-role';
 import { UpdateProjectData } from '../interfaces/update-project-data';
 import { UpdatedProjectResponse } from '../interfaces/updated-project-response';
+import { DeletedProjectResponse } from '../interfaces/deleted-project-response';
+import { LocalTaskStorage } from '../../tasks/services/local-task-storage';
 
 @Injectable({
   providedIn: 'root',
@@ -114,15 +116,22 @@ export class LocalProjectStorage implements ProjectStorage {
     return of(response);
   }
 
-  removeProject(projectId: number | string): void {
+  removeProject(projectId: number | string): Observable<any> {
     const projectsData = this.localStorageGet();
     if (projectsData == null) {
-      return;
+      return of(null);
     }
 
     const tmpProjects: ProjectData[] = JSON.parse(projectsData);
     const projects = tmpProjects.filter(x => x.id != projectId);
 
+    const taskStorage = new LocalTaskStorage();
+    taskStorage.removeTasks(projectId);
+
     this.localStorageSet(projects);
+    const response: DeletedProjectResponse = {
+      message: 'Successfully deleted the project.',
+    };
+    return of(response);
   }
 }
