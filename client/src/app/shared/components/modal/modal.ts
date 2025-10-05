@@ -16,11 +16,9 @@ export class Modal {
 
   onConfirm() {
     this.service.confirm();
-    this.service.changeState();
   }
 
   onClose() {
     this.service.cancel();
-    this.service.changeState();
   }
 }
