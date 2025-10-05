@@ -18,6 +18,7 @@ import { Modal } from '../../../../shared/services/modal';
 import { Router } from '@angular/router';
 import { Notifier } from '../../../../shared/services/notifier';
 import { NotificationType } from '../../../../shared/enums/notification-type';
+import { take } from 'rxjs';
 
 @Component({
   selector: 'app-project-detail',
@@ -70,6 +71,23 @@ export class ProjectDetail implements OnInit {
         this.tasks = response.data;
       }
     });
+
+    this.modal.onConfirm().subscribe({
+      next: (response) => {
+        this.formStateService.changeState(FormType.Delete);
+        if (response) {
+          this.projectStorage.removeProject(this.id).subscribe({
+            next: () => {
+              this.notificationService.notify({
+                type: NotificationType.Info,
+                message: `Successfully deleted ${this.project().name}`
+              });
+              this.router.navigate(['projects']);
+            }
+          });
+        }
+      },
+    });
   }
 
   protected toggleUpdateForm(): void {
@@ -79,25 +97,7 @@ export class ProjectDetail implements OnInit {
   protected showDeleteModal(): void {
     this.formStateService.changeState(FormType.Delete);
 
-    if (this.formStateService.visible() === FormType.Delete) {
-      this.modal.generate(`Are you sure you want to delete ${this.project().name} ?`);
-      this.modal.onConfirm().subscribe({
-        next: (response) => {
-          if (response) {
-            this.projectStorage.removeProject(this.id).subscribe({
-              next: () => {
-                this.formStateService.changeState(FormType.Delete);
-                this.notificationService.notify({
-                  type: NotificationType.Info,
-                  message: `Successfully deleted ${this.project().name}`
-                });
-                this.router.navigate(['projects']);
-              }
-            });
-          }
-        }
-      });
-    }
+    this.modal.generate(`Are you sure you want to delete ${this.project().name} ?`);
   }
 
   protected onProjectUpdate(project: ProjectData): void {
