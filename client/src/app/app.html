@@ -1,7 +1,10 @@
 <app-header></app-header>
 <main>
-  @if (this.notification().message != '') {
+  @if (notification().message != '') {
     <app-notification [data]="this.notification()"></app-notification>
+  }
+  @if (modal.state()) {
+    <app-modal></app-modal>
   }
   <router-outlet />
 </main>
