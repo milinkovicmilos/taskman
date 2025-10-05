@@ -18,7 +18,6 @@ import { Modal } from '../../../../shared/services/modal';
 import { Router } from '@angular/router';
 import { Notifier } from '../../../../shared/services/notifier';
 import { NotificationType } from '../../../../shared/enums/notification-type';
-import { take } from 'rxjs';
 
 @Component({
   selector: 'app-project-detail',
