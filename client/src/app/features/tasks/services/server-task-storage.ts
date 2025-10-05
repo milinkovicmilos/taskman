@@ -4,6 +4,7 @@ import { Observable } from 'rxjs';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { PaginatedResponse } from '../../../shared/interfaces/paginated-response';
 import { TaskData } from '../interfaces/task-data';
+import { CreateTaskData } from '../interfaces/create-task-data';
 
 @Injectable({
   providedIn: 'root'
@@ -18,6 +19,10 @@ export class ServerTaskStorage implements TaskStorage {
   }
 
   getTask(projectId: number | string, taskId: number | string): Observable<any> {
-    return this.http.get(`api/projects/${projectId}/${taskId}`);
+    return this.http.get(`api/projects/${projectId}/tasks/${taskId}`);
+  }
+
+  storeTask(projectId: number | string, task: CreateTaskData): Observable<any | null> {
+    return this.http.post(`api/projects/${projectId}/tasks`, task);
   }
 }
