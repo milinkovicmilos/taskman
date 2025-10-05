@@ -13,7 +13,7 @@
       @if (project().role === projectRoles.Owner) {
         @if (formStateService.visible() === null) {
           <div id="project-control">
-            <app-button text="Delete"></app-button>
+            <app-button text="Delete" (clicked)="showDeleteModal()"></app-button>
             <app-button text="Edit" (clicked)="toggleUpdateForm()"></app-button>
           </div>
         }

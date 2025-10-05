@@ -14,6 +14,8 @@ import { TaskCard } from '../../../tasks/components/task-card/task-card';
 import { FormState } from '../../../../shared/services/form-state';
 import { FormType } from '../../../../shared/enums/form-type';
 import { UpdateProjectForm } from '../update-project-form/update-project-form';
+import { Modal } from '../../../../shared/services/modal';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-project-detail',
@@ -46,8 +48,11 @@ export class ProjectDetail implements OnInit {
 
   protected tasks: TaskData[] = [];
 
+  private modal = inject(Modal);
   protected formStateService = inject(FormState);
   protected formTypes = FormType;
+
+  private router = inject(Router);
 
   @Input() protected id!: number | string;
 
@@ -66,6 +71,26 @@ export class ProjectDetail implements OnInit {
 
   protected toggleUpdateForm(): void {
     this.formStateService.changeState(FormType.Update);
+  }
+
+  protected showDeleteModal(): void {
+    this.formStateService.changeState(FormType.Delete);
+
+    if (this.formStateService.visible() === FormType.Delete) {
+      this.modal.generate(`Are you sure you want to delete ${this.project().name} ?`);
+      this.modal.onConfirm().subscribe({
+        next: (response) => {
+          if (response) {
+            this.projectStorage.removeProject(this.id).subscribe({
+              next: () => {
+                this.formStateService.changeState(FormType.Delete);
+                this.router.navigate(['projects']);
+              }
+            });
+          }
+        }
+      });
+    }
   }
 
   protected onProjectUpdate(project: ProjectData): void {
