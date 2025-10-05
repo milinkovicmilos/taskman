@@ -5,6 +5,7 @@ import { PaginatedResponse } from '../../../shared/interfaces/paginated-response
 import { TaskData } from '../interfaces/task-data';
 import { CreateTaskData } from '../interfaces/create-task-data';
 import { CreatedTaskResponse } from '../interfaces/created-task-response';
+import { LocalTaskData } from '../../projects/interfaces/local-task-data';
 
 @Injectable({
   providedIn: 'root'
@@ -67,8 +68,8 @@ export class LocalTaskStorage implements TaskStorage {
       id: crypto.randomUUID(),
       title: task.title,
       description: task.description,
-      priority: task.priority,
-      due_date: task.due_date,
+      priority: task.priority ?? null,
+      due_date: task.due_date ?? null,
       completed: false,
       completed_at: null,
     }
@@ -82,5 +83,20 @@ export class LocalTaskStorage implements TaskStorage {
       }
     }
     return of(data);
+  }
+
+  removeTasks(projectId: number | string): void {
+    const tasksData = this.localStorageGet();
+    if (tasksData == null) {
+      return;
+    }
+
+    let tasks: Record<string, TaskData> = JSON.parse(tasksData);
+    if (tasks[projectId] == null) {
+      return;
+    }
+
+    delete tasks[projectId];
+    this.localStorageSet(tasks);
   }
 }
