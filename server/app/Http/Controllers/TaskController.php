@@ -81,9 +81,14 @@ class TaskController extends Controller
             'due_date' => ['date', 'after_or_equal:today'],
         ]);
 
-        $project->tasks()->create($data);
+        $task = $project->tasks()->create($data);
 
-        return response()->json(['message' => 'Successfully created a task.']);
+        return response()->json([
+            'message' => 'Successfully created a task.',
+            'data' => [
+                'id' => $task->id,
+            ],
+        ]);
     }
 
     public function show(Request $request, Project $project, Task $task)
