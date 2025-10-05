@@ -8,7 +8,7 @@ export interface ProjectStorage {
   getProject(projectId: number | string): Observable<any | null>;
   storeProject(project: CreateProjectData): Observable<any | null>;
   updateProject(projectId: number | string, project: UpdateProjectData): Observable<any>;
-  removeProject(projectId: number | string): void;
+  removeProject(projectId: number | string): Observable<any>;
 }
 
 export const PROJECT_STORAGE = new InjectionToken<ProjectStorage>('ProjectStorage');
