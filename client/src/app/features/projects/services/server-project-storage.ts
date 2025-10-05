@@ -35,7 +35,7 @@ export class ServerProjectStorage implements ProjectStorage {
     return this.http.patch(`api/projects/${projectId}`, project);
   }
 
-  removeProject(projectId: number | string): void {
-    // ...
+  removeProject(projectId: number | string): Observable<any> {
+    return this.http.delete(`api/projects/${projectId}`);
   }
 }
