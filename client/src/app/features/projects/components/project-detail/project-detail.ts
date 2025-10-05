@@ -1,5 +1,5 @@
-import { Component, Input, OnInit, inject } from '@angular/core';
-import { ProjectDetailData } from '../../interfaces/project-data';
+import { Component, Input, OnInit, WritableSignal, inject, signal } from '@angular/core';
+import { ProjectData, ProjectDetailData } from '../../interfaces/project-data';
 import { PROJECT_STORAGE } from '../../interfaces/project-storage';
 import { AuthService } from '../../../../shared/services/auth-service';
 import { ServerProjectStorage } from '../../services/server-project-storage';
@@ -41,7 +41,7 @@ export class ProjectDetail implements OnInit {
   private projectStorage = inject(PROJECT_STORAGE);
   private taskStorage = inject(TASK_STORAGE);
 
-  protected project!: ProjectDetailData;
+  protected project!: WritableSignal<ProjectDetailData>;
   protected projectRoles = ProjectRole;
 
   protected tasks: TaskData[] = [];
@@ -54,7 +54,7 @@ export class ProjectDetail implements OnInit {
   ngOnInit(): void {
     this.projectStorage.getProject(this.id).subscribe({
       next: (response) => {
-        this.project = response;
+        this.project = signal(response);
       }
     });
     this.taskStorage.getTasks(this.id).subscribe({
@@ -66,5 +66,14 @@ export class ProjectDetail implements OnInit {
 
   protected toggleUpdateForm(): void {
     this.formStateService.changeState(FormType.Update);
+  }
+
+  protected onProjectUpdate(project: ProjectData): void {
+    this.toggleUpdateForm();
+
+    const p = this.project();
+    p.name = project.name;
+    p.description = project.description;
+    this.project.set(p);
   }
 }

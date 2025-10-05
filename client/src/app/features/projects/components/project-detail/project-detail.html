@@ -3,14 +3,14 @@
     <div id="project-info">
       @switch (formStateService.visible()) {
         @case (formTypes.Update) {
-          <app-update-project-form [project]="project"></app-update-project-form>
+          <app-update-project-form [project]="project" (submitted)="onProjectUpdate($event)"></app-update-project-form>
         }
         @default {
-          <p id="project-name">{{ project.name }}</p>
-          <p id="project-description">{{ project.description }}</p>
+          <p id="project-name">{{ project().name }}</p>
+          <p id="project-description">{{ project().description }}</p>
         }
       }
-      @if (project.role === projectRoles.Owner) {
+      @if (project().role === projectRoles.Owner) {
         @if (formStateService.visible() === null) {
           <div id="project-control">
             <app-button text="Delete"></app-button>
