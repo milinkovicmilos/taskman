@@ -27,6 +27,10 @@ header h1 {
   margin-left: auto;
 }
 
+#bottom-header-wrapper>div>* {
+  margin-left: var(--default-margin);
+}
+
 #bottom-header-wrapper>div>:first-child {
-  margin-right: var(--default-margin);
+  margin-left: 0;
 }

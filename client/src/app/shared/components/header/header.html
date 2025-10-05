@@ -1,7 +1,12 @@
 <header>
   <div id="top-header-wrapper">
     <h1 routerLink="/">TaskMan</h1>
-    <app-button text="New Project" [classList]="['new-project']" (clicked)="toggleNewProjectForm()"></app-button>
+    @if (isProductsPage()) {
+      <app-button text="New Project" [classList]="['new-project']" (clicked)="toggleNewProjectForm()"></app-button>
+    }
+    @if (isProductDetailPage()) {
+      <app-button text="New Task" [classList]="['new-project']" (clicked)="toggleNewProjectForm()"></app-button>
+    }
   </div>
   <div id="bottom-header-wrapper">
     <div>
@@ -15,8 +20,13 @@
       }
     </div>
     <div>
-      <app-button text="Import"></app-button>
-      <app-button text="Export"></app-button>
+      @if (!isLoggedIn()) {
+        <app-button text="Import"></app-button>
+        <app-button text="Export"></app-button>
+      }
+      @if (url() != '/') {
+        <app-button text="Back" (clicked)="goBack()"></app-button>
+      }
     </div>
   </div>
 </header>
