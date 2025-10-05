@@ -11,6 +11,8 @@ import { ProjectData } from '../../interfaces/project-data';
 import { CreateProjectData } from '../../interfaces/create-project-data';
 import { NotificationType } from '../../../../shared/enums/notification-type';
 import { UpdateProjectData } from '../../interfaces/update-project-data';
+import { FormState } from '../../../../shared/services/form-state';
+import { FormType } from '../../../../shared/enums/form-type';
 
 @Component({
   selector: 'app-update-project-form',
@@ -40,6 +42,7 @@ export class UpdateProjectForm implements OnChanges {
   protected description!: any;
 
   private notificationService = inject(Notifier);
+  private formState = inject(FormState);
 
   @Output() submitted = new EventEmitter<ProjectData>();
 
@@ -52,6 +55,10 @@ export class UpdateProjectForm implements OnChanges {
       this.name = this.updateProjectForm.get('name');
       this.description = this.updateProjectForm.get('description');
     }
+  }
+
+  protected cancelForm(): void {
+    this.formState.changeState(FormType.Update);
   }
 
   handleSubmit(): void {
