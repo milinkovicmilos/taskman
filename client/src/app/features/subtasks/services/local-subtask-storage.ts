@@ -69,7 +69,7 @@ export class LocalSubtaskStorage implements SubtaskStorage {
 
     this.localStorageSet(subtasks);
     const response: CreatedSubtaskResponse = {
-      message: 'Successfully created a task.',
+      message: 'Successfully created a subtask.',
       data: {
         id: subtaskToStore.id,
       }
