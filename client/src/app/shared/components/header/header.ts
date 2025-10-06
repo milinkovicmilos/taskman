@@ -54,8 +54,17 @@ export class Header {
   protected goBack(): void {
     const url = this.url().split('/');
     if (url.length > 1) {
-      url.pop();
-      this.router.navigate([`/${url.join('/')}`]);
+      const value = url.pop();
+
+      if (value != null) {
+        const numberRegex = /^[\d]+$/;
+        const uuidRegex = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/;
+
+        if (numberRegex.test(value) || uuidRegex.test(value)) {
+          url.pop();
+        }
+        this.router.navigate([`/${url.join('/')}`]);
+      }
     }
     else {
       this.router.navigate(['/']);
