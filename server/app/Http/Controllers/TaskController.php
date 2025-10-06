@@ -74,7 +74,7 @@ class TaskController extends Controller
         $data = $request->validate([
             'title' => [
                 'required',
-                Rule::unique('tasks')->where('project_id', $project->id),
+                Rule::unique('tasks')->where('project_id', $project->id)->whereNull('deleted_at'),
             ],
             'description' => ['required'],
             'priority' => ['integer', 'between:1,10'],

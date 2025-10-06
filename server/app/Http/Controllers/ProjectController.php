@@ -86,7 +86,7 @@ class ProjectController extends Controller
         $data = $request->validate([
             'name' => [
                 'required',
-                Rule::unique('projects')->where('user_id', $user->id),
+                Rule::unique('projects')->where('user_id', $user->id)->whereNull('deleted_at'),
             ],
             'description' => [
                 'required',
