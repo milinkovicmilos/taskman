@@ -1,4 +1,4 @@
-import { ProjectRole } from "../../projects/enums/project-role";
+import { GroupRole } from "../../groups/enums/group-role";
 
 export interface TaskData {
   id: number | string;
@@ -11,5 +11,5 @@ export interface TaskData {
 }
 
 export interface TaskDetailData extends TaskData {
-  role: ProjectRole;
+  role: GroupRole;
 }

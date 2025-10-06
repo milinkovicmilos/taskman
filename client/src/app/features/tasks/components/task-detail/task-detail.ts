@@ -12,9 +12,9 @@ import { SUBTASK_STORAGE } from '../../../subtasks/interfaces/subtask-storage';
 import { ServerSubtaskStorage } from '../../../subtasks/services/server-subtask-storage';
 import { LocalSubtaskStorage } from '../../../subtasks/services/local-subtask-storage';
 import { SubtaskData } from '../../../subtasks/interfaces/subtask-data';
-import { ProjectRole } from '../../../projects/enums/project-role';
 import { SubtaskCard } from '../../../subtasks/components/subtask-card/subtask-card';
 import { PageNavigation } from '../../../../shared/components/page-navigation/page-navigation';
+import { GroupRole } from '../../../groups/enums/group-role';
 
 @Component({
   selector: 'app-task-detail',
@@ -43,7 +43,7 @@ export class TaskDetail implements OnInit {
   private subtaskStorage = inject(SUBTASK_STORAGE);
 
   protected task!: WritableSignal<TaskDetailData>
-  protected projectRoles = ProjectRole;
+  protected groupRoles = GroupRole;
 
   protected subtasks: SubtaskData[] = [];
 

@@ -6,11 +6,11 @@ import { PaginatedResponse } from '../../../shared/interfaces/paginated-response
 import { ProjectResponse } from '../interfaces/project-response';
 import { CreatedProjectResponse } from '../interfaces/created-project-response';
 import { CreateProjectData } from '../interfaces/create-project-data';
-import { ProjectRole } from '../enums/project-role';
 import { UpdateProjectData } from '../interfaces/update-project-data';
 import { UpdatedProjectResponse } from '../interfaces/updated-project-response';
 import { DeletedProjectResponse } from '../interfaces/deleted-project-response';
 import { LocalTaskStorage } from '../../tasks/services/local-task-storage';
+import { GroupRole } from '../../groups/enums/group-role';
 
 @Injectable({
   providedIn: 'root',
@@ -62,7 +62,7 @@ export class LocalProjectStorage implements ProjectStorage {
       return of(null);
     }
 
-    project.role = ProjectRole.Owner;
+    project.role = GroupRole.Owner;
     return of(project);
   }
 

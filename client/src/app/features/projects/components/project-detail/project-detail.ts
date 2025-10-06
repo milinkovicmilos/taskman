@@ -4,7 +4,6 @@ import { PROJECT_STORAGE } from '../../interfaces/project-storage';
 import { AuthService } from '../../../../shared/services/auth-service';
 import { ServerProjectStorage } from '../../services/server-project-storage';
 import { LocalProjectStorage } from '../../services/local-project-storage';
-import { ProjectRole } from '../../enums/project-role';
 import { Button } from '../../../../shared/components/button/button';
 import { TASK_STORAGE } from '../../../tasks/interfaces/task-storage';
 import { ServerTaskStorage } from '../../../tasks/services/server-task-storage';
@@ -22,6 +21,7 @@ import { CreateTaskForm } from '../../../tasks/components/create-task-form/creat
 import { HeaderButton } from '../../../../shared/services/header-button';
 import { take } from 'rxjs';
 import { PageNavigation } from '../../../../shared/components/page-navigation/page-navigation';
+import { GroupRole } from '../../../groups/enums/group-role';
 
 @Component({
   selector: 'app-project-detail',
@@ -50,7 +50,7 @@ export class ProjectDetail implements OnInit {
   private taskStorage = inject(TASK_STORAGE);
 
   protected project!: WritableSignal<ProjectDetailData>;
-  protected projectRoles = ProjectRole;
+  protected groupRoles = GroupRole;
 
   protected tasks: TaskData[] = [];
 
@@ -72,7 +72,7 @@ export class ProjectDetail implements OnInit {
         this.project = signal(response);
 
         const role = this.project().role;
-        if (role === ProjectRole.Owner || role === ProjectRole.Moderator) {
+        if (role === GroupRole.Owner || role === GroupRole.Moderator) {
           this.headerButtonService.update('New Task', FormType.Create);
         }
       }

@@ -13,7 +13,7 @@
           <p id="project-description">{{ project().description }}</p>
         }
       }
-      @if (project().role === projectRoles.Owner) {
+      @if (project().role === groupRoles.Owner) {
         @if (formStateService.visible() === null) {
           <div id="project-control">
             <app-button text="Delete" (clicked)="showDeleteModal()"></app-button>
