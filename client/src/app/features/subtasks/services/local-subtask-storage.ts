@@ -55,8 +55,8 @@ export class LocalSubtaskStorage implements SubtaskStorage {
     }
 
     const subtasks = JSON.parse(subtasksData);
-    if (subtasks[projectId] == null) {
-      subtasks[projectId] = [];
+    if (subtasks[taskId] == null) {
+      subtasks[taskId] = [];
     }
 
     const subtaskToStore: SubtaskData = {
@@ -65,7 +65,7 @@ export class LocalSubtaskStorage implements SubtaskStorage {
       completed: false,
       completed_at: null,
     }
-    subtasks[projectId].push(subtaskToStore);
+    subtasks[taskId].push(subtaskToStore);
 
     this.localStorageSet(subtasks);
     const response: CreatedSubtaskResponse = {

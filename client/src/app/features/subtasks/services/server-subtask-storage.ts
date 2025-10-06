@@ -6,6 +6,7 @@ import { CreateSubtaskData } from '../interfaces/create-subtask-data';
 import { PaginatedResponse } from '../../../shared/interfaces/paginated-response';
 import { SubtaskData } from '../interfaces/subtask-data';
 import { MessageResponse } from '../../../shared/interfaces/message-response';
+import { CreatedSubtaskResponse } from '../interfaces/created-subtask-response';
 
 @Injectable({
   providedIn: 'root'
@@ -19,7 +20,7 @@ export class ServerSubtaskStorage implements SubtaskStorage {
     return this.http.get<PaginatedResponse<SubtaskData>>(`api/projects/${projectId}/tasks/${taskId}/subtasks`, { params: params });
   }
 
-  storeSubtask(projectId: number | string, taskId: number | string, subtask: CreateSubtaskData): Observable<MessageResponse> {
-    return this.http.post<MessageResponse>(`api/projects/${projectId}/tasks/${taskId}/subtasks`, subtask);
+  storeSubtask(projectId: number | string, taskId: number | string, subtask: CreateSubtaskData): Observable<CreatedSubtaskResponse> {
+    return this.http.post<CreatedSubtaskResponse>(`api/projects/${projectId}/tasks/${taskId}/subtasks`, subtask);
   }
 }
