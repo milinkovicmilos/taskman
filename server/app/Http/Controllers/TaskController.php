@@ -115,6 +115,7 @@ class TaskController extends Controller
 
         $editable = $request->user()->can('update', $task);
         $deletable = $request->user()->can('destroy', $task);
+        $canCreateSubtasks = $request->user()->can('createSubtask', $task);
 
         return response()->json([
             'id' => $task->id,
@@ -127,6 +128,7 @@ class TaskController extends Controller
             'role' => $role,
             'editable' => $editable,
             'deletable' => $deletable,
+            'can_create_subtasks' => $canCreateSubtasks,
         ]);
     }
 
