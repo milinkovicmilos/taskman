@@ -63,6 +63,7 @@ export class LocalProjectStorage implements ProjectStorage {
     }
 
     project.role = GroupRole.Owner;
+    project.can_create_tasks = true;
     return of(project);
   }
 

@@ -69,11 +69,10 @@ export class ProjectDetail implements OnInit {
 
   ngOnInit(): void {
     this.projectStorage.getProject(this.id).subscribe({
-      next: (response) => {
+      next: (response: ProjectDetailData) => {
         this.project = signal(response);
 
-        const role = this.project().role;
-        if (role === GroupRole.Owner || role === GroupRole.Moderator) {
+        if (response.can_create_tasks) {
           this.headerButtonService.update('New Task', FormType.Create);
         }
       }
