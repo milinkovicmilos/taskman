@@ -1,0 +1,33 @@
+<div id="content-wrapper">
+  @if (task != null) {
+    <div id="task-info">
+      @switch (formStateService.visible()) {
+        @case (formTypes.Create) {
+        }
+        @case (formTypes.Update) {
+        }
+        @default {
+          <p id="task-title">{{ task().title }}</p>
+          <p id="task-description">{{ task().description }}</p>
+        }
+      }
+      <!--@if (task().role === projectRoles.Owner) {
+        @if (formStateService.visible() === null) {
+          <div id="project-control">
+            <app-button text="Delete" (clicked)="showDeleteModal()"></app-button>
+            <app-button text="Edit" (clicked)="toggleUpdateForm()"></app-button>
+          </div>
+        }
+      }
+      -->
+    </div>
+    <div id="subtask-wrapper">
+      <div id="grid-wrapper">
+        @for (subtask of subtasks; track subtask.id) {
+          <app-subtask-card [subtask]="subtask"></app-subtask-card>
+        }
+      </div>
+      <app-page-navigation [lastPage]="lastPage" (pageChanged)="onPageChange($event)"></app-page-navigation>
+    </div>
+  }
+</div>
