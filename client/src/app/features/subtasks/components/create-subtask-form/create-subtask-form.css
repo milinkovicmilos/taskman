@@ -1,0 +1,9 @@
+form {
+  position: relative;
+}
+
+#button-cancel {
+  position: absolute;
+  top: -32px;
+  right: -36px;
+}
