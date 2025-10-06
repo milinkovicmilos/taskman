@@ -4,8 +4,10 @@ namespace App\Http\Controllers;
 
 use App\Models\Project;
 use App\Models\Task;
+use App\RoleEnum;
 use App\TaskSortEnum;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Validation\Rule;
 
@@ -102,6 +104,15 @@ class TaskController extends Controller
             );
         }
 
+        $user = Auth::user();
+        $role = $task->project->group?->memberships()
+            ->where('user_id', $user->id)
+            ->value('role_id');
+
+        if (is_null($role)) {
+            $role = RoleEnum::Owner;
+        }
+
         return response()->json([
             'id' => $task->id,
             'title' => $task->title,
@@ -110,6 +121,7 @@ class TaskController extends Controller
             'due_date' => $task->due_date,
             'completed' => $task->completed,
             'completed_at' => $task->completed_at,
+            'role' => $role,
         ]);
     }
 
