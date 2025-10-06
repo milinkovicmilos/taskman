@@ -111,13 +111,23 @@ export class LocalTaskStorage implements TaskStorage {
       return of(null);
     }
 
-    const tmpProjects: TaskData[] = JSON.parse(tasksData);
-    const tasks = tmpProjects.filter(x => x.id != taskId);
+    const tasksObj = JSON.parse(tasksData);
+    if (tasksObj == null) {
+      return of(null);
+    }
+
+    const projectsTasks: TaskData[] = tasksObj[projectId];
+    if (projectsTasks == null) {
+      return of(null);
+    }
+
+    const tasks = projectsTasks.filter(x => x.id != taskId);
+    tasksObj[projectId] = tasks;
 
     const subtaskStorage = new LocalSubtaskStorage();
     subtaskStorage.removeSubtasks(taskId);
 
-    this.localStorageSet(tasks);
+    this.localStorageSet(tasksObj);
     const response: DeletedTaskResponse = {
       message: 'Successfully deleted the task.',
     };
