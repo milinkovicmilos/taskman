@@ -9,5 +9,5 @@ export interface TaskData {
 }
 
 export interface TaskDetailData extends TaskData {
-  id: number | string;
+  role: number | string;
 }
