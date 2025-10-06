@@ -4,10 +4,12 @@
       <app-create-project-form (submitted)="onProjectCreated($event)"></app-create-project-form>
     </div>
   }
-  <div id="grid-wrapper">
-    @for (project of projects; track project.id) {
-      <app-project-card [project]="project"></app-project-card>
-    }
+  <div id="projects-wrapper">
+    <div id="grid-wrapper">
+      @for (project of projects; track project.id) {
+        <app-project-card [project]="project"></app-project-card>
+      }
+    </div>
+    <app-page-navigation [lastPage]="lastPage" (pageChanged)="onPageChange($event)"></app-page-navigation>
   </div>
 </div>
-<app-page-navigation [lastPage]="lastPage" (pageChanged)="onPageChange($event)"></app-page-navigation>
