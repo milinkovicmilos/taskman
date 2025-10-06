@@ -22,10 +22,13 @@
         }
       }
     </div>
-    <div id="grid-wrapper">
-      @for (task of tasks; track task.id) {
-        <app-task-card [task]="task"></app-task-card>
-      }
+    <div id="task-wrapper">
+      <div id="grid-wrapper">
+        @for (task of tasks; track task.id) {
+          <app-task-card [task]="task"></app-task-card>
+        }
+      </div>
+      <app-page-navigation [lastPage]="lastPage" (pageChanged)="onPageChange($event)"></app-page-navigation>
     </div>
   }
 </div>

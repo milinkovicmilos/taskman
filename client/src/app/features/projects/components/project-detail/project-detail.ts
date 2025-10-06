@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, WritableSignal, inject, signal } from '@angular/core';
+import { Component, Input, OnInit, Output, WritableSignal, inject, signal } from '@angular/core';
 import { ProjectData, ProjectDetailData } from '../../interfaces/project-data';
 import { PROJECT_STORAGE } from '../../interfaces/project-storage';
 import { AuthService } from '../../../../shared/services/auth-service';
@@ -21,10 +21,11 @@ import { NotificationType } from '../../../../shared/enums/notification-type';
 import { CreateTaskForm } from '../../../tasks/components/create-task-form/create-task-form';
 import { HeaderButton } from '../../../../shared/services/header-button';
 import { take } from 'rxjs';
+import { PageNavigation } from '../../../../shared/components/page-navigation/page-navigation';
 
 @Component({
   selector: 'app-project-detail',
-  imports: [Button, TaskCard, UpdateProjectForm, CreateTaskForm],
+  imports: [Button, TaskCard, UpdateProjectForm, CreateTaskForm, PageNavigation],
   templateUrl: './project-detail.html',
   styleUrl: './project-detail.css',
   providers: [
@@ -63,6 +64,8 @@ export class ProjectDetail implements OnInit {
 
   @Input() protected id!: number | string;
 
+  @Output() protected lastPage: WritableSignal<number> = signal(1);
+
   ngOnInit(): void {
     this.projectStorage.getProject(this.id).subscribe({
       next: (response) => {
@@ -78,6 +81,7 @@ export class ProjectDetail implements OnInit {
     this.taskStorage.getTasks(this.id).subscribe({
       next: (response) => {
         this.tasks = response.data;
+        this.lastPage.set(response.last_page)
       }
     });
 
@@ -135,5 +139,14 @@ export class ProjectDetail implements OnInit {
         this.tasks = response.data;
       }
     });
+  }
+
+  onPageChange(number: number) {
+    this.taskStorage.getTasks(this.id, number).subscribe({
+      next: (response) => {
+        this.lastPage.set(response.last_page);
+        this.tasks = response.data;
+      }
+    })
   }
 }
