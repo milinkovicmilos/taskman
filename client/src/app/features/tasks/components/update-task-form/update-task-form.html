@@ -1,0 +1,49 @@
+<form [formGroup]="updateTaskForm" (ngSubmit)="handleSubmit()">
+  <app-button id="button-cancel" text="X" [classList]="['button-cancel']" (clicked)="cancelForm()"></app-button>
+
+  <app-input
+    id="task-title"
+    label="Task Name"
+    formControlName="title"
+  ></app-input>
+  @if (isSubmitted || title?.touched) {
+    @if (title?.errors?.['required']) {
+      <p class="error-text">Title is required.</p>
+    }
+  }
+
+  <app-input
+    id="task-description"
+    label="Task Description"
+    formControlName="description"
+  ></app-input>
+  @if (isSubmitted || description?.touched) {
+    @if (description?.errors?.['required']) {
+      <p class="error-text">Description is required.</p>
+    }
+  }
+
+  <app-input-number
+    id="task-priority"
+    label="Task Priority"
+    formControlName="priority"
+  ></app-input-number>
+  @if (isSubmitted || priority?.touched) {
+    @if (priority?.errors?.['invalidPriority']) {
+      <p class="error-text">Priority needs to be between 1 and 10 if set.</p>
+    }
+  }
+
+  <app-input-date
+    id="task-due-date"
+    label="Task Due Date"
+    formControlName="dueDate"
+  ></app-input-date>
+  @if (isSubmitted || dueDate?.touched) {
+    @if (dueDate?.errors?.['invalidDueDate']) {
+      <p class="error-text">Due date can't be eariler than today if set.</p>
+    }
+  }
+
+  <app-button type="submit" text="Save" [classList]="['width-100']"></app-button>
+</form>
