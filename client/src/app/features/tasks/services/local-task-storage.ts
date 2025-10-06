@@ -125,8 +125,8 @@ export class LocalTaskStorage implements TaskStorage {
       if (x.id === taskId) {
         x.title = task.title;
         x.description = task.description;
-        x.priority = task.priority;
-        x.due_date = task.due_date;
+        x.priority = task.priority ?? null;
+        x.due_date = task.due_date ?? null;
       }
     });
     this.localStorageSet(tasksObj);
