@@ -3,6 +3,8 @@ import { SubtaskStorage } from '../interfaces/subtask-storage';
 import { Observable, of } from 'rxjs';
 import { PaginatedResponse } from '../../../shared/interfaces/paginated-response';
 import { SubtaskData } from '../interfaces/subtask-data';
+import { CreateSubtaskData } from '../interfaces/create-subtask-data';
+import { CreatedSubtaskResponse } from '../interfaces/created-subtask-response';
 
 @Injectable({
   providedIn: 'root'
@@ -42,6 +44,35 @@ export class LocalSubtaskStorage implements SubtaskStorage {
       total: data.length,
       last_page: data.length != 0 ? Math.ceil(data.length / perPage) : 1,
       data: data.splice(offset, perPage),
+    }
+    return of(response);
+  }
+
+  storeSubtask(projectId: number | string, taskId: number | string, subtask: CreateSubtaskData): Observable<any | null> {
+    const subtasksData = this.localStorageGet();
+    if (subtasksData == null) {
+      return of([]);
+    }
+
+    const subtasks = JSON.parse(subtasksData);
+    if (subtasks[projectId] == null) {
+      subtasks[projectId] = [];
+    }
+
+    const subtaskToStore: SubtaskData = {
+      id: crypto.randomUUID(),
+      text: subtask.text,
+      completed: false,
+      completed_at: null,
+    }
+    subtasks[projectId].push(subtaskToStore);
+
+    this.localStorageSet(subtasks);
+    const response: CreatedSubtaskResponse = {
+      message: 'Successfully created a task.',
+      data: {
+        id: subtaskToStore.id,
+      }
     }
     return of(response);
   }
