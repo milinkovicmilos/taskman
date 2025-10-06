@@ -5,10 +5,10 @@ import { PaginatedResponse } from '../../../shared/interfaces/paginated-response
 import { TaskData, TaskDetailData } from '../interfaces/task-data';
 import { CreateTaskData } from '../interfaces/create-task-data';
 import { CreatedTaskResponse } from '../interfaces/created-task-response';
-import { LocalTaskData } from '../../projects/interfaces/local-task-data';
 import { LocalSubtaskStorage } from '../../subtasks/services/local-subtask-storage';
-import { DeletedTaskResponse } from '../interfaces/deleted-task-response';
 import { GroupRole } from '../../groups/enums/group-role';
+import { MessageResponse } from '../../../shared/interfaces/message-response';
+import { UpdateTaskData } from '../interfaces/update-task-data';
 
 @Injectable({
   providedIn: 'root'
@@ -105,6 +105,37 @@ export class LocalTaskStorage implements TaskStorage {
     return of(data);
   }
 
+  updateTask(projectId: number | string, taskId: number | string, task: UpdateTaskData): Observable<any | null> {
+    const tasksData = this.localStorageGet();
+    if (tasksData == null) {
+      return of(null);
+    }
+
+    const tasksObj = JSON.parse(tasksData);
+    if (tasksObj == null) {
+      return of(null);
+    }
+
+    const projectsTasks: TaskData[] = tasksObj[projectId];
+    if (projectsTasks == null) {
+      return of(null);
+    }
+
+    projectsTasks.map(x => {
+      if (x.id === taskId) {
+        x.title = task.title;
+        x.description = task.description;
+        x.priority = task.priority;
+        x.due_date = task.due_date;
+      }
+    });
+    this.localStorageSet(tasksObj);
+    const response: MessageResponse = {
+      message: 'Successfully updated the task.'
+    };
+    return of(response);
+  }
+
   removeTask(projectId: number | string, taskId: number | string): Observable<any | null> {
     const tasksData = this.localStorageGet();
     if (tasksData == null) {
@@ -128,7 +159,7 @@ export class LocalTaskStorage implements TaskStorage {
     subtaskStorage.removeSubtasks(taskId);
 
     this.localStorageSet(tasksObj);
-    const response: DeletedTaskResponse = {
+    const response: MessageResponse = {
       message: 'Successfully deleted the task.',
     };
     return of(response);
