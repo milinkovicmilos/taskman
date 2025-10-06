@@ -12,7 +12,7 @@
           <app-update-project-form [project]="project" (submitted)="onProjectUpdate($event)"></app-update-project-form>
         }
         @default {
-          <p id="project-name">{{ project().name }}</p>
+          <p id="project-name">Project: {{ project().name }}</p>
           <p id="project-description">{{ project().description }}</p>
         }
       }

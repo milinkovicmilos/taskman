@@ -11,7 +11,7 @@
           <app-update-task-form [projectId]="projectId" [task]="task" (submitted)="onTaskUpdate($event)"></app-update-task-form>
         }
         @default {
-          <p id="task-title">{{ task().title }}</p>
+          <p id="task-title">Task: {{ task().title }}</p>
           <p id="task-description">{{ task().description }}</p>
           @if (task().priority != null) {
             <p id="task-description">{{ task().priority }}</p>
