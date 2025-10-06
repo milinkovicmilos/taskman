@@ -2,12 +2,13 @@ import { Injectable } from '@angular/core';
 import { TaskStorage } from '../interfaces/task-storage';
 import { Observable, of } from 'rxjs';
 import { PaginatedResponse } from '../../../shared/interfaces/paginated-response';
-import { TaskData } from '../interfaces/task-data';
+import { TaskData, TaskDetailData } from '../interfaces/task-data';
 import { CreateTaskData } from '../interfaces/create-task-data';
 import { CreatedTaskResponse } from '../interfaces/created-task-response';
 import { LocalTaskData } from '../../projects/interfaces/local-task-data';
 import { LocalSubtaskStorage } from '../../subtasks/services/local-subtask-storage';
 import { DeletedTaskResponse } from '../interfaces/deleted-task-response';
+import { GroupRole } from '../../groups/enums/group-role';
 
 @Injectable({
   providedIn: 'root'
@@ -51,8 +52,25 @@ export class LocalTaskStorage implements TaskStorage {
     return of(response);
   }
 
-  getTask(): Observable<any> {
-    return of(null);
+  getTask(projectId: number | string, taskId: number | string): Observable<any> {
+    const tasksData = this.localStorageGet();
+    if (tasksData == null) {
+      return of(null);
+    }
+
+    const tasks = JSON.parse(tasksData);
+    const projectsTasks: TaskDetailData[] = tasks[projectId];
+    if (projectsTasks == null) {
+      return of(null);
+    }
+
+    const task = projectsTasks.find(x => x.id === taskId);
+    if (task == null) {
+      return of(null);
+    }
+
+    task.role = GroupRole.Owner;
+    return of(task);
   }
 
   storeTask(projectId: number | string, task: CreateTaskData): Observable<any> {

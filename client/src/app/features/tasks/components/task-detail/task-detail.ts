@@ -16,6 +16,10 @@ import { SubtaskCard } from '../../../subtasks/components/subtask-card/subtask-c
 import { PageNavigation } from '../../../../shared/components/page-navigation/page-navigation';
 import { GroupRole } from '../../../groups/enums/group-role';
 import { Button } from '../../../../shared/components/button/button';
+import { take } from 'rxjs';
+import { Router } from '@angular/router';
+import { Notifier } from '../../../../shared/services/notifier';
+import { NotificationType } from '../../../../shared/enums/notification-type';
 
 @Component({
   selector: 'app-task-detail',
@@ -43,7 +47,7 @@ export class TaskDetail implements OnInit {
   private taskStorage = inject(TASK_STORAGE);
   private subtaskStorage = inject(SUBTASK_STORAGE);
 
-  protected task!: WritableSignal<TaskDetailData>
+  protected task!: WritableSignal<TaskDetailData>;
   protected groupRoles = GroupRole;
 
   protected subtasks: SubtaskData[] = [];
@@ -52,6 +56,9 @@ export class TaskDetail implements OnInit {
   protected formStateService = inject(FormState);
   protected formTypes = FormType;
   private headerButtonService = inject(HeaderButton);
+
+  private router = inject(Router);
+  private notificationService = inject(Notifier);
 
   @Input() protected projectId!: number | string;
   @Input() protected taskId!: number | string;
@@ -72,11 +79,25 @@ export class TaskDetail implements OnInit {
         this.subtasks = response.data;
       }
     })
+
+    this.modal.onConfirm().pipe(take(1)).subscribe({
+      next: (response) => {
+        if (response) {
+          this.taskStorage.removeTask(this.projectId, this.taskId).pipe(take(1)).subscribe({
+            next: () => {
+              this.notificationService.notify({
+                type: NotificationType.Info,
+                message: `Successfully deleted ${this.task().title}`
+              });
+              this.router.navigate(['projects', this.projectId]);
+            }
+          });
+        }
+      },
+    });
   }
 
   protected showDeleteModal(): void {
-    this.formStateService.changeState(FormType.Delete);
-
     this.modal.generate(`Are you sure you want to delete ${this.task().title} ?`);
   }
 
