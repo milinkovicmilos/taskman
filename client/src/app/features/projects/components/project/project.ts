@@ -11,6 +11,7 @@ import { PageNavigation } from '../../../../shared/components/page-navigation/pa
 import { Notifier } from '../../../../shared/services/notifier';
 import { NotificationType } from '../../../../shared/enums/notification-type';
 import { FormType } from '../../../../shared/enums/form-type';
+import { HeaderButton } from '../../../../shared/services/header-button';
 
 @Component({
   selector: 'app-project',
@@ -36,8 +37,10 @@ export class Project implements OnInit {
   protected projects: ProjectData[] = [];
   protected formStateSerice = inject(FormState);
   protected formTypes = FormType;
+  private headerButtonService = inject(HeaderButton);
 
   ngOnInit() {
+    this.headerButtonService.update('New Project', FormType.Create);
     this.storage.getProjects().subscribe({
       next: (response) => {
         this.lastPage.set(response.last_page);

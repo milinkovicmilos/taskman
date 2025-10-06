@@ -19,6 +19,8 @@ import { Router } from '@angular/router';
 import { Notifier } from '../../../../shared/services/notifier';
 import { NotificationType } from '../../../../shared/enums/notification-type';
 import { CreateTaskForm } from '../../../tasks/components/create-task-form/create-task-form';
+import { HeaderButton } from '../../../../shared/services/header-button';
+import { take } from 'rxjs';
 
 @Component({
   selector: 'app-project-detail',
@@ -54,6 +56,7 @@ export class ProjectDetail implements OnInit {
   private modal = inject(Modal);
   protected formStateService = inject(FormState);
   protected formTypes = FormType;
+  private headerButtonService = inject(HeaderButton);
 
   private router = inject(Router);
   private notificationService = inject(Notifier);
@@ -64,19 +67,25 @@ export class ProjectDetail implements OnInit {
     this.projectStorage.getProject(this.id).subscribe({
       next: (response) => {
         this.project = signal(response);
+
+        const role = this.project().role;
+        if (role === ProjectRole.Owner || role === ProjectRole.Moderator) {
+          this.headerButtonService.update('New Task', FormType.Create);
+        }
       }
     });
+
     this.taskStorage.getTasks(this.id).subscribe({
       next: (response) => {
         this.tasks = response.data;
       }
     });
 
-    this.modal.onConfirm().subscribe({
+    this.modal.onConfirm().pipe(take(1)).subscribe({
       next: (response) => {
         this.formStateService.changeState(FormType.Delete);
         if (response) {
-          this.projectStorage.removeProject(this.id).subscribe({
+          this.projectStorage.removeProject(this.id).pipe(take(1)).subscribe({
             next: () => {
               this.notificationService.notify({
                 type: NotificationType.Info,
