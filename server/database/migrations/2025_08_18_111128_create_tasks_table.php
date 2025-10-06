@@ -24,8 +24,6 @@ return new class () extends Migration {
             $table->dateTime('completed_at')->nullable();
             $table->timestamps();
             $table->softDeletes();
-
-            $table->unique(['project_id', 'title']);
         });
     }
 
