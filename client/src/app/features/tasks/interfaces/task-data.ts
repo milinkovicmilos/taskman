@@ -12,4 +12,6 @@ export interface TaskData {
 
 export interface TaskDetailData extends TaskData {
   role: GroupRole;
+  editable: boolean;
+  deletable: boolean;
 }

@@ -70,6 +70,8 @@ export class LocalTaskStorage implements TaskStorage {
     }
 
     task.role = GroupRole.Owner;
+    task.editable = true;
+    task.deletable = true;
     return of(task);
   }
 
