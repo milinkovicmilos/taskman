@@ -11,15 +11,14 @@
           <p id="task-description">{{ task().description }}</p>
         }
       }
-      <!--@if (task().role === projectRoles.Owner) {
+      @if (task().role === groupRoles.Owner) {
         @if (formStateService.visible() === null) {
-          <div id="project-control">
+          <div id="task-control">
             <app-button text="Delete" (clicked)="showDeleteModal()"></app-button>
             <app-button text="Edit" (clicked)="toggleUpdateForm()"></app-button>
           </div>
         }
       }
-      -->
     </div>
     <div id="subtask-wrapper">
       <div id="grid-wrapper">

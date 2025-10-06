@@ -15,10 +15,11 @@ import { SubtaskData } from '../../../subtasks/interfaces/subtask-data';
 import { SubtaskCard } from '../../../subtasks/components/subtask-card/subtask-card';
 import { PageNavigation } from '../../../../shared/components/page-navigation/page-navigation';
 import { GroupRole } from '../../../groups/enums/group-role';
+import { Button } from '../../../../shared/components/button/button';
 
 @Component({
   selector: 'app-task-detail',
-  imports: [SubtaskCard, PageNavigation],
+  imports: [Button, SubtaskCard, PageNavigation],
   templateUrl: './task-detail.html',
   styleUrl: './task-detail.css',
   providers: [
@@ -73,7 +74,17 @@ export class TaskDetail implements OnInit {
     })
   }
 
-  onPageChange(number: number): void {
+  protected showDeleteModal(): void {
+    this.formStateService.changeState(FormType.Delete);
+
+    this.modal.generate(`Are you sure you want to delete ${this.task().title} ?`);
+  }
+
+  protected toggleUpdateForm(): void {
+    this.formStateService.changeState(FormType.Update);
+  }
+
+  protected onPageChange(number: number): void {
     this.subtaskStorage.getSubtasks(this.projectId, this.taskId, number).subscribe({
       next: (response) => {
         this.lastPage.set(response.last_page);
