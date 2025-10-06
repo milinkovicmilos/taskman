@@ -6,6 +6,7 @@
     <div id="task-info">
       @switch (formStateService.visible()) {
         @case (formTypes.Create) {
+          <app-create-subtask-form [projectId]="projectId" [taskId]="taskId" (submitted)="onSubtaskCreate($event)"></app-create-subtask-form>
         }
         @case (formTypes.Update) {
           <app-update-task-form [projectId]="projectId" [task]="task" (submitted)="onTaskUpdate($event)"></app-update-task-form>

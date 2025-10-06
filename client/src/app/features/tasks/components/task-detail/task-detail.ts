@@ -21,10 +21,11 @@ import { Router } from '@angular/router';
 import { Notifier } from '../../../../shared/services/notifier';
 import { NotificationType } from '../../../../shared/enums/notification-type';
 import { UpdateTaskForm } from '../update-task-form/update-task-form';
+import { CreateSubtaskForm } from '../../../subtasks/components/create-subtask-form/create-subtask-form';
 
 @Component({
   selector: 'app-task-detail',
-  imports: [Modal, Button, SubtaskCard, PageNavigation, UpdateTaskForm],
+  imports: [Modal, Button, SubtaskCard, PageNavigation, UpdateTaskForm, CreateSubtaskForm],
   templateUrl: './task-detail.html',
   styleUrl: './task-detail.css',
   providers: [
@@ -82,7 +83,6 @@ export class TaskDetail implements OnInit {
         this.subtasks = response.data;
       }
     })
-
   }
 
   protected showDeleteModal(): void {
@@ -91,6 +91,15 @@ export class TaskDetail implements OnInit {
 
   protected toggleUpdateForm(): void {
     this.formStateService.changeState(FormType.Update);
+  }
+
+  protected onSubtaskCreate(subtask: SubtaskData): void {
+    this.subtaskStorage.getSubtasks(this.projectId, this.taskId).subscribe({
+      next: (response) => {
+        this.lastPage.set(response.last_page);
+        this.subtasks = response.data;
+      }
+    })
   }
 
   protected onTaskUpdate(task: TaskData): void {
