@@ -7,8 +7,7 @@ button {
   cursor: pointer;
 }
 
-.new-project,
-.new-task {
+.main-header-button {
   box-shadow: 0px 0px 3px 1px var(--accent);
   color: var(--accent);
 }
