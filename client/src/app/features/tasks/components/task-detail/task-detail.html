@@ -8,10 +8,17 @@
         @case (formTypes.Create) {
         }
         @case (formTypes.Update) {
+          <app-update-task-form [projectId]="projectId" [task]="task" (submitted)="onTaskUpdate($event)"></app-update-task-form>
         }
         @default {
           <p id="task-title">{{ task().title }}</p>
           <p id="task-description">{{ task().description }}</p>
+          @if (task().priority != null) {
+            <p id="task-description">{{ task().priority }}</p>
+          }
+          @if (task().due_date != null) {
+            <p id="task-description">{{ task().due_date }}</p>
+          }
         }
       }
       @if (task().role === groupRoles.Owner) {

@@ -3,7 +3,7 @@ import { TASK_STORAGE } from '../../interfaces/task-storage';
 import { AuthService } from '../../../../shared/services/auth-service';
 import { ServerTaskStorage } from '../../services/server-task-storage';
 import { LocalTaskStorage } from '../../services/local-task-storage';
-import { TaskDetailData } from '../../interfaces/task-data';
+import { TaskData, TaskDetailData } from '../../interfaces/task-data';
 import { Modal as ModalService } from '../../../../shared/services/modal';
 import { Modal } from '../../../../shared/components/modal/modal';
 import { FormState } from '../../../../shared/services/form-state';
@@ -20,10 +20,11 @@ import { Button } from '../../../../shared/components/button/button';
 import { Router } from '@angular/router';
 import { Notifier } from '../../../../shared/services/notifier';
 import { NotificationType } from '../../../../shared/enums/notification-type';
+import { UpdateTaskForm } from '../update-task-form/update-task-form';
 
 @Component({
   selector: 'app-task-detail',
-  imports: [Modal, Button, SubtaskCard, PageNavigation],
+  imports: [Modal, Button, SubtaskCard, PageNavigation, UpdateTaskForm],
   templateUrl: './task-detail.html',
   styleUrl: './task-detail.css',
   providers: [
@@ -88,6 +89,17 @@ export class TaskDetail implements OnInit {
 
   protected toggleUpdateForm(): void {
     this.formStateService.changeState(FormType.Update);
+  }
+
+  protected onTaskUpdate(task: TaskData): void {
+    this.toggleUpdateForm();
+
+    const t = this.task();
+    t.title = task.title;
+    t.description = task.description;
+    t.priority = task.priority;
+    t.due_date = task.due_date;
+    this.task.set(t);
   }
 
   protected onTaskDelete(): void {
