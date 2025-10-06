@@ -20,7 +20,7 @@ export class InputNumber implements ControlValueAccessor {
   @Input() label: string = '';
 
   disabled: boolean = false;
-  value: any = null;
+  value: number | null = null;
 
   onChange: any = (_: any) => { }
   onTouch: any = () => { }
@@ -43,7 +43,9 @@ export class InputNumber implements ControlValueAccessor {
 
   onInput(event: Event): void {
     const target = event.target as HTMLInputElement;
-    this.value = target.value;
+    const value = target.value === "" ? null : Number(target.value);
+
+    this.value = value;
 
     this.onChange(this.value);
   }
