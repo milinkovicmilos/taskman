@@ -44,7 +44,12 @@ class SubtaskController extends Controller
 
         $task->subtasks()->create($data);
 
-        return response()->json(['message' => 'Successfully created a subtask.']);
+        return response()->json([
+            'message' => 'Successfully created a subtask.',
+            'data' => [
+                'id' => $task->id,
+            ],
+        ]);
     }
 
     public function show(Request $request, Project $project, Task $task, Subtask $subtask)
