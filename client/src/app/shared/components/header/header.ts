@@ -1,10 +1,9 @@
 import { Component, inject, signal } from '@angular/core';
 import { Button } from '../button/button';
-import { FormState } from '../../services/form-state';
 import { RouterModule, Router, NavigationEnd } from '@angular/router';
 import { AuthService } from '../../services/auth-service';
-import { FormType } from '../../enums/form-type';
 import { filter } from 'rxjs';
+import { HeaderButton } from '../../services/header-button';
 
 @Component({
   selector: 'app-header',
@@ -20,7 +19,7 @@ export class Header {
   isLoggedIn = this.authService.isLoggedIn;
 
   userData = this.authService.data;
-  state = inject(FormState);
+  buttonService = inject(HeaderButton);
 
   constructor() {
     this.router.events
@@ -36,8 +35,8 @@ export class Header {
     return `${this.userData().firstName} ${this.userData().lastName}`;
   }
 
-  toggleNewProjectForm(): void {
-    this.state.changeState(FormType.Create);
+  onMainHeaderButtonClick(): void {
+    this.buttonService.clicked();
   }
 
   goToRegister(): void {
@@ -50,17 +49,6 @@ export class Header {
 
   goToLogout(): void {
     this.router.navigate(['/logout']);
-  }
-
-  protected isProductsPage(): boolean {
-    const regex = /^\/projects$/;
-    return regex.test(this.router.url);
-  }
-
-  protected isProductDetailPage(): boolean {
-    // UUID REGEX: [0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}
-    const regex = /^\/projects\/(\d+|[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12})$/;
-    return regex.test(this.router.url);
   }
 
   protected goBack(): void {

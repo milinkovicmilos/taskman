@@ -1,11 +1,8 @@
 <header>
   <div id="top-header-wrapper">
     <h1 routerLink="/">TaskMan</h1>
-    @if (isProductsPage()) {
-      <app-button text="New Project" [classList]="['new-project']" (clicked)="toggleNewProjectForm()"></app-button>
-    }
-    @if (isProductDetailPage()) {
-      <app-button text="New Task" [classList]="['new-project']" (clicked)="toggleNewProjectForm()"></app-button>
+    @if (buttonService.formAction() != null) {
+      <app-button [text]="buttonService.text()" [classList]="['main-header-button']" (clicked)="onMainHeaderButtonClick()"></app-button>
     }
   </div>
   <div id="bottom-header-wrapper">
