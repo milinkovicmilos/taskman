@@ -87,7 +87,6 @@ export class ProjectDetail implements OnInit {
 
     this.modal.onConfirm().pipe(take(1)).subscribe({
       next: (response) => {
-        this.formStateService.changeState(FormType.Delete);
         if (response) {
           this.projectStorage.removeProject(this.id).pipe(take(1)).subscribe({
             next: () => {
@@ -112,8 +111,6 @@ export class ProjectDetail implements OnInit {
   }
 
   protected showDeleteModal(): void {
-    this.formStateService.changeState(FormType.Delete);
-
     this.modal.generate(`Are you sure you want to delete ${this.project().name} ?`);
   }
 
