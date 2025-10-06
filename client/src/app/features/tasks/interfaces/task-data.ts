@@ -1,3 +1,5 @@
+import { ProjectRole } from "../../projects/enums/project-role";
+
 export interface TaskData {
   id: number | string;
   title: string;
@@ -9,5 +11,5 @@ export interface TaskData {
 }
 
 export interface TaskDetailData extends TaskData {
-  role: number | string;
+  role: ProjectRole;
 }
