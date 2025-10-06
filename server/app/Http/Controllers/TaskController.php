@@ -113,6 +113,9 @@ class TaskController extends Controller
             $role = RoleEnum::Owner;
         }
 
+        $editable = $request->user()->can('update', $task);
+        $deletable = $request->user()->can('destroy', $task);
+
         return response()->json([
             'id' => $task->id,
             'title' => $task->title,
@@ -122,6 +125,8 @@ class TaskController extends Controller
             'completed' => $task->completed,
             'completed_at' => $task->completed_at,
             'role' => $role,
+            'editable' => $editable,
+            'deletable' => $deletable,
         ]);
     }
 
