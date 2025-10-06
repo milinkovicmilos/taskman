@@ -121,11 +121,14 @@ class ProjectController extends Controller
             $role = RoleEnum::Owner;
         }
 
+        $canCreateTasks = $request->user()->can('createTask', $project);
+
         return response()->json([
             'id' => $project->id,
             'name' => $project->name,
             'description' => $project->description,
             'role' => $role,
+            'can_create_tasks' => $canCreateTasks,
         ]);
     }
 
