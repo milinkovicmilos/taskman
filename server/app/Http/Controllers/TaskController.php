@@ -143,8 +143,8 @@ class TaskController extends Controller
                 Rule::unique('tasks')->where('project_id', $project->id)->ignore($task),
             ],
             'description' => ['sometimes', 'required'],
-            'priority' => ['integer', 'between:1,10'],
-            'due_date' => ['date', 'after_or_equal:today'],
+            'priority' => ['nullable', 'integer', 'between:1,10'],
+            'due_date' => ['nullable', 'date', 'after_or_equal:today'],
         ]);
 
         $task->update($data);
