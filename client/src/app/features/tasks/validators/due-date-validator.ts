@@ -8,11 +8,12 @@ export function dueDateValidator(): ValidatorFn {
 
     const date = new Date(control.value);
     const now = new Date();
+    const todaysDate = new Date(now.toISOString().split('T')[0])
 
     if (Number.isNaN(date.getTime())) {
       return null;
     }
 
-    return now < date ? null : { invalidDueDate: true };
+    return todaysDate <= date ? null : { invalidDueDate: true };
   };
 }
