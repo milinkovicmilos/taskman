@@ -1,12 +1,13 @@
 import { inject, Injectable, signal, WritableSignal } from '@angular/core';
 import { NavigationEnd, Router } from '@angular/router';
 import { filter } from 'rxjs';
+import { FormType } from '../enums/form-type';
 
 @Injectable({
   providedIn: 'root'
 })
 export class FormState {
-  visible: WritableSignal<number | null> = signal(null);
+  visible: WritableSignal<FormType | null> = signal(null);
   private router = inject(Router);
 
   constructor() {
@@ -19,7 +20,7 @@ export class FormState {
       });
   }
 
-  changeState(state: number | null): void {
+  changeState(state: FormType | null): void {
     if (this.visible() === state) {
       this.visible.set(null);
       return;
