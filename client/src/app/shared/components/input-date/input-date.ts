@@ -22,7 +22,7 @@ export class InputDate implements ControlValueAccessor {
   @Input() max: string = '';
 
   disabled: boolean = false;
-  value: any = '';
+  value: string | null = null;
 
   onChange: any = (_: any) => { }
   onTouch: any = () => { }
@@ -45,7 +45,9 @@ export class InputDate implements ControlValueAccessor {
 
   onInput(event: Event): void {
     const target = event.target as HTMLInputElement;
-    this.value = target.value;
+    const value = target.value === '' ? null : target.value;
+    this.value = value;
+
     this.onChange(this.value);
   }
 
