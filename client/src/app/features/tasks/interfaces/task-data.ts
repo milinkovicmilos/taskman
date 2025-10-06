@@ -14,4 +14,5 @@ export interface TaskDetailData extends TaskData {
   role: GroupRole;
   editable: boolean;
   deletable: boolean;
+  can_create_subtasks: boolean;
 }

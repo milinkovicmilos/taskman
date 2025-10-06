@@ -68,9 +68,11 @@ export class TaskDetail implements OnInit {
 
   ngOnInit(): void {
     this.taskStorage.getTask(this.projectId, this.taskId).subscribe({
-      next: (response) => {
+      next: (response: TaskDetailData) => {
         this.task = signal(response);
-        this.lastPage.set(response.last_page)
+        if (response.can_create_subtasks) {
+          this.headerButtonService.update('New Subtask', FormType.Create);
+        }
       }
     });
 
