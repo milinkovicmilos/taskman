@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, EventEmitter, inject, Output } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { Button } from '../button/button';
 import { Modal as ModalService } from '../../services/modal';
@@ -14,11 +14,14 @@ export class Modal {
 
   protected text = this.service.text;
 
+  @Output() confirmed: EventEmitter<void> = new EventEmitter<void>();
+
   onConfirm() {
-    this.service.confirm();
+    this.service.changeState();
+    this.confirmed.emit();
   }
 
   onClose() {
-    this.service.cancel();
+    this.service.changeState();
   }
 }

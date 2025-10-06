@@ -1,3 +1,6 @@
+@if (modal.state()) {
+  <app-modal (confirmed)="onProjectDelete()"></app-modal>
+}
 <div id="content-wrapper">
   @if (project != null) {
     <div id="project-info">

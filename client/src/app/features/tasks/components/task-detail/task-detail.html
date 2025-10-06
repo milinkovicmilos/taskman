@@ -1,3 +1,6 @@
+@if (modal.state()) {
+  <app-modal (confirmed)="onTaskDelete()"></app-modal>
+}
 <div id="content-wrapper">
   @if (task != null) {
     <div id="task-info">

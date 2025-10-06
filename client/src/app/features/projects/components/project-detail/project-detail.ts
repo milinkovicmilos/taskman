@@ -13,7 +13,8 @@ import { TaskCard } from '../../../tasks/components/task-card/task-card';
 import { FormState } from '../../../../shared/services/form-state';
 import { FormType } from '../../../../shared/enums/form-type';
 import { UpdateProjectForm } from '../update-project-form/update-project-form';
-import { Modal } from '../../../../shared/services/modal';
+import { Modal as ModalService } from '../../../../shared/services/modal';
+import { Modal } from '../../../../shared/components/modal/modal';
 import { Router } from '@angular/router';
 import { Notifier } from '../../../../shared/services/notifier';
 import { NotificationType } from '../../../../shared/enums/notification-type';
@@ -25,7 +26,7 @@ import { GroupRole } from '../../../groups/enums/group-role';
 
 @Component({
   selector: 'app-project-detail',
-  imports: [Button, TaskCard, UpdateProjectForm, CreateTaskForm, PageNavigation],
+  imports: [Modal, Button, TaskCard, UpdateProjectForm, CreateTaskForm, PageNavigation],
   templateUrl: './project-detail.html',
   styleUrl: './project-detail.css',
   providers: [
@@ -54,7 +55,7 @@ export class ProjectDetail implements OnInit {
 
   protected tasks: TaskData[] = [];
 
-  private modal = inject(Modal);
+  protected readonly modal = inject(ModalService);
   protected formStateService = inject(FormState);
   protected formTypes = FormType;
   private headerButtonService = inject(HeaderButton);
@@ -83,22 +84,6 @@ export class ProjectDetail implements OnInit {
         this.tasks = response.data;
         this.lastPage.set(response.last_page)
       }
-    });
-
-    this.modal.onConfirm().pipe(take(1)).subscribe({
-      next: (response) => {
-        if (response) {
-          this.projectStorage.removeProject(this.id).pipe(take(1)).subscribe({
-            next: () => {
-              this.notificationService.notify({
-                type: NotificationType.Info,
-                message: `Successfully deleted ${this.project().name}`
-              });
-              this.router.navigate(['projects']);
-            }
-          });
-        }
-      },
     });
   }
 
@@ -134,6 +119,18 @@ export class ProjectDetail implements OnInit {
     this.taskStorage.getTasks(this.id).subscribe({
       next: (response) => {
         this.tasks = response.data;
+      }
+    });
+  }
+
+  protected onProjectDelete(): void {
+    this.projectStorage.removeProject(this.id).subscribe({
+      next: () => {
+        this.notificationService.notify({
+          type: NotificationType.Info,
+          message: `Successfully deleted ${this.project().name}`
+        });
+        this.router.navigate(['projects']);
       }
     });
   }

@@ -4,7 +4,8 @@ import { AuthService } from '../../../../shared/services/auth-service';
 import { ServerTaskStorage } from '../../services/server-task-storage';
 import { LocalTaskStorage } from '../../services/local-task-storage';
 import { TaskDetailData } from '../../interfaces/task-data';
-import { Modal } from '../../../../shared/services/modal';
+import { Modal as ModalService } from '../../../../shared/services/modal';
+import { Modal } from '../../../../shared/components/modal/modal';
 import { FormState } from '../../../../shared/services/form-state';
 import { FormType } from '../../../../shared/enums/form-type';
 import { HeaderButton } from '../../../../shared/services/header-button';
@@ -16,14 +17,13 @@ import { SubtaskCard } from '../../../subtasks/components/subtask-card/subtask-c
 import { PageNavigation } from '../../../../shared/components/page-navigation/page-navigation';
 import { GroupRole } from '../../../groups/enums/group-role';
 import { Button } from '../../../../shared/components/button/button';
-import { take } from 'rxjs';
 import { Router } from '@angular/router';
 import { Notifier } from '../../../../shared/services/notifier';
 import { NotificationType } from '../../../../shared/enums/notification-type';
 
 @Component({
   selector: 'app-task-detail',
-  imports: [Button, SubtaskCard, PageNavigation],
+  imports: [Modal, Button, SubtaskCard, PageNavigation],
   templateUrl: './task-detail.html',
   styleUrl: './task-detail.css',
   providers: [
@@ -52,7 +52,7 @@ export class TaskDetail implements OnInit {
 
   protected subtasks: SubtaskData[] = [];
 
-  private modal = inject(Modal);
+  protected readonly modal = inject(ModalService);
   protected formStateService = inject(FormState);
   protected formTypes = FormType;
   private headerButtonService = inject(HeaderButton);
@@ -80,21 +80,6 @@ export class TaskDetail implements OnInit {
       }
     })
 
-    this.modal.onConfirm().pipe(take(1)).subscribe({
-      next: (response) => {
-        if (response) {
-          this.taskStorage.removeTask(this.projectId, this.taskId).pipe(take(1)).subscribe({
-            next: () => {
-              this.notificationService.notify({
-                type: NotificationType.Info,
-                message: `Successfully deleted ${this.task().title}`
-              });
-              this.router.navigate(['projects', this.projectId]);
-            }
-          });
-        }
-      },
-    });
   }
 
   protected showDeleteModal(): void {
@@ -103,6 +88,18 @@ export class TaskDetail implements OnInit {
 
   protected toggleUpdateForm(): void {
     this.formStateService.changeState(FormType.Update);
+  }
+
+  protected onTaskDelete(): void {
+    this.taskStorage.removeTask(this.projectId, this.taskId).subscribe({
+      next: () => {
+        this.notificationService.notify({
+          type: NotificationType.Info,
+          message: `Successfully deleted ${this.task().title}`
+        });
+        this.router.navigate(['projects', this.projectId]);
+      }
+    });
   }
 
   protected onPageChange(number: number): void {
