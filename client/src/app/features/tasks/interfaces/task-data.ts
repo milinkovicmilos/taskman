@@ -7,3 +7,7 @@ export interface TaskData {
   completed: boolean;
   completed_at: string | null;
 }
+
+export interface TaskDetailData extends TaskData {
+  id: number | string;
+}
