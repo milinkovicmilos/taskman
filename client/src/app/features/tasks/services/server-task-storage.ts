@@ -25,4 +25,8 @@ export class ServerTaskStorage implements TaskStorage {
   storeTask(projectId: number | string, task: CreateTaskData): Observable<any | null> {
     return this.http.post(`api/projects/${projectId}/tasks`, task);
   }
+
+  removeTask(projectId: number | string, taskId: number | string): Observable<any | null> {
+    return this.http.delete(`api/projects/${projectId}/tasks/${taskId}`);
+  }
 }

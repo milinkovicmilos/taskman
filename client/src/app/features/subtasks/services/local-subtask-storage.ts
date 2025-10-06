@@ -45,4 +45,19 @@ export class LocalSubtaskStorage implements SubtaskStorage {
     }
     return of(response);
   }
+
+  removeSubtasks(taskId: number | string): void {
+    const subtasksData = this.localStorageGet();
+    if (subtasksData == null) {
+      return;
+    }
+
+    let subtasks: Record<string, SubtaskData> = JSON.parse(subtasksData);
+    if (subtasks[taskId] == null) {
+      return;
+    }
+
+    delete subtasks[taskId];
+    this.localStorageSet(subtasks);
+  }
 }

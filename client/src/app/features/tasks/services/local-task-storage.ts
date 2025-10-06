@@ -6,6 +6,8 @@ import { TaskData } from '../interfaces/task-data';
 import { CreateTaskData } from '../interfaces/create-task-data';
 import { CreatedTaskResponse } from '../interfaces/created-task-response';
 import { LocalTaskData } from '../../projects/interfaces/local-task-data';
+import { LocalSubtaskStorage } from '../../subtasks/services/local-subtask-storage';
+import { DeletedTaskResponse } from '../interfaces/deleted-task-response';
 
 @Injectable({
   providedIn: 'root'
@@ -83,6 +85,25 @@ export class LocalTaskStorage implements TaskStorage {
       }
     }
     return of(data);
+  }
+
+  removeTask(projectId: number | string, taskId: number | string): Observable<any | null> {
+    const tasksData = this.localStorageGet();
+    if (tasksData == null) {
+      return of(null);
+    }
+
+    const tmpProjects: TaskData[] = JSON.parse(tasksData);
+    const tasks = tmpProjects.filter(x => x.id != taskId);
+
+    const subtaskStorage = new LocalSubtaskStorage();
+    subtaskStorage.removeSubtasks(taskId);
+
+    this.localStorageSet(tasks);
+    const response: DeletedTaskResponse = {
+      message: 'Successfully deleted the task.',
+    };
+    return of(response);
   }
 
   removeTasks(projectId: number | string): void {
