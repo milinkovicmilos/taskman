@@ -1,7 +1,8 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, inject } from '@angular/core';
 import { TaskData } from '../../interfaces/task-data';
 import { DueDatePipe } from '../../pipes/due-date-pipe';
 import { CommonModule } from '@angular/common';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'app-task-card',
@@ -10,6 +11,9 @@ import { CommonModule } from '@angular/common';
   styleUrl: './task-card.css'
 })
 export class TaskCard {
+  private router = inject(Router);
+  private route = inject(ActivatedRoute);
+
   @Input() task!: TaskData;
 
   protected getDueDateClass(dueDate: string): string {
@@ -17,5 +21,9 @@ export class TaskCard {
     const date = new Date(dueDate);
 
     return now >= date ? 'late' : 'due';
+  }
+
+  protected onClick(): void {
+    this.router.navigate(['tasks', this.task.id], { relativeTo: this.route });
   }
 }
