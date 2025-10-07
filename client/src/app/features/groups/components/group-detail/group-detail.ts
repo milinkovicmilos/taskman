@@ -9,7 +9,7 @@ import { HeaderButton } from '../../../../shared/services/header-button';
 import { Button } from '../../../../shared/components/button/button';
 import { ProjectCard } from '../../../projects/components/project-card/project-card';
 import { PageNavigation } from '../../../../shared/components/page-navigation/page-navigation';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Notifier } from '../../../../shared/services/notifier';
 import { NotificationType } from '../../../../shared/enums/notification-type';
 
@@ -28,6 +28,7 @@ export class GroupDetail implements OnInit {
   private headerButtonService = inject(HeaderButton);
 
   private router = inject(Router);
+  private route = inject(ActivatedRoute);
   private notificationService = inject(Notifier);
 
   protected group!: WritableSignal<GroupDetailData>;
@@ -48,6 +49,10 @@ export class GroupDetail implements OnInit {
 
   protected toggleUpdateForm(): void {
     this.formStateService.changeState(FormType.Update);
+  }
+
+  protected goToInviteToGroup(): void {
+    this.router.navigate(['invite'], { relativeTo: this.route })
   }
 
   protected onGroupDelete(): void {

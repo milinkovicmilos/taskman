@@ -21,6 +21,9 @@
           @if (group().editable) {
             <app-button text="Edit" (clicked)="toggleUpdateForm()"></app-button>
           }
+          @if (group().can_invite_to_group) {
+            <app-button text="Invite" (clicked)="goToInviteToGroup()"></app-button>
+          }
         </div>
       }
     </div>

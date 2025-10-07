@@ -3,4 +3,5 @@ export interface GroupDetailData {
   name: string;
   deletable: boolean;
   editable: boolean;
+  can_invite_to_group: boolean;
 }
