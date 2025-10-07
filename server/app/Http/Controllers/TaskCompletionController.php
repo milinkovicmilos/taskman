@@ -43,6 +43,6 @@ class TaskCompletionController extends Controller
             'completed_at' => null,
         ]);
 
-        return response()->json(['message' => 'Successfully marked the task as complete.']);
+        return response()->json(['message' => 'Successfully marked the task as incomplete.']);
     }
 }
