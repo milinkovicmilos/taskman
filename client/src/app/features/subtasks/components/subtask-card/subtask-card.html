@@ -3,5 +3,6 @@
     [id]="'subtask-' + subtask.id"
     [label]="subtask.text"
     [checked]="subtask.completed"
+    (checkedChange)="onCheckboxChange($event)"
   ></app-input-checkbox>
 </div>
