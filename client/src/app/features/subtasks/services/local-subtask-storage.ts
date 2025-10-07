@@ -5,6 +5,7 @@ import { PaginatedResponse } from '../../../shared/interfaces/paginated-response
 import { SubtaskData } from '../interfaces/subtask-data';
 import { CreateSubtaskData } from '../interfaces/create-subtask-data';
 import { CreatedSubtaskResponse } from '../interfaces/created-subtask-response';
+import { MessageResponse } from '../../../shared/interfaces/message-response';
 
 @Injectable({
   providedIn: 'root'
@@ -74,6 +75,67 @@ export class LocalSubtaskStorage implements SubtaskStorage {
         id: subtaskToStore.id,
       }
     }
+    return of(response);
+  }
+
+  markSubtaskComplete(projectId: number | string, taskId: number | string, subtaskId: number | string): Observable<any | null> {
+    const subtasksData = this.localStorageGet();
+    if (subtasksData == null) {
+      return of(null);
+    }
+
+    const subtasksObj = JSON.parse(subtasksData);
+    if (subtasksObj[taskId] == null) {
+      return of(null);
+    }
+
+    const tasksSubtasks: SubtaskData[] = subtasksObj[taskId];
+    if (tasksSubtasks == null) {
+      return of(null);
+    }
+
+    const now = new Date();
+    tasksSubtasks.map(x => {
+      if (x.id === subtaskId) {
+        x.completed = true;
+        x.completed_at = now.toISOString().split('T')[0];
+      }
+    });
+
+    this.localStorageSet(subtasksObj);
+    const response: MessageResponse = {
+      message: 'Successfully marked task as complete.'
+    };
+    return of(response);
+  }
+
+  markSubtaskIncomplete(projectId: number | string, taskId: number | string, subtaskId: number | string): Observable<any | null> {
+    const subtasksData = this.localStorageGet();
+    if (subtasksData == null) {
+      return of(null);
+    }
+
+    const subtasksObj = JSON.parse(subtasksData);
+    if (subtasksObj[taskId] == null) {
+      return of(null);
+    }
+
+    const tasksSubtasks: SubtaskData[] = subtasksObj[taskId];
+    if (tasksSubtasks == null) {
+      return of(null);
+    }
+
+    tasksSubtasks.map(x => {
+      if (x.id === subtaskId) {
+        x.completed = false;
+        x.completed_at = null;
+      }
+    });
+
+    this.localStorageSet(subtasksObj);
+    const response: MessageResponse = {
+      message: 'Successfully marked task as incomplete.'
+    };
     return of(response);
   }
 

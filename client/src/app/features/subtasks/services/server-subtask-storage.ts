@@ -23,4 +23,12 @@ export class ServerSubtaskStorage implements SubtaskStorage {
   storeSubtask(projectId: number | string, taskId: number | string, subtask: CreateSubtaskData): Observable<CreatedSubtaskResponse> {
     return this.http.post<CreatedSubtaskResponse>(`api/projects/${projectId}/tasks/${taskId}/subtasks`, subtask);
   }
+
+  markSubtaskComplete(projectId: number | string, taskId: number | string, subtaskId: number | string): Observable<MessageResponse> {
+    return this.http.post<MessageResponse>(`api/projects/${projectId}/tasks/${taskId}/subtasks/${subtaskId}/completed`, {});
+  }
+
+  markSubtaskIncomplete(projectId: number | string, taskId: number | string, subtaskId: number | string): Observable<MessageResponse> {
+    return this.http.delete<MessageResponse>(`api/projects/${projectId}/tasks/${taskId}/subtasks/${subtaskId}/completed`);
+  }
 }
