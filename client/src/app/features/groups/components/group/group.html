@@ -1,0 +1,15 @@
+<div id="content-wrapper">
+  @if (formStateSerice.visible() === formTypes.Create) {
+    <div id="form-wrapper">
+    <!--<app-create-group-form (submitted)="onProjectCreated($event)"></app-create-group-form>-->
+    </div>
+  }
+  <div id="groups-wrapper">
+    <div id="grid-wrapper">
+      @for (group of groups; track group.id) {
+        <app-group-card [group]="group"></app-group-card>
+      }
+    </div>
+    <app-page-navigation [lastPage]="lastPage" (pageChanged)="onPageChange($event)"></app-page-navigation>
+  </div>
+</div>
