@@ -54,6 +54,9 @@ Route::apiResource('groups', GroupController::class)->middleware('auth:sanctum')
 Route::get('/groups/{group}/projects', [ProjectController::class, 'groupProjects'])
     ->middleware('auth:sanctum')
     ->scopeBindings();
+Route::post('/groups/{group}/projects', [ProjectController::class, 'storeGroupProject'])
+    ->middleware('auth:sanctum')
+    ->scopeBindings();
 
 Route::apiResource('groups.memberships', MembershipController::class)
     ->middleware('auth:sanctum')
