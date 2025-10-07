@@ -18,5 +18,5 @@ export const routes: Routes = [
   { path: 'projects', component: Project },
   { path: 'projects/:id', component: ProjectDetail },
   { path: 'projects/:projectId/tasks/:taskId', component: TaskDetail },
-  { path: 'groups', component: Group },
+  { path: 'groups', component: Group, canActivate: [unAuthGuard] },
 ];
