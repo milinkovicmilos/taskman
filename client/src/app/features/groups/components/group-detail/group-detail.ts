@@ -12,6 +12,8 @@ import { PageNavigation } from '../../../../shared/components/page-navigation/pa
 import { ActivatedRoute, Router } from '@angular/router';
 import { Notifier } from '../../../../shared/services/notifier';
 import { NotificationType } from '../../../../shared/enums/notification-type';
+import { ProjectData } from '../../../projects/interfaces/project-data';
+import { ServerProjectStorage } from '../../../projects/services/server-project-storage';
 
 @Component({
   selector: 'app-group-detail',
@@ -21,6 +23,7 @@ import { NotificationType } from '../../../../shared/enums/notification-type';
 })
 export class GroupDetail implements OnInit {
   private groupService = inject(GroupService);
+  private projectStorage = inject(ServerProjectStorage);
 
   protected readonly modal = inject(ModalService);
   protected formStateService = inject(FormState);
@@ -31,14 +34,25 @@ export class GroupDetail implements OnInit {
   private route = inject(ActivatedRoute);
   private notificationService = inject(Notifier);
 
+
+  protected projects: ProjectData[] = [];
   protected group!: WritableSignal<GroupDetailData>;
 
   @Input() id!: number | string;
+
+  protected lastPage: WritableSignal<number> = signal(1);
 
   ngOnInit(): void {
     this.groupService.getGroup(this.id).subscribe({
       next: (response: GroupDetailData) => {
         this.group = signal(response);
+      }
+    });
+
+    this.projectStorage.getGroupProjects(this.id).subscribe({
+      next: (response) => {
+        this.projects = response.data;
+        this.lastPage.set(response.last_page);
       }
     });
   }
@@ -67,4 +81,12 @@ export class GroupDetail implements OnInit {
     });
   }
 
+  onPageChange(number: number) {
+    this.projectStorage.getGroupProjects(this.id, number).subscribe({
+      next: (response) => {
+        this.lastPage.set(response.last_page);
+        this.projects = response.data;
+      }
+    })
+  }
 }
