@@ -58,4 +58,12 @@ class GroupPolicy
             ->where('role_id', RoleEnum::Owner->value)
             ->exists();
     }
+
+    public function createProject(User $user, Group $group)
+    {
+        return $group->memberships()
+            ->where('user_id', $user->id)
+            ->where('role_id', RoleEnum::Owner->value)
+            ->exists();
+    }
 }
