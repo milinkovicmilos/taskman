@@ -7,10 +7,12 @@ import { MembershipService } from '../../services/membership-service';
 import { FormType } from '../../../../shared/enums/form-type';
 import { HeaderButton } from '../../../../shared/services/header-button';
 import { FormState } from '../../../../shared/services/form-state';
+import { ActivatedRoute, Router } from '@angular/router';
+import { Button } from '../../../../shared/components/button/button';
 
 @Component({
   selector: 'app-manage',
-  imports: [PageNavigation, UserMembershipCard],
+  imports: [PageNavigation, UserMembershipCard, Button],
   templateUrl: './manage.html',
   styleUrl: './manage.css'
 })
@@ -26,7 +28,10 @@ export class Manage implements OnInit {
   protected formTypes = FormType;
   private headerButtonService = inject(HeaderButton);
 
-  @Input() groupId!: number | string;
+  private router = inject(Router);
+  private route = inject(ActivatedRoute);
+
+  groupId: number | string = this.route.parent?.snapshot.paramMap.get('groupId')!;
 
   ngOnInit(): void {
     this.membershipsService.getUsers(this.groupId).subscribe({
@@ -35,6 +40,11 @@ export class Manage implements OnInit {
         this.memberships.set(response.data);
       }
     })
+  }
+
+  protected onClose(): void {
+    const url = this.router.url.split('/manage')[0];
+    this.router.navigate([url]);
   }
 
   protected onMembershipDelete(): void {

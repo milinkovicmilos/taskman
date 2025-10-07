@@ -1,7 +1,7 @@
 #search-form {
   position: relative;
   padding: 20px;
-  margin-bottom: var(20px);
+  margin-bottom: calc(2 * var(--default-margin));
   border: 1px solid var(--border);
   border-radius: 5px;
   background-color: var(--card-background);

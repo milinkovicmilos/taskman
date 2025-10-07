@@ -10,6 +10,7 @@ import { MembershipService } from '../../../memberships/services/membership-serv
 import { GroupRole } from '../../enums/group-role';
 import { Notifier } from '../../../../shared/services/notifier';
 import { NotificationType } from '../../../../shared/enums/notification-type';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'app-invite',
@@ -21,6 +22,8 @@ export class Invite implements OnInit {
   private usersService = inject(UserService);
   private membershipsService = inject(MembershipService);
   private notificationService = inject(Notifier);
+  private router = inject(Router);
+  private route = inject(ActivatedRoute);
 
   private formBuilder = inject(FormBuilder);
   searchForm = this.formBuilder.group({
@@ -29,7 +32,7 @@ export class Invite implements OnInit {
 
   protected users: WritableSignal<UserDetailData[]> = signal([]);
 
-  @Input() groupId!: number | string;
+  groupId: number | string = this.route.parent?.snapshot.paramMap.get('groupId')!;
 
   ngOnInit(): void {
     this.searchForm.get('search')?.valueChanges.pipe(
@@ -49,6 +52,11 @@ export class Invite implements OnInit {
         }
       }
     });
+  }
+
+  protected cancelForm(): void {
+    const url = this.router.url.split('/invite')[0];
+    this.router.navigate([url]);
   }
 
   protected inviteUser(userId: number | string): void {

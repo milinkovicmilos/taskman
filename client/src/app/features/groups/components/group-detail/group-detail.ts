@@ -9,7 +9,7 @@ import { HeaderButton } from '../../../../shared/services/header-button';
 import { Button } from '../../../../shared/components/button/button';
 import { ProjectCard } from '../../../projects/components/project-card/project-card';
 import { PageNavigation } from '../../../../shared/components/page-navigation/page-navigation';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, Router, RouterOutlet } from '@angular/router';
 import { Notifier } from '../../../../shared/services/notifier';
 import { NotificationType } from '../../../../shared/enums/notification-type';
 import { ProjectData } from '../../../projects/interfaces/project-data';
@@ -18,7 +18,7 @@ import { CreateProjectForm } from '../../../projects/components/create-project-f
 
 @Component({
   selector: 'app-group-detail',
-  imports: [Modal, Button, ProjectCard, PageNavigation, CreateProjectForm],
+  imports: [Modal, Button, ProjectCard, PageNavigation, CreateProjectForm, RouterOutlet],
   templateUrl: './group-detail.html',
   styleUrl: './group-detail.css'
 })
@@ -39,13 +39,13 @@ export class GroupDetail implements OnInit {
   protected projects: ProjectData[] = [];
   protected group!: WritableSignal<GroupDetailData>;
 
-  @Input() id!: number | string;
+  @Input() groupId!: number | string;
 
   protected lastPage: WritableSignal<number> = signal(1);
 
   ngOnInit(): void {
 
-    this.groupService.getGroup(this.id).subscribe({
+    this.groupService.getGroup(this.groupId).subscribe({
       next: (response: GroupDetailData) => {
         this.group = signal(response);
 
@@ -55,7 +55,7 @@ export class GroupDetail implements OnInit {
       }
     });
 
-    this.projectStorage.getGroupProjects(this.id).subscribe({
+    this.projectStorage.getGroupProjects(this.groupId).subscribe({
       next: (response) => {
         this.projects = response.data;
         this.lastPage.set(response.last_page);
@@ -76,7 +76,7 @@ export class GroupDetail implements OnInit {
   }
 
   protected onProjectCreated(): void {
-    this.projectStorage.getGroupProjects(this.id).subscribe({
+    this.projectStorage.getGroupProjects(this.groupId).subscribe({
       next: (response) => {
         this.lastPage.set(response.last_page);
         this.projects = response.data;
@@ -85,7 +85,7 @@ export class GroupDetail implements OnInit {
   }
 
   protected onGroupDelete(): void {
-    this.groupService.deleteGroup(this.id).subscribe({
+    this.groupService.deleteGroup(this.groupId).subscribe({
       next: () => {
         this.notificationService.notify({
           type: NotificationType.Info,
@@ -97,7 +97,7 @@ export class GroupDetail implements OnInit {
   }
 
   onPageChange(number: number) {
-    this.projectStorage.getGroupProjects(this.id, number).subscribe({
+    this.projectStorage.getGroupProjects(this.groupId, number).subscribe({
       next: (response) => {
         this.lastPage.set(response.last_page);
         this.projects = response.data;

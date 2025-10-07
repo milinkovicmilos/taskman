@@ -1,5 +1,7 @@
 <div id="search-form">
   <form [formGroup]="searchForm">
+    <app-button id="button-cancel" text="X" (clicked)="cancelForm()" [classList]="['button-cancel']"></app-button>
+
     <app-input
       id="search"
       label="Search"

@@ -22,7 +22,10 @@ export const routes: Routes = [
   { path: 'projects/:id', component: ProjectDetail },
   { path: 'projects/:projectId/tasks/:taskId', component: TaskDetail },
   { path: 'groups', component: Group, canActivate: [unAuthGuard] },
-  { path: 'groups/:id', component: GroupDetail, canActivate: [unAuthGuard] },
-  { path: 'groups/:groupId/invite', component: Invite, canActivate: [unAuthGuard] },
-  { path: 'groups/:groupId/manage', component: Manage, canActivate: [unAuthGuard] },
+  {
+    path: 'groups/:groupId', component: GroupDetail, canActivate: [unAuthGuard], children: [
+      { path: 'invite', component: Invite, canActivate: [unAuthGuard] },
+      { path: 'manage', component: Manage, canActivate: [unAuthGuard] },
+    ]
+  },
 ];

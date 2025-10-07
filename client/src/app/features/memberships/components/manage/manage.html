@@ -1,4 +1,5 @@
 <div id="content-wrapper">
+  <app-button text="Close" (clicked)="onClose()"></app-button>
   <div id="users-wrapper">
     <div id="grid-wrapper">
       @for (membership of memberships(); track membership.email) {
