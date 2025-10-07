@@ -10,6 +10,7 @@ import { ProjectDetail } from './features/projects/components/project-detail/pro
 import { TaskDetail } from './features/tasks/components/task-detail/task-detail';
 import { Group } from './features/groups/components/group/group';
 import { GroupDetail } from './features/groups/components/group-detail/group-detail';
+import { Invite } from './features/groups/components/invite/invite';
 
 export const routes: Routes = [
   { path: '', component: Home },
@@ -21,4 +22,5 @@ export const routes: Routes = [
   { path: 'projects/:projectId/tasks/:taskId', component: TaskDetail },
   { path: 'groups', component: Group, canActivate: [unAuthGuard] },
   { path: 'groups/:id', component: GroupDetail, canActivate: [unAuthGuard] },
+  { path: 'groups/:id/invite', component: Invite, canActivate: [unAuthGuard] },
 ];
