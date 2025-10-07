@@ -1,0 +1,17 @@
+<div id="search-form">
+  <form [formGroup]="searchForm">
+    <app-input
+      id="search"
+      label="Search"
+      formControlName="search"
+    ></app-input>
+  </form>
+  <div id="drop-down">
+    @for (user of users(); track user.email) {
+      <div class="user">
+        <span class="user-fullname">{{ user.first_name }} {{ user.last_name }}</span>
+        <app-button text="Invite" (clicked)="inviteUser(user.id)"></app-button>
+      </div>
+    }
+  </div>
+</div>
