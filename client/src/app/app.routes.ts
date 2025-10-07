@@ -22,5 +22,5 @@ export const routes: Routes = [
   { path: 'projects/:projectId/tasks/:taskId', component: TaskDetail },
   { path: 'groups', component: Group, canActivate: [unAuthGuard] },
   { path: 'groups/:id', component: GroupDetail, canActivate: [unAuthGuard] },
-  { path: 'groups/:id/invite', component: Invite, canActivate: [unAuthGuard] },
+  { path: 'groups/:groupId/invite', component: Invite, canActivate: [unAuthGuard] },
 ];
