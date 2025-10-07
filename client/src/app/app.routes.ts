@@ -9,6 +9,7 @@ import { unAuthGuard } from './shared/guards/un-auth-guard';
 import { ProjectDetail } from './features/projects/components/project-detail/project-detail';
 import { TaskDetail } from './features/tasks/components/task-detail/task-detail';
 import { Group } from './features/groups/components/group/group';
+import { GroupDetail } from './features/groups/components/group-detail/group-detail';
 
 export const routes: Routes = [
   { path: '', component: Home },
@@ -19,4 +20,5 @@ export const routes: Routes = [
   { path: 'projects/:id', component: ProjectDetail },
   { path: 'projects/:projectId/tasks/:taskId', component: TaskDetail },
   { path: 'groups', component: Group, canActivate: [unAuthGuard] },
+  { path: 'groups/:id', component: GroupDetail, canActivate: [unAuthGuard] },
 ];
