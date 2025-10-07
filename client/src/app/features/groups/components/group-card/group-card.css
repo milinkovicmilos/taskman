@@ -1,0 +1,15 @@
+.group-card {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  height: 100%;
+  box-sizing: border-box;
+  border: 1px solid var(--border);
+  border-radius: 5px;
+  padding: 15px;
+  background-color: var(--card-background);
+}
+
+.task-card>p {
+  margin-bottom: var(--default-margin);
+}
