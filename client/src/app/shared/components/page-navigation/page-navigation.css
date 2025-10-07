@@ -1,7 +1,7 @@
 #page-navigation {
   width: 80%;
   margin: 0 auto;
-  margin-top: var(--default-margin);
+  margin-bottom: calc(2 * var(--default-margin));
   display: flex;
   justify-content: space-between;
   align-items: center;

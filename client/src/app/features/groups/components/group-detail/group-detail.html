@@ -14,6 +14,7 @@
         <div id="group-info">
           @if (formStateService.visible() === null) {
             <p id="group-name">{{ group().name }}</p>
+            <p id="group-owner">Owner: {{ group().owner }}</p>
             <div id="group-control">
               @if (group().deletable) {
                 <app-button text="Delete" (clicked)="showDeleteModal()"></app-button>
@@ -30,12 +31,13 @@
       }
     }
     <div id="projects-wrapper">
+      <app-page-navigation [lastPage]="lastPage" (pageChanged)="onPageChange($event)"></app-page-navigation>
+      <h2>Projects:</h2>
       <div id="grid-wrapper">
         @for (project of projects; track project.id) {
           <app-project-card [project]="project"></app-project-card>
         }
       </div>
-      <app-page-navigation [lastPage]="lastPage" (pageChanged)="onPageChange($event)"></app-page-navigation>
     </div>
   }
 </div>

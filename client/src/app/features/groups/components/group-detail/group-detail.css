@@ -9,13 +9,16 @@
   flex-direction: column;
 }
 
+#group-info>p {
+  margin-bottom: var(--default-margin);
+}
+
 #group-name {
   text-align: center;
 }
 
 #group-control {
   width: 100%;
-  margin-top: var(--default-margin);
   display: flex;
   justify-content: space-between;
 }
