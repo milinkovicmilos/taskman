@@ -62,6 +62,7 @@ class GroupController extends Controller
         $deletable = $request->user()->can('destroy', $group);
         $editable = $request->user()->can('update', $group);
         $canInviteToGroup = $request->user()->can('inviteToGroup', $group);
+        $canCreateProjects = $request->user()->can('createProject', $group);
 
         return response()->json([
             'id' => $group->id,
@@ -69,6 +70,7 @@ class GroupController extends Controller
             'deletable' => $deletable,
             'editable' => $editable,
             'can_invite_to_group' => $canInviteToGroup,
+            'can_create_projects' => $canCreateProjects,
         ]);
     }
 
