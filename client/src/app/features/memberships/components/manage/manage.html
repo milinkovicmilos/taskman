@@ -1,0 +1,10 @@
+<div id="content-wrapper">
+  <div id="users-wrapper">
+    <div id="grid-wrapper">
+      @for (membership of memberships(); track membership.email) {
+        <app-user-membership-card [membership]="membership" [groupId]="groupId" (deleted)="onMembershipDelete()"></app-user-membership-card>
+      }
+    </div>
+    <app-page-navigation [lastPage]="lastPage" (pageChanged)="onPageChange($event)"></app-page-navigation>
+  </div>
+</div>
