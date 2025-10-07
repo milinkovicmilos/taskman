@@ -40,7 +40,12 @@ class GroupController extends Controller
             'role_id' => RoleEnum::Owner->value,
         ]);
 
-        return response()->json(['message' => 'Successfully created a group.']);
+        return response()->json([
+            'message' => 'Successfully created a group.',
+            'data' => [
+                'id' => $group->id,
+            ],
+        ]);
     }
 
     public function show(Request $request, Group $group)
