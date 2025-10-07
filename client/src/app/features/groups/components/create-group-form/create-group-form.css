@@ -1,0 +1,24 @@
+form {
+  position: relative;
+  padding: 20px;
+  margin-bottom: var(20px);
+  border: 1px solid var(--border);
+  border-radius: 5px;
+  background-color: var(--card-background);
+  color: var(--primary-text);
+  display: flex;
+  flex-direction: column;
+}
+
+app-button {
+  width: 100%;
+}
+
+#button-cancel {
+  width: auto;
+  position: absolute;
+  right: -16px;
+  top: -16px;
+}
+
+@media screen and (min-width: 992px) {}
