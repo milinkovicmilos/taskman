@@ -12,7 +12,12 @@
           <app-update-task-form [projectId]="projectId" [task]="task" (submitted)="onTaskUpdate($event)"></app-update-task-form>
         }
         @default {
-          <p id="task-title">Task: {{ task().title }}</p>
+          <app-input-checkbox
+            [id]="'task-' + task().id"
+            [label]="task().title"
+            [checked]="task().completed"
+            (checkedChange)="onCheckboxChange($event)"
+          ></app-input-checkbox>
           <p id="task-description">{{ task().description }}</p>
           @if (task().priority != null) {
             <p id="task-description">{{ task().priority }}</p>

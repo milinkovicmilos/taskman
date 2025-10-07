@@ -22,10 +22,12 @@ import { Notifier } from '../../../../shared/services/notifier';
 import { NotificationType } from '../../../../shared/enums/notification-type';
 import { UpdateTaskForm } from '../update-task-form/update-task-form';
 import { CreateSubtaskForm } from '../../../subtasks/components/create-subtask-form/create-subtask-form';
+import { InputCheckbox } from '../../../../shared/components/input-checkbox/input-checkbox';
+import { MessageResponse } from '../../../../shared/interfaces/message-response';
 
 @Component({
   selector: 'app-task-detail',
-  imports: [Modal, Button, SubtaskCard, PageNavigation, UpdateTaskForm, CreateSubtaskForm],
+  imports: [Modal, Button, SubtaskCard, PageNavigation, UpdateTaskForm, CreateSubtaskForm, InputCheckbox],
   templateUrl: './task-detail.html',
   styleUrl: './task-detail.css',
   providers: [
@@ -123,6 +125,41 @@ export class TaskDetail implements OnInit {
         this.router.navigate(['projects', this.projectId]);
       }
     });
+  }
+
+  protected onCheckboxChange(value: boolean): void {
+    if (value) {
+      this.taskStorage.markTaskComplete(this.projectId, this.taskId).subscribe({
+        next: (response: MessageResponse) => {
+          this.notificationService.notify({
+            type: NotificationType.Info,
+            message: response.message,
+          });
+        },
+        error: (response) => {
+          this.notificationService.notify({
+            type: NotificationType.Error,
+            message: response.error.message,
+          });
+        }
+      });
+    }
+    else {
+      this.taskStorage.markTaskIncomplete(this.projectId, this.taskId).subscribe({
+        next: (response: MessageResponse) => {
+          this.notificationService.notify({
+            type: NotificationType.Info,
+            message: response.message,
+          });
+        },
+        error: (response) => {
+          this.notificationService.notify({
+            type: NotificationType.Error,
+            message: response.error.message,
+          });
+        }
+      });
+    }
   }
 
   protected onPageChange(number: number): void {
