@@ -1,0 +1,42 @@
+<!--
+@if (modal.state()) {
+  <app-modal (confirmed)="onGroupDelete()"></app-modal>
+}
+-->
+<div id="content-wrapper">
+  @if (group != null) {
+    <div id="group-info">
+      @switch (formStateService.visible()) {
+        @case (formTypes.Create) {
+        }
+        @case (formTypes.Update) {
+        }
+        @default {
+          <p id="group-name">{{ group().name }}</p>
+        }
+      }
+      @if (formStateService.visible() === null) {
+        <div id="group-control">
+          @if (group().deletable) {
+            <app-button text="Delete" (clicked)="showDeleteModal()"></app-button>
+          }
+          @if (group().editable) {
+            <app-button text="Edit" (clicked)="toggleUpdateForm()"></app-button>
+          }
+        </div>
+      }
+    </div>
+    <div id="projects-wrapper">
+      <!--
+      <div id="grid-wrapper">
+        @for (project of projects; track project.id) {
+          <app-project-card [project]="project"></app-project-card>
+        }
+      </div>
+      -->
+      <!--
+      <app-page-navigation [lastPage]="lastPage" (pageChanged)="onPageChange($event)"></app-page-navigation>
+      -->
+    </div>
+  }
+</div>

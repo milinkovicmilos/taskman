@@ -1,0 +1,61 @@
+#group-info {
+  padding: 20px;
+  margin-bottom: calc(2 * var(--default-margin));
+  border: 1px solid var(--border);
+  border-radius: 5px;
+  background-color: var(--card-background);
+  color: var(--primary-text);
+  display: flex;
+  flex-direction: column;
+}
+
+#group-name {
+  text-align: center;
+}
+
+#group-control {
+  width: 100%;
+  margin-top: var(--default-margin);
+  display: flex;
+  justify-content: space-between;
+}
+
+#projects-wrapper {
+  width: 100%;
+}
+
+#grid-wrapper {
+  display: grid;
+  grid-template-columns: repeat(1, 1fr);
+  gap: 20px;
+}
+
+#form-wrapper {
+  margin-bottom: calc(2 * var(--default-margin));
+}
+
+@media screen and (min-width: 992px) {
+  #content-wrapper {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+  }
+
+  #group-info {
+    width: 35%;
+    margin: 0;
+    margin-right: calc(2 * var(--default-margin));
+  }
+}
+
+@media screen and (min-width: 1280px) {
+  #grid-wrapper {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media screen and (min-width: 1680px) {
+  #grid-wrapper {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
