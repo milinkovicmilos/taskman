@@ -1,0 +1,45 @@
+.checkbox-container {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.75rem;
+  padding: 0.5rem;
+}
+
+input {
+  appearance: none;
+  cursor: pointer;
+  flex-shrink: 0;
+  margin-top: 2px;
+  cursor: pointer;
+}
+
+input::before {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 0.9rem;
+  width: 0.9rem;
+  content: '\2800';
+  border-radius: 3px;
+  background-color: var(--card-background);
+  outline: 1px solid var(--border-second);
+}
+
+input:checked::before {
+  content: '\2713';
+  color: var(--completed-item);
+  text-align: center;
+  font-weight: bold;
+  border-radius: 3px;
+}
+
+input:checked+label {
+  text-decoration: line-through;
+}
+
+label {
+  flex: 1;
+  line-height: 1.4;
+  cursor: pointer;
+  word-break: break-word;
+}
