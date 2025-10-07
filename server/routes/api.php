@@ -9,6 +9,7 @@ use App\Http\Controllers\SubtaskController;
 use App\Http\Controllers\SubtaskCompletionController;
 use App\Http\Controllers\GroupController;
 use App\Http\Controllers\MembershipController;
+use App\Http\Controllers\UserController;
 use App\Http\Middleware\EnsureIsGuest;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -28,6 +29,8 @@ Route::get('/user', function (Request $request) {
         ],
     ];
 })->middleware('auth:sanctum');
+
+Route::get('/users', [UserController::class, 'index'])->middleware('auth:sanctum');
 
 Route::apiResource('projects', ProjectController::class)->middleware('auth:sanctum');
 
