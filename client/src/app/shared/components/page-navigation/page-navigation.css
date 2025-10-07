@@ -1,5 +1,5 @@
 #page-navigation {
-  width: 80%;
+  width: 100%;
   margin: 0 auto;
   margin-bottom: calc(2 * var(--default-margin));
   display: flex;
@@ -12,5 +12,11 @@
 }
 
 #page-navigation>app-button {
-  width: 250px;
+  width: 80px;
+}
+
+@media screen and (min-width: 576px) {
+  #page-navigation>app-button {
+    width: 120px;
+  }
 }

@@ -5,11 +5,12 @@
     </div>
   }
   <div id="groups-wrapper">
+    <app-page-navigation [lastPage]="lastPage" (pageChanged)="onPageChange($event)"></app-page-navigation>
+    <h2>Groups:</h2>
     <div id="grid-wrapper">
       @for (group of groups; track group.id) {
         <app-group-card [group]="group"></app-group-card>
       }
     </div>
-    <app-page-navigation [lastPage]="lastPage" (pageChanged)="onPageChange($event)"></app-page-navigation>
   </div>
 </div>

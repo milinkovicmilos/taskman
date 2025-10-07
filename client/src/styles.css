@@ -31,6 +31,11 @@ body {
   color: var(--primary-text);
 }
 
+h2 {
+  font-size: 1.2rem;
+  margin-bottom: calc(2 * var(--default-margin));
+}
+
 a {
   color: var(--accent);
 }

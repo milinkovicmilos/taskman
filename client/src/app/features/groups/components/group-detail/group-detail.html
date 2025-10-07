@@ -15,6 +15,10 @@
           @if (formStateService.visible() === null) {
             <p id="group-name">{{ group().name }}</p>
             <p id="group-owner">Owner: {{ group().owner }}</p>
+            <p id="group-members">Members:</p>
+            @for (member of group().members; track member) {
+              <span class="group-member">{{ member }}</span>
+            }
             <div id="group-control">
               @if (group().deletable) {
                 <app-button text="Delete" (clicked)="showDeleteModal()"></app-button>
