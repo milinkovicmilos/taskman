@@ -1,7 +1,11 @@
 <div class="task-card" (click)="onClick()">
-  <p>{{ this.task.title }}</p>
-  <p>{{ this.task.description }}</p>
-  @if (this.task.due_date != null) {
+  <app-input-checkbox
+    [id]="'task-' + task.id"
+    [label]="task.title"
+    [disabled]="true"
+  ></app-input-checkbox>
+  <p>{{ task.description }}</p>
+  @if (task.due_date != null) {
     <p class="due-date" [ngClass]="getDueDateClass(this.task.due_date)">{{ this.task.due_date | dueDate:this.task.due_date }}</p>
   }
 </div>

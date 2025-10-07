@@ -3,10 +3,11 @@ import { TaskData } from '../../interfaces/task-data';
 import { DueDatePipe } from '../../pipes/due-date-pipe';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute, Router } from '@angular/router';
+import { InputCheckbox } from '../../../../shared/components/input-checkbox/input-checkbox';
 
 @Component({
   selector: 'app-task-card',
-  imports: [DueDatePipe, CommonModule],
+  imports: [InputCheckbox, DueDatePipe, CommonModule],
   templateUrl: './task-card.html',
   styleUrl: './task-card.css'
 })
