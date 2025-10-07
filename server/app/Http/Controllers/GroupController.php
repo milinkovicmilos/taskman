@@ -59,9 +59,14 @@ class GroupController extends Controller
             );
         }
 
+        $deletable = $request->user()->can('destroy', $group);
+        $editable = $request->user()->can('update', $group);
+
         return response()->json([
             'id' => $group->id,
             'name' => $group->name,
+            'deletable' => $deletable,
+            'editable' => $editable,
         ]);
     }
 
