@@ -2,9 +2,10 @@
   <app-input-checkbox
     [id]="'task-' + task.id"
     [label]="task.title"
+    [checked]="task.completed"
     [disabled]="true"
   ></app-input-checkbox>
-  <p>{{ task.description }}</p>
+  <p class="description">{{ task.description }}</p>
   @if (task.due_date != null) {
     <p class="due-date" [ngClass]="getDueDateClass(this.task.due_date)">{{ this.task.due_date | dueDate:this.task.due_date }}</p>
   }

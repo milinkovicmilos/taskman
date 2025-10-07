@@ -19,6 +19,10 @@
   margin-bottom: 0;
 }
 
+.description {
+  color: var(--secondary-text);
+}
+
 .due-date {
   text-align: right;
   font-size: 0.7rem;

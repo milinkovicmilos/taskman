@@ -11,6 +11,7 @@
 }
 
 .subtask-card>p {
+  color: var(--secondary-text);
   margin-bottom: var(--default-margin);
 }
 

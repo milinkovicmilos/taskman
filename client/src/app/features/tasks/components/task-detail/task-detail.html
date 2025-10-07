@@ -20,13 +20,13 @@
           ></app-input-checkbox>
           <p id="task-description">{{ task().description }}</p>
           @if (task().priority != null) {
-            <p id="task-description">{{ task().priority }}</p>
+            <p>Priority Level: {{ task().priority }}</p>
           }
           @if (task().due_date != null) {
-            <p id="task-description">{{ task().due_date | dueDateFormat }}</p>
+            <p>{{ task().due_date | dueDateFormat }}</p>
           }
           @if (task().completed_at != null && task().due_date != null) {
-            <p id="task-description">{{ task().completed_at! | dayDifference:task().due_date! }}</p>
+            <p>{{ task().completed_at! | dayDifference:task().due_date! }}</p>
           }
         }
       }

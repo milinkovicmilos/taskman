@@ -1,4 +1,5 @@
 #project-info {
+  position: relative;
   padding: 20px;
   margin-bottom: calc(2 * var(--default-margin));
   border: 1px solid var(--border);
@@ -14,6 +15,7 @@
 }
 
 #project-description {
+  color: var(--secondary-text);
   font-size: 0.8rem;
   margin-top: calc(2 * var(--default-margin));
 }

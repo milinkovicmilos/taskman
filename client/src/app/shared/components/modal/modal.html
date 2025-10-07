@@ -2,8 +2,8 @@
   <div id="modal-content">
     <p>{{ text() }}</p>
     <div id="modal-buttons">
-      <app-button text="Confirm" (clicked)="onConfirm()" [classList]="['color-accent']"></app-button>
-      <app-button text="Close" (clicked)="onClose()"></app-button>
+      <app-button text="Confirm" (clicked)="onConfirm()" [classList]="['button-delete']"></app-button>
+      <app-button text="Close" (clicked)="onClose()" [classList]="['button-cancel-dialogue']"></app-button>
     </div>
   </div>
 </div>

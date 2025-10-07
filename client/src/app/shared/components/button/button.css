@@ -5,6 +5,7 @@ button {
   border: 1px solid var(--border-second);
   border-radius: 5px;
   cursor: pointer;
+  transition: all 0.15s ease-in-out;
 }
 
 .main-header-button {
@@ -43,12 +44,27 @@ button {
   border: 1px solid var(--border-second);
   color: var(--cancel);
   cursor: pointer;
-  transition: all 0.15s ease-in-out;
 }
 
 .button-cancel:hover {
   background: var(--border-second);
   color: var(--cancel-hover)
+}
+
+.button-delete {
+  color: var(--delete);
+}
+
+.button-delete:hover {
+  color: var(--delete-hover);
+}
+
+.button-cancel-dialogue {
+  color: var(--cancel);
+}
+
+.button-cancel-dialogue:hover {
+  color: var(--cancel-hover);
 }
 
 @media screen and (min-width: 768px) {
