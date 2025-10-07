@@ -1,0 +1,33 @@
+.membership-card {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  box-sizing: border-box;
+  border: 1px solid var(--border);
+  border-radius: 5px;
+  padding: 15px;
+  background-color: var(--card-background);
+  margin-bottom: calc(2 * var(--default-margin));
+}
+
+.membership-card>:first-child {
+  margin-bottom: var(--default-margin);
+}
+
+.info>p {
+  margin-bottom: var(--default-margin);
+}
+
+.controls>* {
+  margin-left: var(--default-margin);
+}
+
+.controls>*:first-child {
+  margin-left: 0;
+}
+
+@media screen and (min-width: 992px) {
+  .membership-card {
+    flex-direction: row;
+  }
+}

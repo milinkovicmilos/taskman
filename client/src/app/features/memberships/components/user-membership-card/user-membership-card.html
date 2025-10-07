@@ -1,0 +1,11 @@
+<div class="membership-card">
+  <div class="info">
+    <p>{{ membership.first_name }} {{ membership.last_name }}</p>
+    <p>Group role: {{ roles[membership.role_id] }}</p>
+  </div>
+  <div class="controls">
+    <app-button text="Make Moderator" (clicked)="makeModerator()"></app-button>
+    <app-button text="Make Member" (clicked)="makeMember()"></app-button>
+    <app-button text="Remove" (clicked)="removeMembership()"></app-button>
+  </div>
+</div>
