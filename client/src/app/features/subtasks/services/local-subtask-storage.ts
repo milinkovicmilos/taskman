@@ -104,7 +104,7 @@ export class LocalSubtaskStorage implements SubtaskStorage {
 
     this.localStorageSet(subtasksObj);
     const response: MessageResponse = {
-      message: 'Successfully marked task as complete.'
+      message: 'Successfully marked subtask as complete.'
     };
     return of(response);
   }
@@ -134,7 +134,7 @@ export class LocalSubtaskStorage implements SubtaskStorage {
 
     this.localStorageSet(subtasksObj);
     const response: MessageResponse = {
-      message: 'Successfully marked task as incomplete.'
+      message: 'Successfully marked subtask as incomplete.'
     };
     return of(response);
   }
