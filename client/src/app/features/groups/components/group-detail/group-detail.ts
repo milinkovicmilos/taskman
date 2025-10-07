@@ -14,10 +14,11 @@ import { Notifier } from '../../../../shared/services/notifier';
 import { NotificationType } from '../../../../shared/enums/notification-type';
 import { ProjectData } from '../../../projects/interfaces/project-data';
 import { ServerProjectStorage } from '../../../projects/services/server-project-storage';
+import { CreateProjectForm } from '../../../projects/components/create-project-form/create-project-form';
 
 @Component({
   selector: 'app-group-detail',
-  imports: [Modal, Button, ProjectCard, PageNavigation],
+  imports: [Modal, Button, ProjectCard, PageNavigation, CreateProjectForm],
   templateUrl: './group-detail.html',
   styleUrl: './group-detail.css'
 })
@@ -43,9 +44,14 @@ export class GroupDetail implements OnInit {
   protected lastPage: WritableSignal<number> = signal(1);
 
   ngOnInit(): void {
+
     this.groupService.getGroup(this.id).subscribe({
       next: (response: GroupDetailData) => {
         this.group = signal(response);
+
+        if (response.can_create_projects) {
+          this.headerButtonService.update('New Project', FormType.Create);
+        }
       }
     });
 
@@ -67,6 +73,15 @@ export class GroupDetail implements OnInit {
 
   protected goToInviteToGroup(): void {
     this.router.navigate(['invite'], { relativeTo: this.route })
+  }
+
+  protected onProjectCreated(): void {
+    this.projectStorage.getGroupProjects(this.id).subscribe({
+      next: (response) => {
+        this.lastPage.set(response.last_page);
+        this.projects = response.data;
+      }
+    })
   }
 
   protected onGroupDelete(): void {

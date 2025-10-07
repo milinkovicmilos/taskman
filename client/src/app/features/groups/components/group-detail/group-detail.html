@@ -6,6 +6,7 @@
     <div id="group-info">
       @switch (formStateService.visible()) {
         @case (formTypes.Create) {
+          <app-create-project-form [groupId]="group().id" (submitted)="onProjectCreated()"></app-create-project-form>
         }
         @case (formTypes.Update) {
         }
