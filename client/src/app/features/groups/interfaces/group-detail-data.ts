@@ -4,4 +4,5 @@ export interface GroupDetailData {
   deletable: boolean;
   editable: boolean;
   can_invite_to_group: boolean;
+  can_create_projects: boolean;
 }
