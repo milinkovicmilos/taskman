@@ -90,13 +90,14 @@ class ProjectController extends Controller
             ],
             'description' => [
                 'required',
-            ]
+            ],
+            'group_id' => [
+                'sometimes',
+                Rule::exists('groups', 'id'),
+            ],
         ]);
 
-        $project = $user->projects()->create([
-            'name' => $data['name'],
-            'description' => $data['description'],
-        ]);
+        $project = $user->projects()->create($data);
 
         return response()->json([
             'message' => 'Successfully created a project.',
@@ -104,6 +105,20 @@ class ProjectController extends Controller
                 'id' => $project->id,
             ],
         ]);
+    }
+
+    public function storeGroupProject(Request $request, Group $group)
+    {
+        if ($request->user()->cannot('createProject', $group)) {
+            return response()->json(
+                [
+                    'message' => 'You are not allowed to create projects in this group.'
+                ],
+                403
+            );
+        }
+
+        $this->store($request);
     }
 
     public function show(Request $request, Project $project)
