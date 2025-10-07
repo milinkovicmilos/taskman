@@ -22,7 +22,8 @@ class MembershipController extends Controller
         }
 
         $memberships = $group->memberships()
-            ->select('id', 'user_id', 'role_id')
+            ->select('memberships.id', 'memberships.user_id', 'users.first_name', 'users.last_name', 'users.email', 'memberships.role_id')
+            ->join('users', 'users.id', '=', 'memberships.user_id')
             ->paginate(4);
 
         return response()->json($memberships);
@@ -43,7 +44,7 @@ class MembershipController extends Controller
             'user_id' => [
                 'required',
                 Rule::exists('users', 'id'),
-                Rule::unique('memberships', 'user_id')->where('group_id', $group->id)
+                Rule::unique('memberships', 'user_id')->where('group_id', $group->id)->whereNull('deleted_at')
             ],
             'role_id' => [
                 'required',
