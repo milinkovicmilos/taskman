@@ -8,6 +8,8 @@ export interface SubtaskStorage {
   storeSubtask(projectId: number | string, taskId: number | string, subtask: CreateSubtaskData): Observable<any | null>;
   // updateSubtask(projectId: number | string, taskId: number | string, subtask: SubtaskData): Observable<any | null>;
   // removeSubtask(projectId: number | string, ): Observable<any | null>;
+  markSubtaskComplete(projectId: number | string, taskId: number | string, subtaskId: number | string): Observable<any | null>;
+  markSubtaskIncomplete(projectId: number | string, taskId: number | string, subtaskId: number | string): Observable<any | null>;
 }
 
 export const SUBTASK_STORAGE = new InjectionToken<SubtaskStorage>('SubtaskStorage');
