@@ -1,5 +1,5 @@
 <div id="content-wrapper">
-  <app-button text="Close" (clicked)="onClose()"></app-button>
+  <app-button id="button-cancel" text="X" (clicked)="onClose()" [classList]="['button-cancel']"></app-button>
   <div id="users-wrapper">
     <div id="grid-wrapper">
       @for (membership of memberships(); track membership.email) {

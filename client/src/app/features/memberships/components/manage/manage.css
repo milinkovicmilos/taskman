@@ -1,3 +1,15 @@
+#content-wrapper {
+  position: relative;
+  padding: 20px;
+  margin-bottom: calc(2 * var(--default-margin));
+  border: 1px solid var(--border);
+  border-radius: 5px;
+  background-color: var(--card-background);
+  color: var(--primary-text);
+  display: flex;
+  flex-direction: column;
+}
+
 #users-wrapper {
   margin-top: calc(2 * var(--default-margin));
   margin-bottom: calc(2 * var(--default-margin));
