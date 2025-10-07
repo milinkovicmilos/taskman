@@ -23,6 +23,12 @@ export class ServerProjectStorage implements ProjectStorage {
     });
   }
 
+  getGroupProjects(groupId: number | string, page: number = 1): Observable<PaginatedResponse<ProjectResponse>> {
+    let params = new HttpParams();
+    params = params.append('page', page);
+    return this.http.get<PaginatedResponse<ProjectResponse>>(`api/groups/${groupId}/projects`, { params: params });
+  }
+
   getProject(id: number): Observable<any> {
     return this.http.get<ProjectDetailData>(`api/projects/${id}`);
   }
