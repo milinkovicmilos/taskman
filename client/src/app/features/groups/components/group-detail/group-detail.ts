@@ -1,6 +1,7 @@
 import { Component, Input, OnInit, WritableSignal, inject, signal } from '@angular/core';
 import { GroupService } from '../../services/group-service';
 import { GroupDetailData } from '../../interfaces/group-detail-data';
+import { Modal } from '../../../../shared/components/modal/modal';
 import { Modal as ModalService } from '../../../../shared/services/modal';
 import { FormState } from '../../../../shared/services/form-state';
 import { FormType } from '../../../../shared/enums/form-type';
@@ -8,10 +9,13 @@ import { HeaderButton } from '../../../../shared/services/header-button';
 import { Button } from '../../../../shared/components/button/button';
 import { ProjectCard } from '../../../projects/components/project-card/project-card';
 import { PageNavigation } from '../../../../shared/components/page-navigation/page-navigation';
+import { Router } from '@angular/router';
+import { Notifier } from '../../../../shared/services/notifier';
+import { NotificationType } from '../../../../shared/enums/notification-type';
 
 @Component({
   selector: 'app-group-detail',
-  imports: [Button, ProjectCard, PageNavigation],
+  imports: [Modal, Button, ProjectCard, PageNavigation],
   templateUrl: './group-detail.html',
   styleUrl: './group-detail.css'
 })
@@ -23,6 +27,8 @@ export class GroupDetail implements OnInit {
   protected formTypes = FormType;
   private headerButtonService = inject(HeaderButton);
 
+  private router = inject(Router);
+  private notificationService = inject(Notifier);
 
   protected group!: WritableSignal<GroupDetailData>;
 
@@ -43,4 +49,17 @@ export class GroupDetail implements OnInit {
   protected toggleUpdateForm(): void {
     this.formStateService.changeState(FormType.Update);
   }
+
+  protected onGroupDelete(): void {
+    this.groupService.deleteGroup(this.id).subscribe({
+      next: () => {
+        this.notificationService.notify({
+          type: NotificationType.Info,
+          message: `Successfully deleted ${this.group().name}`
+        });
+        this.router.navigate(['groups']);
+      }
+    });
+  }
+
 }
