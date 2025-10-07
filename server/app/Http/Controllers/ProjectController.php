@@ -74,9 +74,9 @@ class ProjectController extends Controller
             );
         }
 
-        return $group->projects()
+        return response()->json($group->projects()
             ->select('id', 'name')
-            ->get();
+            ->paginate(4));
     }
 
     public function store(Request $request)
