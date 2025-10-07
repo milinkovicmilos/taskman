@@ -1,6 +1,6 @@
-import { Component, EventEmitter, inject, Output } from '@angular/core';
+import { Component, EventEmitter, inject, Input, Output } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
-import { Input } from '../../../../shared/components/input/input';
+import { Input as InputElement } from '../../../../shared/components/input/input';
 import { Button } from '../../../../shared/components/button/button';
 import { PROJECT_STORAGE } from '../../interfaces/project-storage';
 import { AuthService } from '../../../../shared/services/auth-service';
@@ -15,7 +15,7 @@ import { FormType } from '../../../../shared/enums/form-type';
 
 @Component({
   selector: 'app-create-project-form',
-  imports: [ReactiveFormsModule, Input, Button],
+  imports: [ReactiveFormsModule, InputElement, Button],
   templateUrl: './create-project-form.html',
   styleUrl: './create-project-form.css',
   providers: [
@@ -44,6 +44,8 @@ export class CreateProjectForm {
   private notificationService = inject(Notifier);
   private formState = inject(FormState);
 
+  @Input() groupId!: number | string;
+
   @Output() submitted = new EventEmitter<ProjectData>();
 
   protected cancelForm(): void {
@@ -62,6 +64,10 @@ export class CreateProjectForm {
         name: title,
         description
       };
+
+      if (this.groupId != null) {
+        project.group_id = this.groupId;
+      }
 
       this.storage.storeProject(project).subscribe({
         next: (response) => {
