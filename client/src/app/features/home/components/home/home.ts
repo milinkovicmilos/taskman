@@ -14,4 +14,8 @@ export class Home {
   goToProjects(): void {
     this.router.navigate(['/projects']);
   }
+
+  goToGroups(): void {
+    this.router.navigate(['/groups']);
+  }
 }
