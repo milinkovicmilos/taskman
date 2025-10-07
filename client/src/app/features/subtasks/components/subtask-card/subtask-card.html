@@ -1,3 +1,7 @@
 <div class="subtask-card">
-  <p>{{ subtask.text }}</p>
+  <app-input-checkbox
+    [id]="'subtask-' + subtask.id"
+    [label]="subtask.text"
+    [checked]="subtask.completed"
+  ></app-input-checkbox>
 </div>
