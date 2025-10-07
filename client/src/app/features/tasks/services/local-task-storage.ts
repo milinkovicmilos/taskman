@@ -168,6 +168,67 @@ export class LocalTaskStorage implements TaskStorage {
     return of(response);
   }
 
+  markTaskComplete(projectId: number | string, taskId: number | string): Observable<any | null> {
+    const tasksData = this.localStorageGet();
+    if (tasksData == null) {
+      return of(null);
+    }
+
+    const tasksObj = JSON.parse(tasksData);
+    if (tasksObj[projectId] == null) {
+      return of(null);
+    }
+
+    const projectsTasks: TaskData[] = tasksObj[projectId];
+    if (projectsTasks == null) {
+      return of(null);
+    }
+
+    const now = new Date();
+    projectsTasks.map(x => {
+      if (x.id === taskId) {
+        x.completed = true;
+        x.completed_at = now.toISOString().split('T')[0];
+      }
+    });
+
+    this.localStorageSet(tasksObj);
+    const response: MessageResponse = {
+      message: 'Successfully marked task as complete.'
+    };
+    return of(response);
+  }
+
+  markTaskIncomplete(projectId: number | string, taskId: number | string): Observable<any | null> {
+    const tasksData = this.localStorageGet();
+    if (tasksData == null) {
+      return of(null);
+    }
+
+    const tasksObj = JSON.parse(tasksData);
+    if (tasksObj[projectId] == null) {
+      return of(null);
+    }
+
+    const projectsTasks: TaskData[] = tasksObj[projectId];
+    if (projectsTasks == null) {
+      return of(null);
+    }
+
+    projectsTasks.map(x => {
+      if (x.id === taskId) {
+        x.completed = false;
+        x.completed_at = null;
+      }
+    });
+
+    this.localStorageSet(tasksObj);
+    const response: MessageResponse = {
+      message: 'Successfully marked task as incomplete.'
+    };
+    return of(response);
+  }
+
   removeTasks(projectId: number | string): void {
     const tasksData = this.localStorageGet();
     if (tasksData == null) {

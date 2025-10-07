@@ -36,4 +36,12 @@ export class ServerTaskStorage implements TaskStorage {
   removeTask(projectId: number | string, taskId: number | string): Observable<any | null> {
     return this.http.delete<MessageResponse>(`api/projects/${projectId}/tasks/${taskId}`);
   }
+
+  markTaskComplete(projectId: number | string, taskId: number | string): Observable<MessageResponse> {
+    return this.http.post<MessageResponse>(`api/projects/${projectId}/tasks/${taskId}/completed`, {});
+  }
+
+  markTaskIncomplete(projectId: number | string, taskId: number | string): Observable<MessageResponse> {
+    return this.http.delete<MessageResponse>(`api/projects/${projectId}/tasks/${taskId}/completed`);
+  }
 }
