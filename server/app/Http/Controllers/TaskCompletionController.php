@@ -23,7 +23,6 @@ class TaskCompletionController extends Controller
             'completed' => true,
             'completed_at' => now(),
         ]);
-        dd($task);
 
         return response()->json(['message' => 'Successfully marked the task as complete.']);
     }
