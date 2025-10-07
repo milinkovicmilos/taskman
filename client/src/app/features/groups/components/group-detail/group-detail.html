@@ -3,31 +3,31 @@
 }
 <div id="content-wrapper">
   @if (group != null) {
-    <div id="group-info">
-      @switch (formStateService.visible()) {
-        @case (formTypes.Create) {
+    @switch (formStateService.visible()) {
+      @case (formTypes.Create) {
+        <div id="form-wrapper">
           <app-create-project-form [groupId]="group().id" (submitted)="onProjectCreated()"></app-create-project-form>
-        }
-        @case (formTypes.Update) {
-        }
-        @default {
-          <p id="group-name">{{ group().name }}</p>
-        }
+        </div>
       }
-      @if (formStateService.visible() === null) {
-        <div id="group-control">
-          @if (group().deletable) {
-            <app-button text="Delete" (clicked)="showDeleteModal()"></app-button>
-          }
-          @if (group().editable) {
-            <app-button text="Edit" (clicked)="toggleUpdateForm()"></app-button>
-          }
-          @if (group().can_invite_to_group) {
-            <app-button text="Invite" (clicked)="goToInviteToGroup()"></app-button>
+      @default {
+        <div id="group-info">
+          @if (formStateService.visible() === null) {
+            <p id="group-name">{{ group().name }}</p>
+            <div id="group-control">
+              @if (group().deletable) {
+                <app-button text="Delete" (clicked)="showDeleteModal()"></app-button>
+              }
+              @if (group().editable) {
+                <app-button text="Edit" (clicked)="toggleUpdateForm()"></app-button>
+              }
+              @if (group().can_invite_to_group) {
+                <app-button text="Invite" (clicked)="goToInviteToGroup()"></app-button>
+              }
+            </div>
           }
         </div>
       }
-    </div>
+    }
     <div id="projects-wrapper">
       <div id="grid-wrapper">
         @for (project of projects; track project.id) {

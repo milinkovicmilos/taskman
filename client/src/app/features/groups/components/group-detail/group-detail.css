@@ -31,10 +31,16 @@
 }
 
 #form-wrapper {
+  width: 100%;
   margin-bottom: calc(2 * var(--default-margin));
 }
 
 @media screen and (min-width: 992px) {
+  #form-wrapper {
+    width: 35%;
+    margin-right: calc(2 * var(--default-margin));
+  }
+
   #content-wrapper {
     display: flex;
     justify-content: space-between;
