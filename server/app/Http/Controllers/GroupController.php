@@ -65,6 +65,15 @@ class GroupController extends Controller
             ->where('role_id', RoleEnum::Owner->value)
             ->value('full_name');
 
+        $members = $group->memberships()
+            ->select(DB::raw("CONCAT(users.first_name, ' ', users.last_name) AS full_name"))
+            ->join('users', 'users.id', '=', 'memberships.user_id')
+            ->orderBy('memberships.role_id', 'asc')
+            ->take(5)
+            ->pluck('full_name');
+
+        $memberCount = $group->memberships()->count();
+
         $deletable = $request->user()->can('destroy', $group);
         $editable = $request->user()->can('update', $group);
         $canInviteToGroup = $request->user()->can('inviteToGroup', $group);
@@ -74,6 +83,8 @@ class GroupController extends Controller
             'id' => $group->id,
             'name' => $group->name,
             'owner' => $owner,
+            'members' => $members,
+            'member_count' => $memberCount,
             'deletable' => $deletable,
             'editable' => $editable,
             'can_invite_to_group' => $canInviteToGroup,
