@@ -24,10 +24,12 @@ import { UpdateTaskForm } from '../update-task-form/update-task-form';
 import { CreateSubtaskForm } from '../../../subtasks/components/create-subtask-form/create-subtask-form';
 import { InputCheckbox } from '../../../../shared/components/input-checkbox/input-checkbox';
 import { MessageResponse } from '../../../../shared/interfaces/message-response';
+import { DayDifferencePipe } from '../../pipes/day-difference-pipe';
+import { DueDateFormatPipe } from '../../pipes/due-date-format-pipe';
 
 @Component({
   selector: 'app-task-detail',
-  imports: [Modal, Button, SubtaskCard, PageNavigation, UpdateTaskForm, CreateSubtaskForm, InputCheckbox],
+  imports: [Modal, Button, SubtaskCard, PageNavigation, UpdateTaskForm, CreateSubtaskForm, InputCheckbox, DueDateFormatPipe, DayDifferencePipe],
   templateUrl: './task-detail.html',
   styleUrl: './task-detail.css',
   providers: [
@@ -131,6 +133,11 @@ export class TaskDetail implements OnInit {
     if (value) {
       this.taskStorage.markTaskComplete(this.projectId, this.taskId).subscribe({
         next: (response: MessageResponse) => {
+          const now = new Date();
+          const time = `${now.toISOString().split('T')[0]} ${now.toISOString().split('T')[1].split('.')[0]}`;
+
+          this.task().completed_at = time;
+
           this.notificationService.notify({
             type: NotificationType.Info,
             message: response.message,
@@ -147,6 +154,8 @@ export class TaskDetail implements OnInit {
     else {
       this.taskStorage.markTaskIncomplete(this.projectId, this.taskId).subscribe({
         next: (response: MessageResponse) => {
+          this.task().completed_at = null;
+
           this.notificationService.notify({
             type: NotificationType.Info,
             message: response.message,
