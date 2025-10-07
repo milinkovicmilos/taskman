@@ -13,6 +13,7 @@ import { HeaderButton } from '../../services/header-button';
 })
 export class Header {
   private router = inject(Router);
+  private urls: string[] = [];
   protected url = signal(this.router.url);
 
   authService = inject(AuthService);
@@ -27,6 +28,7 @@ export class Header {
       .subscribe({
         next: (event: NavigationEnd) => {
           this.url.set(event.urlAfterRedirects);
+          this.urls.push(this.url());
         }
       });
   }
@@ -52,22 +54,10 @@ export class Header {
   }
 
   protected goBack(): void {
-    const url = this.url().split('/');
-    if (url.length > 1) {
-      const value = url.pop();
+    // Remove current page
+    this.urls.pop();
 
-      if (value != null) {
-        const numberRegex = /^[\d]+$/;
-        const uuidRegex = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/;
-
-        if (numberRegex.test(value) || uuidRegex.test(value)) {
-          url.pop();
-        }
-        this.router.navigate([`/${url.join('/')}`]);
-      }
-    }
-    else {
-      this.router.navigate(['/']);
-    }
+    const url = this.urls.pop();
+    this.router.navigate([url]);
   }
 }
