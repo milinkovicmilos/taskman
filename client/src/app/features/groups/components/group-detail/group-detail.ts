@@ -67,12 +67,12 @@ export class GroupDetail implements OnInit {
     this.modal.generate(`Are you sure you want to delete ${this.group().name} ?`);
   }
 
-  protected toggleUpdateForm(): void {
-    this.formStateService.changeState(FormType.Update);
-  }
-
   protected goToInviteToGroup(): void {
     this.router.navigate(['invite'], { relativeTo: this.route })
+  }
+
+  protected goToManage(): void {
+    this.router.navigate(['manage'], { relativeTo: this.route })
   }
 
   protected onProjectCreated(): void {

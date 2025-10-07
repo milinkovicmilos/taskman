@@ -18,7 +18,7 @@
                 <app-button text="Delete" (clicked)="showDeleteModal()"></app-button>
               }
               @if (group().editable) {
-                <app-button text="Edit" (clicked)="toggleUpdateForm()"></app-button>
+                <app-button text="Manage" (clicked)="goToManage()"></app-button>
               }
               @if (group().can_invite_to_group) {
                 <app-button text="Invite" (clicked)="goToInviteToGroup()"></app-button>
