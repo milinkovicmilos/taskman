@@ -18,8 +18,8 @@
     </div>
     <div>
       @if (!isLoggedIn()) {
-        <app-button text="Import"></app-button>
-        <app-button text="Export"></app-button>
+        <app-button text="Import" (clicked)="importData()"></app-button>
+        <app-button text="Export" (clicked)="exportData()"></app-button>
       }
       @if (url() != '/') {
         <app-button text="Back" (clicked)="goBack()"></app-button>
