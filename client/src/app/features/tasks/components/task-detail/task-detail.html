@@ -42,12 +42,12 @@
         }
     </div>
     <div id="subtask-wrapper">
+      <app-page-navigation [lastPage]="lastPage" (pageChanged)="onPageChange($event)"></app-page-navigation>
       <div id="grid-wrapper">
         @for (subtask of subtasks; track subtask.id) {
           <app-subtask-card [projectId]="projectId" [taskId]="taskId" [subtask]="subtask"></app-subtask-card>
         }
       </div>
-      <app-page-navigation [lastPage]="lastPage" (pageChanged)="onPageChange($event)"></app-page-navigation>
     </div>
   }
 </div>

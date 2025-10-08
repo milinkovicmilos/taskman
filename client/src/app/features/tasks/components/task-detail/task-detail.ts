@@ -69,7 +69,7 @@ export class TaskDetail implements OnInit {
   @Input() protected projectId!: number | string;
   @Input() protected taskId!: number | string;
 
-  @Output() protected lastPage: WritableSignal<number> = signal(1);
+  protected lastPage: WritableSignal<number> = signal(1);
 
   ngOnInit(): void {
     this.taskStorage.getTask(this.projectId, this.taskId).subscribe({
