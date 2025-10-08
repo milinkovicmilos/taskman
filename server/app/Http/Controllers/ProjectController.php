@@ -75,7 +75,7 @@ class ProjectController extends Controller
         }
 
         return response()->json($group->projects()
-            ->select('id', 'name')
+            ->select('id', 'name', 'description')
             ->paginate(4));
     }
 
