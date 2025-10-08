@@ -1,24 +1,35 @@
-<h2>Organize Your Work Effortessly</h2>
-<h3>Start managing tasks instantly - no signup required.</h3>
-<app-button text="Start a project" [classList]="['button-accent']" (clicked)="startProject()"></app-button>
-<h2>Work anytime, anywhere</h2>
-<h3>
-  When you sign in, your projects are saved securely in the cloud.
-  Access them from any device and invite your teammates to collaborate in groups.
-</h3>
-<app-button text="Sign up" [classList]="['button-accent']" (clicked)="goToRegister()"></app-button>
-<div class="card-container">
-  <div class="card">
-    <div class="card-title">Quick Projects</div>
-    <div class="card-text">Start managing tasks instantly without creating an account.</div>
+@if (!isLoggedIn()) {
+  <h2>Organize Your Work Effortessly</h2>
+  <h3>Start managing tasks instantly - no signup required.</h3>
+  <app-button text="Start a project" [classList]="['button-accent']" (clicked)="startProject()"></app-button>
+  <h2>Work anytime, anywhere</h2>
+  <h3>
+    When you sign in, your projects are saved securely in the cloud.
+    Access them from any device and invite your teammates to collaborate in groups.
+  </h3>
+  <app-button text="Sign up" [classList]="['button-accent']" (clicked)="goToRegister()"></app-button>
+  <div class="card-container">
+    <div class="card">
+      <div class="card-title">Quick Projects</div>
+      <div class="card-text">Start managing tasks instantly without creating an account.</div>
+    </div>
+    <div class="card">
+      <div class="card-title">Cloud Sync</div>
+      <div class="card-text">Save your work online for access anywhere.</div>
+    </div>
+    <div class="card">
+      <div class="card-title">Group Collaboration</div>
+      <div class="card-text">Invite teammates and manage shared projects.</div>
+    </div>
   </div>
-  <div class="card">
-    <div class="card-title">Cloud Sync</div>
-    <div class="card-text">Save your work online for access anywhere.</div>
-  </div>
-  <div class="card">
-    <div class="card-title">Group Collaboration</div>
-    <div class="card-text">Invite teammates and manage shared projects.</div>
-  </div>
-</div>
-<h3 class="center">Start now - stay organized wherever you go.</h3>
+  <h3 class="center">Start now - stay organized wherever you go.</h3>
+} @else {
+  <h2>Welcome back, {{ userData().firstName }} {{ userData().lastName }}!</h2>
+  <h3 class>What would you like to do today?</h3>
+  <app-button text="Create a Project" [classList]="['button-accent']" (clicked)="startProject()"></app-button>
+  <app-button text="Browse Projects" (clicked)="goToProjects()"></app-button>
+  @if (newestProject != null) {
+    <h4>Recent Project:</h4>
+    <app-button [text]="newestProject.name" (clicked)="goToRecentProject()"></app-button>
+  }
+}

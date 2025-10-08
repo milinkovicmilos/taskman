@@ -1,11 +1,17 @@
 h2,
-h3 {
+h3,
+h4 {
   margin-top: calc(2 * var(--default-margin));
   margin-bottom: calc(2 * var(--default-margin));
 }
 
 h3 {
   font-weight: normal;
+  color: var(--secondary-text);
+}
+
+app-button {
+  margin-right: calc(2 * var(--default-margin));
 }
 
 .card-container {
