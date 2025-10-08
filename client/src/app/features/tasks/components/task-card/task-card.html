@@ -1,5 +1,7 @@
 <div class="task-card" (click)="onClick()">
-  <div [ngClass]="['task-priority', 'priority-' + task.priority]"></div>
+  @if (task.priority != null) {
+    <div [ngClass]="['task-priority', 'priority-' + task.priority]"></div>
+  }
   <app-input-checkbox
     [id]="'task-' + task.id"
     [label]="task.title"
