@@ -9,6 +9,7 @@ use App\Models\User;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use App\RoleEnum;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\Hash;
 
 class DatabaseSeeder extends Seeder
 {
@@ -22,157 +23,102 @@ class DatabaseSeeder extends Seeder
             RoleSeeder::class,
         ]);
 
-        User::factory(5)->create();
-
-        Group::factory()->create([
-            'name' => fake()->company(),
+        $mainOwner = User::factory()->create([
+            'first_name' => 'Main',
+            'last_name' => 'Owner',
+            'email' => 'owner@example.com',
+            'password' => Hash::make('password'),
         ]);
 
-        Group::factory()->create([
-            'name' => fake()->company(),
+        $moderator = User::factory()->create([
+            'first_name' => 'Group',
+            'last_name' => 'Moderator',
+            'email' => 'moderator@example.com',
+            'password' => Hash::make('password'),
         ]);
 
-        Membership::factory()->create([
-            'user_id' => 1,
-            'group_id' => 1,
-            'role_id' => RoleEnum::Owner->value,
+        $member = User::factory()->create([
+            'first_name' => 'Group',
+            'last_name' => 'Member',
+            'email' => 'member@example.com',
+            'password' => Hash::make('password'),
         ]);
 
-        Membership::factory()->create([
-            'user_id' => 2,
-            'group_id' => 1,
-            'role_id' => RoleEnum::Moderator->value,
-        ]);
-
-        Membership::factory()->create([
-            'user_id' => 3,
-            'group_id' => 1,
-            'role_id' => RoleEnum::Member->value,
-        ]);
-
-        Membership::factory()->create([
-            'user_id' => 4,
-            'group_id' => 2,
-            'role_id' => RoleEnum::Owner->value,
-        ]);
-
-        Membership::factory()->create([
-            'user_id' => 5,
-            'group_id' => 2,
-            'role_id' => RoleEnum::Moderator->value,
-        ]);
-
-        Membership::factory()->create([
-            'user_id' => 3,
-            'group_id' => 2,
-            'role_id' => RoleEnum::Member->value,
-        ]);
-
-        $proj = Project::factory()->create([
-            'user_id' => 1,
-            'group_id' => 1,
-            'name' => fake()->text(12),
-            'description' => fake()->text(16),
-        ]);
-
-        $proj->tasks()->create([
-            'user_id' => 1,
-            'title' => fake()->text(10),
-            'description' => fake()->text(30),
-            'completed' => true,
-        ]);
-
-        $task = $proj->tasks()->create([
-            'user_id' => 2,
-            'title' => fake()->text(10),
-            'description' => fake()->text(30),
-        ]);
-
-        $task->subtasks()->create([
-            'user_id' => 2,
-            'text' => fake()->text(16),
-            'completed' => true,
-        ]);
-
-        $task->subtasks()->create([
-            'user_id' => 2,
-            'text' => fake()->text(16),
-        ]);
-
-        $task->subtasks()->create([
-            'user_id' => 2,
-            'text' => fake()->text(16),
-            'completed' => true,
-        ]);
-
-        Project::factory()->create([
-            'user_id' => 1,
-            'group_id' => 1,
-            'name' => fake()->text(12),
-            'description' => fake()->text(16),
-        ]);
-
-        for ($i = 0; $i < 5; $i++) {
-            Project::factory()->create([
-                'user_id' => 1,
-                'name' => fake()->text(12),
-                'description' => fake()->text(16),
+        for ($i = 0; $i < 15; $i++) {
+            $mainOwner->projects()->create([
+                'name' => fake()->text(32),
+                'description' => fake()->text(128),
             ]);
         }
 
-        for ($i = 0; $i < 5; $i++) {
-            Project::factory()->create([
-                'user_id' => 2,
-                'name' => fake()->text(12),
-                'description' => fake()->text(16),
+        $mainGroup = Group::factory()->create([
+            'name' => 'Main group',
+        ]);
+
+        Membership::factory()->create([
+            'role_id' => RoleEnum::Owner->value,
+            'user_id' => $mainOwner->id,
+            'group_id' => $mainGroup->id,
+        ]);
+
+        Membership::factory()->create([
+            'role_id' => RoleEnum::Moderator->value,
+            'user_id' => $moderator->id,
+            'group_id' => $mainGroup->id,
+        ]);
+
+        Membership::factory()->create([
+            'role_id' => RoleEnum::Member->value,
+            'user_id' => $member->id,
+            'group_id' => $mainGroup->id,
+        ]);
+
+        for ($i = 0; $i < 9; $i++) {
+            $project = $mainGroup->projects()->create([
+                'user_id' => $mainOwner->id,
+                'name' => fake()->text(32),
+                'description' => fake()->text(128),
             ]);
+
+            $randomNumber = random_int(5, 32);
+            for ($i = 0; $i < $randomNumber; $i++) {
+                $day = random_int(1, 20);
+                $month = random_int(1, 12);
+                $year = random_int(2025, 2026);
+                $priority = random_int(0, 10);
+                if ($priority === 0) {
+                    $task = $project->tasks()->create([
+                        'user_id' => $moderator->id,
+                        'title' => fake()->text(16),
+                        'description' => fake()->text(64),
+                        'due_date' => "$year-$month-$day",
+                    ]);
+                    $randomNumberOfSubtasks = random_int(5, 16);
+                    for ($i = 0; $i < $randomNumberOfSubtasks; $i++) {
+                        $task->subtasks()->create([
+                            'task_id' => $task->id,
+                            'user_id' => $moderator->id,
+                            'text' => fake()->text(32),
+                        ]);
+                    }
+                } else {
+                    $task = $project->tasks()->create([
+                        'user_id' => $moderator->id,
+                        'title' => fake()->text(16),
+                        'description' => fake()->text(64),
+                        'priority' => $priority,
+                        'due_date' => "$year-$month-$day",
+                    ]);
+                    $randomNumberOfSubtasks = random_int(5, 16);
+                    for ($i = 0; $i < $randomNumberOfSubtasks; $i++) {
+                        $task->subtasks()->create([
+                            'task_id' => $task->id,
+                            'user_id' => $moderator->id,
+                            'text' => fake()->text(32),
+                        ]);
+                    }
+                }
+            }
         }
-
-        $proj = Project::factory()->create([
-            'user_id' => 4,
-            'group_id' => 2,
-            'name' => fake()->text(12),
-            'description' => fake()->text(16),
-        ]);
-
-        $proj->tasks()->create([
-            'user_id' => 4,
-            'title' => fake()->text(10),
-            'description' => fake()->text(12),
-        ]);
-
-        $task = $proj->tasks()->create([
-            'user_id' => 5,
-            'title' => fake()->text(10),
-            'description' => fake()->text(12),
-        ]);
-
-        $task->subtasks()->create([
-            'user_id' => 5,
-            'text' => fake()->text(6),
-        ]);
-
-        $task->subtasks()->create([
-            'user_id' => 5,
-            'text' => fake()->text(6),
-        ]);
-
-        $proj = Project::factory()->create([
-            'user_id' => 5,
-            'group_id' => 2,
-            'name' => fake()->text(12),
-            'description' => fake()->text(16),
-        ]);
-
-        $task = $proj->tasks()->create([
-            'user_id' => 5,
-            'title' => fake()->text(12),
-            'description' => fake()->text(12),
-        ]);
-
-        $task->subtasks()->create([
-            'user_id' => 5,
-            'text' => fake()->text(6),
-        ]);
     }
 }
