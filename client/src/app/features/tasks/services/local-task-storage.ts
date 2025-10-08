@@ -85,11 +85,11 @@ export class LocalTaskStorage implements TaskStorage {
         });
         break;
     }
-    const perPage = 4;
+    const perPage = 8;
     const offset = perPage * (page - 1);
     const response: PaginatedResponse<TaskData> = {
       current_page: page,
-      per_page: 4,
+      per_page: perPage,
       total: data.length,
       last_page: data.length != 0 ? Math.ceil(data.length / perPage) : 1,
       data: data.splice(offset, perPage),

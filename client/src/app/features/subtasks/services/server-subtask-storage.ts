@@ -17,6 +17,7 @@ export class ServerSubtaskStorage implements SubtaskStorage {
   getSubtasks(projectId: number | string, taskId: number | string, page: number = 1): Observable<PaginatedResponse<SubtaskData>> {
     let params = new HttpParams();
     params = params.append('page', page);
+    params = params.append('per_page', 12);
     return this.http.get<PaginatedResponse<SubtaskData>>(`api/projects/${projectId}/tasks/${taskId}/subtasks`, { params: params });
   }
 

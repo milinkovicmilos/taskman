@@ -37,11 +37,11 @@ export class LocalSubtaskStorage implements SubtaskStorage {
       return of([]);
     }
 
-    const perPage = 4;
+    const perPage = 12;
     const offset = perPage * (page - 1);
     const response: PaginatedResponse<SubtaskData> = {
       current_page: page,
-      per_page: 4,
+      per_page: 12,
       total: data.length,
       last_page: data.length != 0 ? Math.ceil(data.length / perPage) : 1,
       data: data.splice(offset, perPage),

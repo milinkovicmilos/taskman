@@ -18,6 +18,7 @@ export class ServerProjectStorage implements ProjectStorage {
   getProjects(page: number = 1): Observable<PaginatedResponse<ProjectResponse>> {
     let params = new HttpParams();
     params = params.append('page', page);
+    params = params.append('per_page', 8);
     return this.http.get<PaginatedResponse<ProjectResponse>>('api/projects', {
       params: params,
     });

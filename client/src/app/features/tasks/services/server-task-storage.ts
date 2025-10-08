@@ -20,6 +20,7 @@ export class ServerTaskStorage implements TaskStorage {
   getTasks(projectId: number | string, page: number = 1): Observable<PaginatedResponse<TaskData>> {
     let params = new HttpParams();
     params = params.append('page', page);
+    params = params.append('per_page', 8);
     params = params.append('order', this.sortOption);
     return this.http.get<PaginatedResponse<TaskData>>(`api/projects/${projectId}/tasks`, { params: params });
   }
