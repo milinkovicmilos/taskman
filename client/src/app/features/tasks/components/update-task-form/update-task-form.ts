@@ -108,6 +108,7 @@ export class UpdateTaskForm implements OnChanges {
             due_date: task.due_date ?? null,
             completed: this.task().completed,
             completed_at: this.task().completed_at,
+            created_at: this.task().created_at,
           };
           this.submitted.emit(updatedTask);
         },

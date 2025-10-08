@@ -98,6 +98,7 @@ export class CreateTaskForm {
             due_date: task.due_date ?? null,
             completed: false,
             completed_at: null,
+            created_at: response.data.created_at,
           };
           this.submitted.emit(taskData);
         },
