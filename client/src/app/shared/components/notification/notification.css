@@ -2,7 +2,7 @@
   box-sizing: border-box;
   width: var(--notification-width);
   position: fixed;
-  top: 100px;
+  top: 50px;
   left: calc(100vw / 2 - var(--notification-width) / 2);
   z-index: 2;
   background-color: var(--card-background);
