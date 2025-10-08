@@ -2,7 +2,10 @@
   <div id="top-header-wrapper">
     <h1 routerLink="/">TaskMan</h1>
     @if (url() === '/') {
-      <app-button text="Projects" (clicked)="goToProjects()"></app-button>
+      <div id="header-button-wrapper">
+        <app-button text="Projects" (clicked)="goToProjects()"></app-button>
+        <app-button text="Groups" (clicked)="goToGroups()"></app-button>
+      </div>
     }
     @if (buttonService.formAction() != null) {
       <app-button [text]="buttonService.text()" [classList]="['main-header-button']" (clicked)="onMainHeaderButtonClick()"></app-button>

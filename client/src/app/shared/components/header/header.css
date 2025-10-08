@@ -20,6 +20,14 @@ header h1 {
   justify-content: space-between;
 }
 
+#header-button-wrapper>* {
+  margin-left: var(--default-margin);
+}
+
+#header-button-wrapper>*:first-child {
+  margin-left: 0;
+}
+
 #bottom-header-wrapper {
   width: 100%;
   display: flex;

@@ -57,8 +57,4 @@ export class Home implements OnInit {
   protected goToRecentProject(): void {
     this.router.navigate(['/projects', this.newestProject.id])
   }
-
-  protected goToGroups(): void {
-    this.router.navigate(['/groups']);
-  }
 }

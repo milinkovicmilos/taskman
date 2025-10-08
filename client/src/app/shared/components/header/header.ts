@@ -58,6 +58,10 @@ export class Header {
     this.router.navigate(['/projects']);
   }
 
+  protected goToGroups(): void {
+    this.router.navigate(['/groups']);
+  }
+
   protected goBack(): void {
     // Remove current page
     this.urls.pop();
