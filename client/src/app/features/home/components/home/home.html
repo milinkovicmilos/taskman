@@ -1,2 +1,4 @@
 <app-button text="Projects" (clicked)="goToProjects()"></app-button>
+@if (isLoggedIn()) {
 <app-button text="Groups" (clicked)="goToGroups()"></app-button>
+}
