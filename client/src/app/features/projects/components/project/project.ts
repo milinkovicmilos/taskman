@@ -12,6 +12,7 @@ import { Notifier } from '../../../../shared/services/notifier';
 import { NotificationType } from '../../../../shared/enums/notification-type';
 import { FormType } from '../../../../shared/enums/form-type';
 import { HeaderButton } from '../../../../shared/services/header-button';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-project',
@@ -39,7 +40,13 @@ export class Project implements OnInit {
   protected formTypes = FormType;
   private headerButtonService = inject(HeaderButton);
 
+  private route = inject(ActivatedRoute);
+
   ngOnInit() {
+    const start = this.route.snapshot.queryParamMap.get('start');
+    if (start != null && start === 'true') {
+      this.formStateSerice.changeState(FormType.Create);
+    }
     this.headerButtonService.update('New Project', FormType.Create);
     this.storage.getProjects().subscribe({
       next: (response) => {
