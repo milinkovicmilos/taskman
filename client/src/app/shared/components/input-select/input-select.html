@@ -1,0 +1,12 @@
+<label [for]="id">{{ label }}</label>
+<select
+  [id]="id"
+  [value]="value"
+  [disabled]="disabled"
+  (change)="onSelectChange($event)"
+  (blur)="onBlur()"
+>
+  @for (option of options; track option.value) {
+  <option [value]="option.value">{{ option.label }}</option>
+  }
+</select>
