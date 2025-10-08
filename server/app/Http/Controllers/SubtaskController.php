@@ -20,9 +20,18 @@ class SubtaskController extends Controller
             );
         }
 
+        $request->validate([
+            'per_page' => ['sometimes', 'numeric'],
+        ]);
+
+        $perPage = $request->input('per_page');
+        if (is_null($perPage)) {
+            $perPage = 12;
+        }
+
         $subtasks = $task->subtasks()
             ->select('id', 'text', 'completed', 'completed_at')
-            ->paginate(4);
+            ->paginate($perPage);
 
         return response()->json($subtasks);
     }

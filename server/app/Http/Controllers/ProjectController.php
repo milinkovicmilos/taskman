@@ -17,6 +17,7 @@ class ProjectController extends Controller
     public function index(Request $request)
     {
         $request->validate([
+            'per_page' => ['sometimes', 'numeric'],
             'keyword' => ['sometimes'],
             'order' => ['sometimes',  Rule::enum(ProjectSortEnum::class)],
         ]);
@@ -60,7 +61,12 @@ class ProjectController extends Controller
                 break;
         }
 
-        return response()->json($allProjectsQuery->paginate(4));
+        $perPage = $request->input('per_page');
+        if (is_null($perPage)) {
+            $perPage = 8;
+        }
+
+        return response()->json($allProjectsQuery->paginate($perPage));
     }
 
     public function groupProjects(Request $request, Group $group)
@@ -136,6 +142,7 @@ class ProjectController extends Controller
             $role = RoleEnum::Owner;
         }
 
+        $groupName = $project->group?->name;
         $canCreateTasks = $request->user()->can('createTask', $project);
 
         return response()->json([
@@ -144,6 +151,7 @@ class ProjectController extends Controller
             'description' => $project->description,
             'role' => $role,
             'can_create_tasks' => $canCreateTasks,
+            'group_name' => $groupName,
         ]);
     }
 

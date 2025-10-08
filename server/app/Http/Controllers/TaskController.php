@@ -25,6 +25,7 @@ class TaskController extends Controller
         }
 
         $request->validate([
+            'per_page' => ['sometimes', 'numeric'],
             'keyword' => ['sometimes'],
             'order' => ['sometimes', Rule::enum(TaskSortEnum::class)],
         ]);
@@ -59,7 +60,12 @@ class TaskController extends Controller
             $tasks->where(DB::raw('LOWER(title)'), 'LIKE', '%' . strtolower($keyword) . '%');
         }
 
-        return response()->json($tasks->paginate(4));
+        $perPage = $request->input('per_page');
+        if (is_null($perPage)) {
+            $perPage = 8;
+        }
+
+        return response()->json($tasks->paginate($perPage));
     }
 
     public function store(Request $request, Project $project)
