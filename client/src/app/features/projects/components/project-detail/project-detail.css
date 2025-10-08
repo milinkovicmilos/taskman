@@ -27,6 +27,17 @@
   justify-content: space-between;
 }
 
+form {
+  padding: var(--default-margin);
+  margin-bottom: calc(2 * var(--default-margin));
+  border: 1px solid var(--border);
+  border-radius: 5px;
+  background-color: var(--card-background);
+  color: var(--primary-text);
+  display: flex;
+  flex-direction: column;
+}
+
 #task-wrapper {
   width: 100%;
 }

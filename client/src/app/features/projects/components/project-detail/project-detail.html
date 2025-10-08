@@ -26,7 +26,21 @@
       }
     </div>
     <div id="task-wrapper">
-      <app-page-navigation [lastPage]="lastPage" (pageChanged)="onPageChange($event)"></app-page-navigation>
+      <app-page-navigation
+        [pageNumber]="projectPageNumber"
+        [lastPage]="lastPage"
+        (pageChanged)="onPageChange($event)"
+      ></app-page-navigation>
+      <form [formGroup]="sortForm">
+        <app-input-select
+          formControlName="sort"
+          (valueChanged)="onSortChange($event)"
+          [options]="sortOptions" label="sort"
+          [value]="sortOptions[0].value"
+          id="sort"
+          label="Sort"
+        ></app-input-select>
+      </form>
       <div id="grid-wrapper">
         @for (task of tasks; track task.id) {
           <app-task-card [task]="task"></app-task-card>

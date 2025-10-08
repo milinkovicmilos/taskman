@@ -20,13 +20,14 @@ import { Notifier } from '../../../../shared/services/notifier';
 import { NotificationType } from '../../../../shared/enums/notification-type';
 import { CreateTaskForm } from '../../../tasks/components/create-task-form/create-task-form';
 import { HeaderButton } from '../../../../shared/services/header-button';
-import { take } from 'rxjs';
 import { PageNavigation } from '../../../../shared/components/page-navigation/page-navigation';
 import { GroupRole } from '../../../groups/enums/group-role';
+import { InputSelect } from '../../../../shared/components/input-select/input-select';
+import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-project-detail',
-  imports: [Modal, Button, TaskCard, UpdateProjectForm, CreateTaskForm, PageNavigation],
+  imports: [ReactiveFormsModule, Modal, Button, InputSelect, TaskCard, UpdateProjectForm, CreateTaskForm, PageNavigation],
   templateUrl: './project-detail.html',
   styleUrl: './project-detail.css',
   providers: [
@@ -63,9 +64,33 @@ export class ProjectDetail implements OnInit {
   private router = inject(Router);
   private notificationService = inject(Notifier);
 
+  protected projectPageNumber: WritableSignal<number> = signal(1);
+  protected sortOptions = [
+    {
+      label: 'Newest',
+      value: 1,
+    },
+    {
+      label: 'Oldest',
+      value: 2,
+    },
+    {
+      label: 'Highest priority',
+      value: 3,
+    },
+    {
+      label: 'Lowest priority',
+      value: 4,
+    },
+  ];
+  private formBuilder = inject(FormBuilder);
+  protected sortForm = this.formBuilder.group({
+    sort: [this.sortOptions[0].value],
+  });
+
   @Input() protected id!: number | string;
 
-  @Output() protected lastPage: WritableSignal<number> = signal(1);
+  protected lastPage: WritableSignal<number> = signal(1);
 
   ngOnInit(): void {
     this.projectStorage.getProject(this.id).subscribe({
@@ -134,12 +159,22 @@ export class ProjectDetail implements OnInit {
     });
   }
 
-  onPageChange(number: number) {
+  protected onPageChange(number: number) {
     this.taskStorage.getTasks(this.id, number).subscribe({
       next: (response) => {
         this.lastPage.set(response.last_page);
         this.tasks = response.data;
       }
     })
+  }
+
+  protected onSortChange(value: number) {
+    this.taskStorage.sortOption = value;
+    this.projectPageNumber.set(1);
+    this.taskStorage.getTasks(this.id).subscribe({
+      next: (response) => {
+        this.tasks = response.data;
+      }
+    });
   }
 }
