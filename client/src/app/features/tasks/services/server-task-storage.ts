@@ -15,9 +15,12 @@ import { MessageResponse } from '../../../shared/interfaces/message-response';
 export class ServerTaskStorage implements TaskStorage {
   private http = inject(HttpClient);
 
+  sortOption: number = 1;
+
   getTasks(projectId: number | string, page: number = 1): Observable<PaginatedResponse<TaskData>> {
     let params = new HttpParams();
     params = params.append('page', page);
+    params = params.append('order', this.sortOption);
     return this.http.get<PaginatedResponse<TaskData>>(`api/projects/${projectId}/tasks`, { params: params });
   }
 

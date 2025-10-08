@@ -11,6 +11,8 @@ export interface TaskStorage {
   removeTask(projectId: number | string, taskId: number | string): Observable<any | null>;
   markTaskComplete(projectId: number | string, taskId: number | string): Observable<any | null>;
   markTaskIncomplete(projectId: number | string, taskId: number | string): Observable<any | null>;
+
+  sortOption: number;
 }
 
 export const TASK_STORAGE = new InjectionToken<TaskStorage>('TaskStorage');

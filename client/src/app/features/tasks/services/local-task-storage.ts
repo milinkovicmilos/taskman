@@ -14,6 +14,8 @@ import { UpdateTaskData } from '../interfaces/update-task-data';
   providedIn: 'root'
 })
 export class LocalTaskStorage implements TaskStorage {
+  sortOption: number = 1;
+
   localStorageGet(): string | null {
     return localStorage.getItem("tasks");
   }
@@ -35,11 +37,54 @@ export class LocalTaskStorage implements TaskStorage {
       return of([]);
     }
 
-    const data = JSON.parse(tasksData)[projectId];
+    const data: TaskData[] = JSON.parse(tasksData)[projectId];
     if (data == null) {
       return of([]);
     }
 
+    switch (Number(this.sortOption)) {
+      case 1:
+        data.sort((x, y) => {
+          return new Date(y.created_at).getTime() - new Date(x.created_at).getTime();
+        });
+        break;
+
+      case 2:
+        data.sort((x, y) => {
+          return new Date(x.created_at).getTime() - new Date(y.created_at).getTime();
+        });
+        break;
+
+      case 3:
+        data.sort((x, y) => {
+          if (x.priority != null && y.priority == null) {
+            return -1;
+          }
+          else if (x.priority == null && y.priority != null) {
+            return 1;
+          }
+          else if (x.priority == null && y.priority == null) {
+            return 0;
+          }
+          return y.priority! - x.priority!;
+        });
+        break;
+
+      case 4:
+        data.sort((x, y) => {
+          if (x.priority != null && y.priority == null) {
+            return 1;
+          }
+          else if (x.priority == null && y.priority != null) {
+            return -1;
+          }
+          else if (x.priority == null && y.priority == null) {
+            return 0;
+          }
+          return x.priority! - y.priority!;
+        });
+        break;
+    }
     const perPage = 4;
     const offset = perPage * (page - 1);
     const response: PaginatedResponse<TaskData> = {
@@ -87,6 +132,7 @@ export class LocalTaskStorage implements TaskStorage {
       tasks[projectId] = [];
     }
 
+    const now = new Date();
     const taskToStore: TaskData = {
       id: crypto.randomUUID(),
       title: task.title,
@@ -95,6 +141,7 @@ export class LocalTaskStorage implements TaskStorage {
       due_date: task.due_date ?? null,
       completed: false,
       completed_at: null,
+      created_at: now.toISOString(),
     }
     tasks[projectId].push(taskToStore);
 
