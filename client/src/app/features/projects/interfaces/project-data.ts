@@ -7,6 +7,7 @@ export interface ProjectData {
 }
 
 export interface ProjectDetailData extends ProjectData {
+  group_name: string | null;
   role: GroupRole;
   can_create_tasks: boolean;
 }
