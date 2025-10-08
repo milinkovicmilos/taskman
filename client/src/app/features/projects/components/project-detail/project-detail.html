@@ -14,6 +14,9 @@
         @default {
           <p id="project-name">Project: {{ project().name }}</p>
           <p id="project-description">{{ project().description }}</p>
+          @if (project().group_name != null) {
+            <p id="project-group">Part of: {{ project().group_name }}</p>
+          }
         }
       }
       @if (project().role === groupRoles.Owner) {

@@ -10,6 +10,14 @@
   flex-direction: column;
 }
 
+#project-info>p {
+  margin-bottom: calc(2 * var(--default-margin));
+}
+
+#project-info>p:last-child {
+  margin-bottom: 0;
+}
+
 #project-name {
   text-align: center;
 }
