@@ -54,6 +54,10 @@ export class Header {
     this.router.navigate(['/logout']);
   }
 
+  protected goToProjects(): void {
+    this.router.navigate(['/projects']);
+  }
+
   protected goBack(): void {
     // Remove current page
     this.urls.pop();
