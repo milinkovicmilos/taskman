@@ -1,5 +1,5 @@
 <div id="page-navigation">
   <app-button text="Previous" [classList]="['width-100']" (clicked)="previousPage()"></app-button>
-  <p>Current page: {{ pageNumber() }}</p>
+  <p>Current page: {{ pageNumber() }} of {{ lastPage() }}</p>
   <app-button text="Next" [classList]="['width-100']" (clicked)="nextPage()"></app-button>
 </div>
