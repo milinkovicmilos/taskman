@@ -13,3 +13,7 @@
 .project-info>p {
   margin-bottom: var(--default-margin);
 }
+
+.description {
+  color: var(--secondary-text);
+}
