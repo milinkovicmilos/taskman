@@ -69,4 +69,8 @@ Full stack app for managing tasks inspired by trello. Based on Angular for clien
 
     `$ npm install`
 
+12. Start Angular development server
+
+    `$ ng serve`
+
 You are done! You are ready to head over to Angular development server address (default: `http://localhost:4200`)!
