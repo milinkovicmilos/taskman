@@ -23,15 +23,24 @@ class RegisterController extends Controller
         ]);
 
         $user = User::create($credentials);
-        Auth::login($user);
 
-        return response()->json([
+        $response = [
             'message' => 'Successfully registered.',
             'data' => [
                 'first_name' => $user->first_name,
                 'last_name' => $user->last_name,
                 'email' => $user->email,
             ],
-        ]);
+        ];
+
+        $isMobile = $request->header('X-Client-Type') === 'mobile';
+        if ($isMobile) {
+            $token = $user->createToken('mobile')->plainTextToken;
+            $response['data']['token'] = $token;
+        } else {
+            Auth::login($user);
+        }
+
+        return response()->json($response);
     }
 }
