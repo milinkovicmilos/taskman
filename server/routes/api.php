@@ -16,7 +16,7 @@ use Illuminate\Support\Facades\Route;
 
 Route::post('/register', [RegisterController::class, 'register'])->middleware(EnsureIsGuest::class);
 Route::post('/login', [LoginController::class, 'authenticate'])->middleware(EnsureIsGuest::class);
-Route::post('/logout', [LoginController::class, 'logout']);
+Route::post('/logout', [LoginController::class, 'logout'])->middleware('auth:sanctum');
 
 Route::get('/user', function (Request $request) {
     $user = $request->user();

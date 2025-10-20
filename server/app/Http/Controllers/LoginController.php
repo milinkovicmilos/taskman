@@ -45,7 +45,7 @@ class LoginController extends Controller
         if ($isMobile) {
             $request->user()->currentAccessToken()->delete();
         } else {
-            Auth::logout();
+            Auth::guard('web')->logout();
             $request->session()->invalidate();
             $request->session()->regenerateToken();
         }
