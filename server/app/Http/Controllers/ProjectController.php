@@ -165,18 +165,17 @@ class ProjectController extends Controller
 
         $data = $request->validate([
             'name' => [
+                'sometimes',
                 'required',
                 Rule::unique('projects')->where('user_id', $user->id)->ignore($project),
             ],
             'description' => [
+                'sometimes',
                 'required',
             ],
         ]);
 
-        $project->update([
-            'name' => $data['name'],
-            'description' => $data['description'],
-        ]);
+        $project->update($data);
 
         return response()->json(['message' => 'Successfully updated the post.']);
     }
